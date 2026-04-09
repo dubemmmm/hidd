@@ -23,8 +23,8 @@ export default async function InsightsPage() {
               <div className="section-heading__eyebrow">Insights</div>
               <h1>The content hub for Lagos property risk, due diligence, and market intelligence.</h1>
               <p>
-                The first build uses local MDX so publishing can start immediately while the UI stays
-                ready for a future CMS swap.
+                Published editorial content for buyers, investors, and operators who need sharper
+                Lagos property judgement before capital moves.
               </p>
             </div>
           </Reveal>
@@ -37,7 +37,7 @@ export default async function InsightsPage() {
             <SectionHeading
               eyebrow="Browse articles"
               title="Filter by content pillar"
-              description="Each article page is structured for SEO, social sharing, and conversion back into the service funnel."
+              description="Each article is structured for SEO, sharing, and a direct route back into the relevant HIDD service."
             />
           </Reveal>
           <Reveal delay={0.08}>

@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 
 import { CtaBand } from "@/components/cta-band";
 import { Reveal } from "@/components/reveal";
+import { comprehensiveReport, getService } from "@/lib/data/services";
 import { getAllInsights, getInsightBySlug, getRelatedInsights } from "@/lib/insights";
 import { siteConfig } from "@/lib/site";
 
@@ -50,6 +51,10 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
     const canonicalUrl = `${siteConfig.url}/insights/${slug}`;
     const shareText = encodeURIComponent(post.frontmatter.title);
     const shareUrl = encodeURIComponent(canonicalUrl);
+    const relatedService =
+      post.frontmatter.relatedService === "comprehensive-report"
+        ? comprehensiveReport
+        : getService(post.frontmatter.relatedService);
 
     return (
       <>
@@ -108,7 +113,25 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
         <section className="section section--flush-top">
           <div className="shell shell--article article-layout">
             <Reveal>
-              <article className="article-prose">{post.content}</article>
+              <article className="article-prose">
+                {post.content}
+                {relatedService ? (
+                  <div className="article-inline-cta">
+                    <span className="section-heading__eyebrow">Relevant next step</span>
+                    <h2>{relatedService.name}</h2>
+                    <p>
+                      Move from analysis to action with the HIDD service most relevant to this
+                      article.
+                    </p>
+                    <Link
+                      href={`/contact?service=${post.frontmatter.relatedService}`}
+                      className="button button--primary"
+                    >
+                      Book {relatedService.name}
+                    </Link>
+                  </div>
+                ) : null}
+              </article>
             </Reveal>
             <Reveal delay={0.08}>
               <aside className="article-sidebar">

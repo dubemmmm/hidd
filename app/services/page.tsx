@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
+import { AccreditationStrip } from "@/components/accreditation-strip";
 import { CtaBand } from "@/components/cta-band";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
@@ -47,10 +48,19 @@ export default function ServicesPage() {
       <section className="section">
         <div className="shell shell--service">
           <Reveal>
+            <div className="section-heading section-heading--centered">
+              <div className="section-heading__eyebrow">Professional assurance</div>
+              <h2 className="section-heading__title">Aligned with inspection, valuation, and legal practice standards.</h2>
+            </div>
+          </Reveal>
+          <Reveal delay={0.04}>
+            <AccreditationStrip />
+          </Reveal>
+          <Reveal>
             <SectionHeading
               eyebrow="Comparison view"
               title="Choose the right engagement for the deal in front of you"
-              description="Scan the scope, fee, and turnaround quickly."
+              description="Scan the scope, fee, and best-fit engagement quickly."
             />
           </Reveal>
 
@@ -61,9 +71,10 @@ export default function ServicesPage() {
                   <span className="overview-card__eyebrow">{service.eyebrow}</span>
                   <h2>{service.name}</h2>
                   <p>{service.summary}</p>
+                  {service.proofNote ? <p className="overview-card__proof">{service.proofNote}</p> : null}
                   <div className="overview-card__facts">
                     <strong>{service.fee}</strong>
-                    <span>{service.turnaround}</span>
+                    {service.turnaround ? <span>{service.turnaround}</span> : null}
                   </div>
                   <ul>
                     {service.included.slice(0, 3).map((item) => (

@@ -1,118 +1,131 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import Link from "next/link";
+import { useMemo, useState } from "react";
 
 import { mapAreas } from "@/lib/data/map-areas";
-import type { MapAreaRisk } from "@/lib/types";
+import type { MapAreaShape } from "@/lib/types";
 
-const riskTierLabel: Record<MapAreaRisk["tier"], string> = {
-  low: "Low Risk",
-  medium: "Medium Risk",
-  high: "High Risk"
+const riskTierLabel: Record<MapAreaShape["tier"], string> = {
+  low: "Low risk",
+  medium: "Watch closely",
+  high: "Elevated risk"
 };
 
-function popupMarkup(area: MapAreaRisk) {
-  const ctaHref = `/contact?service=risk-intelligence&area=${encodeURIComponent(area.name)}`;
-
-  return `
-    <div class="risk-popup">
-      <div class="risk-popup__badge risk-popup__badge--${area.tier}">
-        ${riskTierLabel[area.tier]}
-      </div>
-      <h3>${area.name}</h3>
-      <div class="risk-popup__rows">
-        <div class="risk-popup__row"><span>Flood risk</span><strong>${area.floodRisk}%</strong></div>
-        <div class="risk-popup__row"><span>Infrastructure</span><strong>${area.infrastructure}%</strong></div>
-        <div class="risk-popup__row"><span>Title complexity</span><strong>${area.titleComplexity}%</strong></div>
-      </div>
-      <a class="risk-popup__cta" href="${ctaHref}">Get full report</a>
-    </div>
-  `;
-}
+const VISIBLE_COUNT = 4;
 
 export default function RiskMap() {
-  const mapNodeRef = useRef<HTMLDivElement | null>(null);
+  const [activeId, setActiveId] = useState(mapAreas[0]?.id ?? "");
+  const [expanded, setExpanded] = useState(false);
 
-  useEffect(() => {
-    let isMounted = true;
-    let map: import("leaflet").Map | null = null;
+  const activeArea = useMemo(
+    () => mapAreas.find((area) => area.id === activeId) ?? mapAreas[0],
+    [activeId]
+  );
 
-    async function setupMap() {
-      if (!mapNodeRef.current) return;
+  const visibleBreakdown = activeArea
+    ? expanded
+      ? activeArea.breakdown
+      : activeArea.breakdown.slice(0, VISIBLE_COUNT)
+    : [];
 
-      const L = await import("leaflet");
-      if (!isMounted || !mapNodeRef.current) return;
+  const hasMore = (activeArea?.breakdown.length ?? 0) > VISIBLE_COUNT;
 
-      map = L.map(mapNodeRef.current, {
-        center: [6.5244, 3.4219],
-        zoom: 11,
-        minZoom: 10,
-        maxZoom: 14,
-        scrollWheelZoom: false,
-        attributionControl: true,
-        zoomControl: true
-      });
-
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
-
-      mapAreas.forEach((area) => {
-        const marker = L.marker([area.lat, area.lng], {
-          icon: L.divIcon({
-            className: "osm-marker",
-            html: `
-              <span class="osm-risk-marker osm-risk-marker--${area.tier}">
-                <span class="osm-risk-marker__pulse"></span>
-                <span class="osm-risk-marker__dot"></span>
-                <span class="osm-risk-marker__label">${area.label}</span>
-              </span>
-            `,
-            iconSize: [24, 24],
-            iconAnchor: [12, 12]
-          })
-        });
-
-        marker.bindPopup(popupMarkup(area), {
-          className: "leaflet-risk-popup",
-          maxWidth: 280,
-          autoPan: true,
-          closeButton: true
-        });
-        marker.addTo(map as import("leaflet").Map);
-      });
-
-      setTimeout(() => {
-        map?.invalidateSize();
-      }, 120);
-    }
-
-    void setupMap();
-
-    return () => {
-      isMounted = false;
-      map?.remove();
-    };
-  }, []);
+  if (!activeArea) return null;
 
   return (
-    <>
-      <div className="map-shell">
-        <div className="map-shell__stage">
-          <div className="map-shell__overlay">
-            <span>OpenStreetMap basemap</span>
-            <strong>12 Lagos zones</strong>
-            <p>Approximate area centroids for v1. Click any marker for a quick HIDD risk snapshot.</p>
-          </div>
-          <div ref={mapNodeRef} className="map-shell__map" aria-label="Interactive Lagos risk map" />
+    <div className="map-shell map-shell--shape">
+      <div className="map-shell__stage map-shell__stage--shape">
+        <div className="map-shell__frame">
+          <div className="map-shell__eyebrow">Five flagship Lagos districts</div>
+          <svg
+            viewBox="0 0 1000 700"
+            className="risk-shape-map"
+            role="img"
+            aria-label="Clickable Lagos risk map"
+          >
+            <defs>
+              <linearGradient id="mapSea" x1="0%" x2="100%" y1="0%" y2="100%">
+                <stop offset="0%" stopColor="#1f314f" />
+                <stop offset="100%" stopColor="#141f35" />
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="1000" height="700" rx="36" fill="url(#mapSea)" />
+            <path
+              d="M90 118 L350 84 L538 110 L680 96 L846 164 L908 312 L880 502 L748 600 L430 628 L214 578 L108 438 L72 260 Z"
+              className="risk-shape-map__lagos"
+            />
+            {mapAreas.map((area) => {
+              const isActive = area.id === activeArea.id;
+
+              return (
+                <g key={area.id}>
+                  <path
+                    d={area.pathData}
+                    className={`risk-shape-map__area risk-shape-map__area--${area.tier} ${
+                      isActive ? "is-active" : ""
+                    }`}
+                    onClick={() => { setActiveId(area.id); setExpanded(false); }}
+                  />
+                  <text
+                    x={area.focusX}
+                    y={area.focusY}
+                    className={`risk-shape-map__label ${isActive ? "is-active" : ""}`}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    onClick={() => { setActiveId(area.id); setExpanded(false); }}
+                  >
+                    {area.label}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
         </div>
 
-        <div className="map-shell__legend">
-          <span className="legend-pill legend-pill--low">Low risk</span>
-          <span className="legend-pill legend-pill--medium">Medium risk</span>
-          <span className="legend-pill legend-pill--high">High risk</span>
-        </div>
+        <aside className="risk-panel">
+          <div className={`risk-panel__tier risk-panel__tier--${activeArea.tier}`}>
+            {riskTierLabel[activeArea.tier]}
+          </div>
+          <h3>{activeArea.name}</h3>
+          <p className="risk-panel__headline">{activeArea.headline}</p>
+          <p className="risk-panel__summary">{activeArea.summary}</p>
+          <div className="risk-panel__breakdown">
+            {visibleBreakdown.map((item) => (
+              <div key={item.key} className="risk-panel__row">
+                <div>
+                  <strong>{item.label}</strong>
+                  <span>{item.summary}</span>
+                </div>
+                <div className={`risk-score risk-score--${item.status}`}>{item.score}</div>
+              </div>
+            ))}
+          </div>
+          {hasMore && (
+            <button
+              type="button"
+              className="risk-panel__toggle"
+              onClick={() => setExpanded((prev) => !prev)}
+            >
+              {expanded
+                ? "Show less"
+                : `Show all ${activeArea.breakdown.length} risk factors`}
+            </button>
+          )}
+          <Link
+            href={`/contact?service=risk-intelligence&area=${encodeURIComponent(activeArea.name)}`}
+            className="button button--primary"
+          >
+            Book Risk Intelligence
+          </Link>
+        </aside>
       </div>
-    </>
+
+      <div className="map-shell__legend">
+        <span className="legend-pill legend-pill--low">Low risk</span>
+        <span className="legend-pill legend-pill--medium">Watch closely</span>
+        <span className="legend-pill legend-pill--high">Elevated risk</span>
+      </div>
+    </div>
   );
 }

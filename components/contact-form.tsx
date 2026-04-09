@@ -64,7 +64,7 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
         </label>
         <label className="field">
           <span>Phone</span>
-          <input type="tel" name="phone" placeholder="+234 812 345 6789" />
+          <input type="tel" name="phone" placeholder="+234 704 819 4242" />
         </label>
         <label className="field">
           <span>Service of Interest</span>

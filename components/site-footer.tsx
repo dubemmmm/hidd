@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { AccreditationStrip } from "@/components/accreditation-strip";
 import { services } from "@/lib/data/services";
 import { siteConfig } from "@/lib/site";
 
@@ -19,14 +20,6 @@ export function SiteFooter() {
               Protecting Lagos property buyers with data, expertise, and transparency. A Chateau
               &amp; Capital company.
             </p>
-            <a
-              href={siteConfig.whatsappHref}
-              className="button button--whatsapp footer-wa"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Chat on WhatsApp
-            </a>
           </div>
 
           <div className="footer-col">
@@ -84,6 +77,10 @@ export function SiteFooter() {
               </a>
             </div>
           </div>
+        </div>
+
+        <div className="footer-accreditation">
+          <AccreditationStrip compact />
         </div>
 
         <div className="footer-bottom">

@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import "leaflet/dist/leaflet.css";
 
 import { Analytics } from "@/components/analytics";
-import { MobileWhatsAppBar } from "@/components/mobile-whatsapp-bar";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/lib/site";
@@ -43,7 +41,6 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <SiteHeader />
         <main className="page-main">{children}</main>
         <SiteFooter />
-        <MobileWhatsAppBar />
         <Analytics />
       </body>
     </html>

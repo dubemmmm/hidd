@@ -9,8 +9,10 @@ export type Service = {
   longDescription: string;
   heroKicker: string;
   fee: string;
-  turnaround: string;
+  turnaround?: string | null;
   accent: string;
+  accreditation?: string[];
+  proofNote?: string;
   included: string[];
   deliverables: string[];
   process: string[];
@@ -20,12 +22,16 @@ export type Service = {
   relatedFaqIds: string[];
 };
 
+export type BookableServiceSlug = Service["slug"] | "comprehensive-report";
+
 export type FaqCategory =
   | "About HIDD"
-  | "Services & Scope"
+  | "Our Services"
+  | "Process"
   | "Pricing & Payment"
-  | "Process & Turnaround"
-  | "For Diaspora Buyers";
+  | "Technical Questions"
+  | "Legal & Liability"
+  | "Contact & Booking";
 
 export type FaqItem = {
   id: string;
@@ -34,17 +40,35 @@ export type FaqItem = {
   answer: string;
 };
 
-export type MapAreaRisk = {
+export type RiskBreakdownStatus = "clear" | "watch" | "critical";
+
+export type RiskBreakdownItem = {
+  key:
+    | "demolition"
+    | "flooding"
+    | "litigation"
+    | "infrastructure"
+    | "security"
+    | "zoning"
+    | "environmental"
+    | "market-liquidity";
+  label: string;
+  status: RiskBreakdownStatus;
+  score: number;
+  summary: string;
+};
+
+export type MapAreaShape = {
   id: string;
   name: string;
   label: string;
   tier: RiskTier;
-  floodRisk: number;
-  infrastructure: number;
-  titleComplexity: number;
-  narrative: string;
-  lat: number;
-  lng: number;
+  pathData: string;
+  focusX: number;
+  focusY: number;
+  headline: string;
+  summary: string;
+  breakdown: RiskBreakdownItem[];
 };
 
 export type Testimonial = {
@@ -74,6 +98,7 @@ export type InsightPostFrontmatter = {
   metaTitle: string;
   metaDescription: string;
   ogImage: string;
+  relatedService: BookableServiceSlug;
   readTime?: string;
 };
 

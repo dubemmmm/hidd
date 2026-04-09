@@ -20,9 +20,10 @@ export function ServiceCard({ service }: ServiceCardProps) {
       <span className="service-card__eyebrow">{service.eyebrow}</span>
       <h3>{service.name}</h3>
       <p>{service.summary}</p>
+      {service.proofNote ? <span className="service-card__proof">{service.proofNote}</span> : null}
       <div className="service-card__meta">
         <strong>{service.fee}</strong>
-        <span>{service.turnaround}</span>
+        {service.turnaround ? <span>{service.turnaround}</span> : null}
       </div>
       <span className="service-card__cta">Learn more</span>
     </Link>

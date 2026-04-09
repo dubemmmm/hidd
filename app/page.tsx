@@ -88,7 +88,7 @@ export default async function HomePage() {
             <SectionHeading
               eyebrow="Flagship homepage tool"
               title="Interactive Lagos risk map"
-              description="A premium custom map experience that previews how HIDD reads neighbourhood-level exposure before a buyer ever enquires."
+              description="Click Ikoyi, Victoria Island, Banana Island, Eko Atlantic, or Lekki Phase 1 to review an 8-category placeholder risk breakdown and route into Risk Intelligence."
             />
           </Reveal>
           <Reveal delay={0.08}>
@@ -132,16 +132,26 @@ export default async function HomePage() {
               description="The brand system is premium because the underlying service needs to feel credible to people making consequential property decisions."
             />
           </Reveal>
-          <div className="why-grid">
-            {differentiators.map((item, index) => (
-              <Reveal key={item.title} delay={index * 0.06}>
-                <article className="why-card">
-                  <span>{item.title}</span>
-                  <p>{item.copy}</p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal delay={0.06}>
+            <div className="why-grid" aria-label="Why HIDD">
+              <div className="why-grid__track">
+                {[...differentiators, ...differentiators].map((item, index) => {
+                  const isDuplicate = index >= differentiators.length;
+
+                  return (
+                    <article
+                      key={`${item.title}-${index}`}
+                      className="why-card"
+                      aria-hidden={isDuplicate ? "true" : undefined}
+                    >
+                      <span>{item.title}</span>
+                      <p>{item.copy}</p>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 

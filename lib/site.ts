@@ -4,11 +4,11 @@ export const siteConfig = {
   description:
     "Premium property risk intelligence, due diligence, valuation, and inspection services for Lagos buyers.",
   url: "https://hiddadvisory.com",
-  phoneDisplay: "+234 812 345 6789",
-  phoneHref: "tel:+2348123456789",
-  whatsappHref: "https://wa.me/2348123456789",
-  email: "info@hidd.com",
-  address: "14 Bourdillon Road, Ikoyi, Lagos",
+  phoneDisplay: "+234 704 819 4242",
+  phoneHref: "tel:+2347048194242",
+  whatsappHref: "https://wa.me/2347048194242",
+  email: "info@hiddadvisory.com",
+  address: "3/5 Ikoyi Crescent, Off Modupe Alakija Street, Osborne, Ikoyi, Lagos State",
   socialLinks: {
     linkedin: "https://www.linkedin.com/company/hidd-advisory",
     x: "https://x.com/hiddadvisory",
@@ -25,4 +25,4 @@ export const navItems = [
 ] as const;
 
 export const serviceFee = "₦1,000,000";
-export const comprehensiveReportFee = "₦3,500,000";
+export const comprehensiveReportFee = "Pricing confirmed at engagement";

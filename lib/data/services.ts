@@ -13,8 +13,10 @@ export const services: Service[] = [
       "HIDD's home inspection service gives buyers and investors a disciplined technical view of a target property. We assess visible defects, workmanship quality, life-safety concerns, and likely remediation costs so decisions are based on facts instead of seller assurances.",
     heroKicker: "Certified engineers reviewing what the brochure will not show you.",
     fee: serviceFee,
-    turnaround: "5 to 7 business days",
+    turnaround: null,
     accent: "#77a2ff",
+    accreditation: ["InterNACHI"],
+    proofNote: "InterNACHI-aligned inspection discipline for premium Lagos acquisitions.",
     included: [
       "Structural observations across walls, slabs, roofing, and settlement indicators",
       "Electrical, plumbing, drainage, and water-pressure checks",
@@ -34,9 +36,9 @@ export const services: Service[] = [
       "Digital delivery of the report with next-step recommendations"
     ],
     suitableFor: ["High-value residential purchases", "Diaspora buyers", "Pre-handover snagging"],
-    keyMetric: "500+ site reports reviewed across Lagos demand corridors",
+    keyMetric: "InterNACHI-focused inspection discipline built for premium Lagos housing stock",
     relatedInsights: ["lagos-buyers-checklist", "lekki-flood-risk-guide"],
-    relatedFaqIds: ["report-timeline", "diaspora-buyers", "site-visit-remote"]
+    relatedFaqIds: ["report-timeline", "interactive-risk-map", "how-to-get-started"]
   },
   {
     slug: "legal-due-diligence",
@@ -72,7 +74,7 @@ export const services: Service[] = [
     suitableFor: ["Land purchases", "Estate acquisitions", "Institutional review support"],
     keyMetric: "Built for Lagos title complexity, not generic checklist work",
     relatedInsights: ["governors-consent-explained", "lagos-buyers-checklist"],
-    relatedFaqIds: ["documents-needed", "pricing-flat-fee", "coverage-areas"]
+    relatedFaqIds: ["documents-needed", "pricing-flat-fee", "is-hidd-regulated"]
   },
   {
     slug: "risk-intelligence",
@@ -85,7 +87,7 @@ export const services: Service[] = [
       "HIDD's flagship risk intelligence work helps buyers understand whether an area justifies the asking price and long-term exposure. We combine local market context with risk scoring so the client sees the neighbourhood the way an informed operator would.",
     heroKicker: "The flagship HIDD lens for reading Lagos before you buy into it.",
     fee: serviceFee,
-    turnaround: "4 to 6 business days",
+    turnaround: "3 to 5 business days",
     accent: "#f2b764",
     included: [
       "Flood-risk and drainage context review",
@@ -108,7 +110,7 @@ export const services: Service[] = [
     suitableFor: ["Remote investors", "Site selection", "Land banking decisions"],
     keyMetric: "Built around HIDD's neighbourhood-level risk edge",
     relatedInsights: ["lekki-flood-risk-guide", "ikoyi-vs-victoria-island"],
-    relatedFaqIds: ["coverage-areas", "diaspora-buyers", "comprehensive-report"]
+    relatedFaqIds: ["coverage-areas", "interactive-risk-map", "comprehensive-report"]
   },
   {
     slug: "valuation",
@@ -144,7 +146,7 @@ export const services: Service[] = [
     suitableFor: ["Luxury residential buyers", "Portfolio reviews", "Pre-acquisition negotiations"],
     keyMetric: "Built to stop buyers overpaying for presentation or hype",
     relatedInsights: ["ikoyi-vs-victoria-island", "lagos-buyers-checklist"],
-    relatedFaqIds: ["pricing-flat-fee", "report-timeline", "comprehensive-report"]
+    relatedFaqIds: ["pricing-flat-fee", "mortgage-support", "comprehensive-report"]
   }
 ];
 

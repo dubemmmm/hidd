@@ -53,18 +53,18 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
               <h1>{service.name}</h1>
               <p>{service.summary}</p>
               <div className="service-stat-strip">
-                <div>
-                  <span>Flat fee</span>
-                  <strong>{service.fee}</strong>
-                </div>
-                <div>
-                  <span>Turnaround</span>
-                  <strong>{service.turnaround}</strong>
-                </div>
-                <div>
-                  <span>Built for</span>
-                  <strong>{service.suitableFor[0]}</strong>
-                </div>
+                {[
+                  { label: "Flat fee", value: service.fee },
+                  ...(service.turnaround
+                    ? [{ label: "Turnaround", value: service.turnaround }]
+                    : []),
+                  { label: "Built for", value: service.suitableFor[0] }
+                ].map((item) => (
+                  <div key={item.label}>
+                    <span>{item.label}</span>
+                    <strong>{item.value}</strong>
+                  </div>
+                ))}
               </div>
               <div className="hero__actions">
                 <Link href={`/contact?service=${service.slug}`} className="button button--primary">
@@ -88,6 +88,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 title="Included in scope"
                 description={service.heroKicker}
               />
+              {service.proofNote ? <p className="content-panel__proof">{service.proofNote}</p> : null}
               <ul className="feature-list">
                 {service.included.map((item) => (
                   <li key={item}>{item}</li>
