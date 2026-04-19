@@ -135,12 +135,26 @@ img {
   position: sticky;
   top: 0;
   z-index: 100;
-  transition: background 0.3s var(--ease), border-color 0.3s var(--ease), backdrop-filter 0.3s var(--ease);
+  transition: border-color 0.3s var(--ease);
+}
+
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: transparent;
+  transition: background 0.3s var(--ease), backdrop-filter 0.3s var(--ease);
+  pointer-events: none;
+}
+
+.site-header--scrolled::before {
+  background: rgba(26, 26, 46, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 .site-header--scrolled {
-  background: rgba(26, 26, 46, 0.82);
-  backdrop-filter: blur(18px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
@@ -2437,10 +2451,13 @@ img {
 
   .site-nav {
     position: fixed;
-    inset: 88px 0 0;
+    inset: 74px 0 0;
     padding: 18px 12px 24px;
-    background: rgba(5, 10, 17, 0.92);
+    background: rgba(5, 10, 17, 0.96);
     backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     transform: translateY(-12px);
     opacity: 0;
     visibility: hidden;
