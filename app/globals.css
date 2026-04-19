@@ -1465,7 +1465,11 @@ img {
   display: flex;
   gap: 18px;
   width: max-content;
-  animation: marquee 30s linear infinite;
+  animation: marquee 72s linear infinite;
+}
+
+.news-marquee:hover .news-marquee__track {
+  animation-play-state: paused;
 }
 
 .news-card {
@@ -4128,17 +4132,6 @@ img {
   line-height: 1.6;
 }
 
-.news-marquee--static,
-.news-marquee__track--static {
-  overflow: visible;
-}
-
-.news-marquee__track--static {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-}
-
 .news-card p {
   margin: 0 0 16px;
   color: var(--text-muted);
@@ -4243,7 +4236,6 @@ img {
   .reports-library__rail,
   .district-grid,
   .district-breakdown-grid,
-  .news-marquee__track--static,
   .insights-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -4264,7 +4256,6 @@ img {
 
   .hero-downloads,
   .reports-library__rail,
-  .news-marquee__track--static,
   .insights-grid,
   .district-grid,
   .district-breakdown-grid {
