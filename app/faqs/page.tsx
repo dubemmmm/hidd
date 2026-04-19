@@ -21,7 +21,7 @@ export default function FaqsPage() {
       <section className="page-hero">
         <div className="shell shell--support">
           <Reveal>
-            <div className="page-hero__content">
+            <div className="page-hero__content" style={{ alignItems: "center", textAlign: "center" }}>
               <div className="section-heading__eyebrow">FAQs</div>
               <h1>Common pre-purchase questions, answered clearly.</h1>
               <p>

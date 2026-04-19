@@ -45,6 +45,13 @@ export const postType = defineType({
       validation: (rule) => rule.required()
     }),
     defineField({
+      name: "readTime",
+      title: "Read Time",
+      type: "string",
+      description: "Explicit read time label shown on the Insights index and article page.",
+      validation: (rule) => rule.required()
+    }),
+    defineField({
       name: "body",
       title: "Body",
       type: "array",

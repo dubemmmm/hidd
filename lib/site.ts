@@ -1,3 +1,5 @@
+import type { NavItem } from "@/lib/types";
+
 export const siteConfig = {
   name: "HIDD Advisory",
   shortName: "HIDD",
@@ -16,13 +18,13 @@ export const siteConfig = {
   }
 } as const;
 
-export const navItems = [
-  { href: "/", label: "Home" },
+export const navItems: NavItem[] = [
+  { href: "/risk-map", label: "Risk Map" },
+  { href: "/reports", label: "Reports / Library" },
   { href: "/services", label: "Services" },
   { href: "/insights", label: "Insights" },
-  { href: "/faqs", label: "FAQs" },
   { href: "/contact", label: "Contact" }
-] as const;
+];
 
 export const serviceFee = "₦1,000,000";
 export const comprehensiveReportFee = "Pricing confirmed at engagement";

@@ -6,7 +6,7 @@ export const faqs: FaqItem[] = [
     category: "About HIDD",
     question: "What is HIDD Advisory?",
     answer:
-      "HIDD, Home Inspection & Due Diligence, is Lagos's first integrated property intelligence firm. We combine physical inspections, legal due diligence, valuations, and risk intelligence into a single trusted service, so you can buy, invest, or develop with complete confidence."
+      "HIDD, Home Inspection & Due Diligence, is an independent property intelligence firm serving Lagos buyers. We combine physical inspections, legal due diligence, valuations, and risk intelligence into a single trusted service, so you can buy, invest, or develop with greater confidence."
   },
   {
     id: "who-is-hidd-for",
@@ -131,7 +131,7 @@ export const faqs: FaqItem[] = [
     category: "Technical Questions",
     question: "What is your Interactive Risk Map?",
     answer:
-      "Our interactive map of Lagos allows you to click on any neighbourhood and view our current risk intelligence assessment for that area, covering demolition, flooding, litigation, infrastructure, security, zoning, environmental, and market liquidity risks. The map is updated regularly as our data grows."
+      "Our Interactive Risk Map currently covers five launch neighbourhoods: Victoria Island, Ikoyi, Banana Island, Lekki Phase 1, and Eko Atlantic. You can select an area to view HIDD's current summary risk grade, a short neighbourhood briefing, and the route into deeper Risk Intelligence."
   },
   {
     id: "liability-limit",

@@ -1,0 +1,13 @@
+HIDD Advisory
+Lagos Neighbourhood Risk Index
+
+This launch file is a placeholder release used to demonstrate the Reports / Library gating flow.
+
+Coverage focus:
+- Victoria Island
+- Ikoyi
+- Banana Island
+- Lekki Phase 1
+- Eko Atlantic
+
+The final designed asset will be supplied by HIDD and replace this file without requiring a structural change to the site.

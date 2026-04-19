@@ -106,7 +106,7 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
           {status === "success" &&
             "Enquiry sent. HIDD will review the brief and respond within 24 hours."}
           {status === "error" &&
-            "Something went wrong while sending your enquiry. Please try again or use WhatsApp."}
+            "Something went wrong while sending your enquiry. Please try again or use the floating WhatsApp widget."}
           {status === "idle" &&
             "Your enquiry will route through a deployment-ready endpoint that can be wired to the final email provider later."}
         </p>

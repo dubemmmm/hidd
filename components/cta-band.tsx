@@ -1,7 +1,5 @@
 import Link from "next/link";
 
-import { siteConfig } from "@/lib/site";
-
 type CtaBandProps = {
   title: string;
   description: string;
@@ -28,9 +26,6 @@ export function CtaBand({
             <Link href={primaryHref} className="button button--primary">
               {primaryLabel}
             </Link>
-            <a href={siteConfig.whatsappHref} className="button button--ghost" target="_blank" rel="noreferrer">
-              Chat on WhatsApp
-            </a>
           </div>
         </div>
       </div>

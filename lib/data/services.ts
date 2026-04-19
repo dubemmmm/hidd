@@ -13,10 +13,9 @@ export const services: Service[] = [
       "HIDD's home inspection service gives buyers and investors a disciplined technical view of a target property. We assess visible defects, workmanship quality, life-safety concerns, and likely remediation costs so decisions are based on facts instead of seller assurances.",
     heroKicker: "Certified engineers reviewing what the brochure will not show you.",
     fee: serviceFee,
-    turnaround: null,
+    turnaround: "Turnaround confirmed at engagement",
     accent: "#77a2ff",
     accreditation: ["InterNACHI"],
-    proofNote: "InterNACHI-aligned inspection discipline for premium Lagos acquisitions.",
     included: [
       "Structural observations across walls, slabs, roofing, and settlement indicators",
       "Electrical, plumbing, drainage, and water-pressure checks",

@@ -19,13 +19,10 @@ export default async function InsightsPage() {
       <section className="page-hero">
         <div className="shell">
           <Reveal>
-            <div className="page-hero__content">
+            <div className="page-hero__content" style={{ alignItems: "center", textAlign: "center" }}>
               <div className="section-heading__eyebrow">Insights</div>
-              <h1>The content hub for Lagos property risk, due diligence, and market intelligence.</h1>
-              <p>
-                Published editorial content for buyers, investors, and operators who need sharper
-                Lagos property judgement before capital moves.
-              </p>
+              <h1>Lagos property risk, due diligence, and market intelligence.</h1>
+              <p>Editorial for buyers and investors who need sharper judgement before capital moves.</p>
             </div>
           </Reveal>
         </div>
@@ -37,7 +34,7 @@ export default async function InsightsPage() {
             <SectionHeading
               eyebrow="Browse articles"
               title="Filter by content pillar"
-              description="Each article is structured for SEO, sharing, and a direct route back into the relevant HIDD service."
+              description="Each article links back to the relevant HIDD service, carries an explicit read time, and appears once in the browse layer."
             />
           </Reveal>
           <Reveal delay={0.08}>

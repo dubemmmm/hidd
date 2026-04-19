@@ -47,21 +47,17 @@ export default function ServicesPage() {
 
       <section className="section">
         <div className="shell shell--service">
-          <Reveal>
-            <div className="section-heading section-heading--centered">
-              <div className="section-heading__eyebrow">Professional assurance</div>
-              <h2 className="section-heading__title">Aligned with inspection, valuation, and legal practice standards.</h2>
-            </div>
-          </Reveal>
           <Reveal delay={0.04}>
-            <AccreditationStrip />
+            <AccreditationStrip compact />
           </Reveal>
           <Reveal>
-            <SectionHeading
-              eyebrow="Comparison view"
-              title="Choose the right engagement for the deal in front of you"
-              description="Scan the scope, fee, and best-fit engagement quickly."
-            />
+            <div style={{ marginTop: "40px" }}>
+              <SectionHeading
+                eyebrow="Comparison view"
+                title="Choose the right engagement for the deal in front of you"
+                description="Scan the scope, fee, and best-fit engagement quickly."
+              />
+            </div>
           </Reveal>
 
           <div className="overview-grid overview-grid--service">

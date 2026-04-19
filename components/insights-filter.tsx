@@ -17,7 +17,6 @@ export function InsightsFilter({ posts }: InsightsFilterProps) {
     activeCategory === "All"
       ? posts
       : posts.filter((post) => post.category === activeCategory);
-  const marqueePosts = filteredPosts.length > 1 ? [...filteredPosts, ...filteredPosts] : filteredPosts;
 
   return (
     <div className="insights-filter">
@@ -34,39 +33,30 @@ export function InsightsFilter({ posts }: InsightsFilterProps) {
         ))}
       </div>
 
-      <div className="insights-marquee" aria-label="Browse articles">
-        <div className="insights-marquee__track">
-          {marqueePosts.map((post, index) => {
-            const isDuplicate = filteredPosts.length > 1 && index >= filteredPosts.length;
-
-            return (
-              <Link
-                key={`${post.slug}-${index}`}
-                href={`/insights/${post.slug}`}
-                className="insight-card insight-card--marquee"
-                tabIndex={isDuplicate ? -1 : undefined}
-                aria-hidden={isDuplicate ? "true" : undefined}
-              >
-                <span className="insight-card__meta">
-                  {post.category} · {post.readTime}
-                </span>
-                <h3>{post.title}</h3>
-                <p>{post.excerpt}</p>
-                <div className="insight-card__footer">
-                  <span>{post.author}</span>
-                  <span>
-                    {new Intl.DateTimeFormat("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric"
-                    }).format(new Date(post.publishedAt))}
-                  </span>
-                </div>
-                <span className="insight-card__accent" style={{ opacity: 0.25 + (index % filteredPosts.length) * 0.1 }} />
-              </Link>
-            );
-          })}
-        </div>
+      <div className="insights-grid" aria-label="Browse articles">
+        {filteredPosts.map((post, index) => (
+          <Link key={post.slug} href={`/insights/${post.slug}`} className="insight-card insight-card--grid">
+            <span className="insight-card__meta">
+              {post.category} · {post.readTime}
+            </span>
+            <h3>{post.title}</h3>
+            <p>{post.excerpt}</p>
+            <div className="insight-card__footer">
+              <span>{post.author}</span>
+              <span>
+                {new Intl.DateTimeFormat("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric"
+                }).format(new Date(post.publishedAt))}
+              </span>
+            </div>
+            <span className="insight-card__accent" style={{ opacity: 0.25 + index * 0.08 }} />
+          </Link>
+        ))}
+        {filteredPosts.length === 0 ? (
+          <div className="insights-empty-state">No articles in this category yet.</div>
+        ) : null}
       </div>
     </div>
   );

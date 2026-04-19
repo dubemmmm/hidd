@@ -41,15 +41,12 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               <div className="section-heading__eyebrow">Direct contact</div>
               <h2>Reach HIDD on the channel that suits the deal.</h2>
               <p>
-                Buyers can submit the structured form, call directly, or move the conversation to
-                WhatsApp for quicker clarification.
+                Buyers can submit the structured form, call directly, or use the floating WhatsApp
+                widget for quicker clarification.
               </p>
               <div className="contact-details">
                 <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
                 <a href={siteConfig.phoneHref}>{siteConfig.phoneDisplay}</a>
-                <a href={siteConfig.whatsappHref} target="_blank" rel="noreferrer">
-                  WhatsApp direct
-                </a>
                 <span>{siteConfig.address}</span>
               </div>
             </div>

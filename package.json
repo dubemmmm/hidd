@@ -14,11 +14,13 @@
     "gray-matter": "latest",
     "groq": "^5.20.0",
     "leaflet": "^1.9.4",
+    "maplibre-gl": "^4.7.1",
     "next": "latest",
     "next-mdx-remote": "latest",
     "next-sanity": "^12.2.2",
     "react": "latest",
     "react-dom": "latest",
+    "react-map-gl": "^7.1.9",
     "sanity": "^5.20.0"
   },
   "devDependencies": {

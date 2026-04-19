@@ -1,5 +1,10 @@
 export type RiskTier = "low" | "medium" | "high";
 
+export type NavItem = {
+  href: string;
+  label: string;
+};
+
 export type Service = {
   slug: "home-inspection" | "legal-due-diligence" | "risk-intelligence" | "valuation";
   name: string;
@@ -42,6 +47,28 @@ export type FaqItem = {
 
 export type RiskBreakdownStatus = "clear" | "watch" | "critical";
 
+export type RiskLayerKey =
+  | "flooding"
+  | "title-complexity"
+  | "planning-zoning"
+  | "infrastructure"
+  | "security"
+  | "environmental"
+  | "market-liquidity";
+
+export type RiskLayer = {
+  key: RiskLayerKey;
+  label: string;
+  shortLabel: string;
+  description: string;
+  /**
+   * Flip to `false` to hide a layer from the public toggle UI while HIDD is still
+   * finalising data. The layer stays in the type system, scores stay in the data
+   * file — only the user-facing toggle disappears. Flip back to `true` on release.
+   */
+  available: boolean;
+};
+
 export type RiskBreakdownItem = {
   key:
     | "demolition"
@@ -58,16 +85,16 @@ export type RiskBreakdownItem = {
   summary: string;
 };
 
-export type MapAreaShape = {
-  id: string;
+export type MapArea = {
+  slug: string;
   name: string;
   label: string;
-  tier: RiskTier;
-  pathData: string;
-  focusX: number;
-  focusY: number;
+  riskGrade: RiskTier;
+  geojsonFeature: GeoJSON.Feature<GeoJSON.Polygon>;
   headline: string;
   summary: string;
+  framingNote: string;
+  layerScores: Record<RiskLayerKey, number>;
   breakdown: RiskBreakdownItem[];
 };
 
@@ -83,8 +110,22 @@ export type NewsItem = {
   headline: string;
   source: string;
   publishedAt: string;
-  url: string;
+  href: string;
   category: string;
+  description: string;
+};
+
+export type ReportAssetStatus = "live" | "coming-soon";
+
+export type ReportAsset = {
+  slug: string;
+  title: string;
+  summary: string;
+  category: string;
+  status: ReportAssetStatus;
+  gated: boolean;
+  assetUrl?: string;
+  featured?: boolean;
 };
 
 export type InsightPostFrontmatter = {
@@ -99,7 +140,7 @@ export type InsightPostFrontmatter = {
   metaDescription: string;
   ogImage: string;
   relatedService: BookableServiceSlug;
-  readTime?: string;
+  readTime: string;
 };
 
 export type InsightPost = InsightPostFrontmatter & {

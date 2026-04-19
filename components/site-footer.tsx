@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { AccreditationStrip } from "@/components/accreditation-strip";
-import { services } from "@/lib/data/services";
 import { siteConfig } from "@/lib/site";
 
 export function SiteFooter() {
@@ -20,23 +19,6 @@ export function SiteFooter() {
               Protecting Lagos property buyers with data, expertise, and transparency. A Chateau
               &amp; Capital company.
             </p>
-          </div>
-
-          <div className="footer-col">
-            <h3>Services</h3>
-            {services.map((service) => (
-              <Link key={service.slug} href={`/services/${service.slug}`}>
-                {service.name}
-              </Link>
-            ))}
-          </div>
-
-          <div className="footer-col">
-            <h3>Company</h3>
-            <Link href="/services">All Services</Link>
-            <Link href="/insights">Insights</Link>
-            <Link href="/faqs">FAQs</Link>
-            <Link href="/contact">Contact</Link>
           </div>
 
           <div className="footer-col">
@@ -85,6 +67,9 @@ export function SiteFooter() {
 
         <div className="footer-bottom">
           <p>© 2026 HIDD Advisory. All rights reserved. A Chateau &amp; Capital company.</p>
+          <nav className="footer-bottom__links" aria-label="Secondary">
+            <Link href="/faqs">FAQs</Link>
+          </nav>
         </div>
       </div>
     </footer>

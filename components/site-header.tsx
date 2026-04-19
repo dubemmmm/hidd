@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { navItems, siteConfig } from "@/lib/site";
+import { navItems } from "@/lib/site";
 
 function isActive(pathname: string, href: string) {
   if (href === "/") {
@@ -57,32 +57,10 @@ export function SiteHeader() {
                 {item.label}
               </Link>
             ))}
-
-            <div className="site-nav__mobile-actions">
-              <Link href="/contact" className="button button--primary button--block">
-                Get a Report
-              </Link>
-              <a
-                href={siteConfig.whatsappHref}
-                className="button button--ghost button--block"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Chat on WhatsApp
-              </a>
-            </div>
           </div>
         </nav>
 
         <div className="site-header__actions">
-          <a
-            href={siteConfig.whatsappHref}
-            className="button button--ghost button--header"
-            target="_blank"
-            rel="noreferrer"
-          >
-            WhatsApp
-          </a>
           <Link href="/contact" className="button button--primary button--header">
             Get a Report
           </Link>

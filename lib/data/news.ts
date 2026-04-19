@@ -1,36 +1,40 @@
 import type { NewsItem } from "@/lib/types";
 
-export const mockNewsItems: NewsItem[] = [
+export const homepageSignals: NewsItem[] = [
   {
-    id: "businessday-lagos-pricing",
-    headline: "Lagos prime neighbourhood pricing remains resilient as buyers focus on quality stock",
-    source: "BusinessDay",
-    publishedAt: "2026-03-19",
-    url: "https://businessday.ng",
-    category: "Market Analysis"
+    id: "signal-risk-index",
+    headline: "Lagos Neighbourhood Risk Index now anchors the HIDD intelligence library",
+    source: "HIDD Library",
+    publishedAt: "2026-04-16",
+    href: "/reports",
+    category: "Downloadable Asset",
+    description: "A flagship reference point for buyers comparing premium Lagos districts before capital moves."
   },
   {
-    id: "nairametrics-flooding",
-    headline: "Developers face sharper buyer scrutiny over drainage, access roads, and flood resilience",
-    source: "Nairametrics",
-    publishedAt: "2026-03-17",
-    url: "https://nairametrics.com",
-    category: "Risk Signals"
+    id: "signal-buyer-checklist",
+    headline: "Buyer checklist published for teams assessing property before deposit stage",
+    source: "HIDD Library",
+    publishedAt: "2026-04-15",
+    href: "/reports",
+    category: "Checklist",
+    description: "A practical conversion asset designed for buyers who need a sharper pre-commitment process."
   },
   {
-    id: "estateintel-diaspora",
-    headline: "Diaspora demand continues to influence premium Lagos residential enquiry patterns",
-    source: "Estate Intel",
-    publishedAt: "2026-03-15",
-    url: "https://estateintel.com",
-    category: "Diaspora"
+    id: "signal-flood-risk",
+    headline: "Lekki flood-risk guidance reframes drainage pressure as a pricing and diligence issue",
+    source: "HIDD Insights",
+    publishedAt: "2026-04-12",
+    href: "/insights/lekki-flood-risk-guide",
+    category: "Risk Intelligence",
+    description: "Internal analysis for buyers who need area-specific judgement rather than corridor-level generalisation."
   },
   {
-    id: "reuters-construction",
-    headline: "Infrastructure delivery and macro pressure reshape buyer decision timelines in Nigeria's cities",
-    source: "Reuters",
-    publishedAt: "2026-03-12",
-    url: "https://www.reuters.com",
-    category: "Macro"
+    id: "signal-ikoyi-vi",
+    headline: "Ikoyi versus Victoria Island comparison now routes buyers into neighbourhood-level judgement",
+    source: "HIDD Insights",
+    publishedAt: "2026-04-10",
+    href: "/insights/ikoyi-vs-victoria-island",
+    category: "Market Analysis",
+    description: "A location trade-off explainer focused on defensibility, infrastructure, and buyer fit."
   }
 ];

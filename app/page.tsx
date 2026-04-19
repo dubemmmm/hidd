@@ -9,10 +9,10 @@ import { SectionHeading } from "@/components/section-heading";
 import { ServiceMarquee } from "@/components/service-marquee";
 import { TestimonialMarquee } from "@/components/testimonial-marquee";
 import { faqs } from "@/lib/data/faqs";
+import { featuredReportAssets } from "@/lib/data/reports";
 import { services } from "@/lib/data/services";
 import { testimonials } from "@/lib/data/testimonials";
 import { getHomepageNews } from "@/lib/news";
-import { siteConfig } from "@/lib/site";
 
 const differentiators = [
   {
@@ -25,7 +25,7 @@ const differentiators = [
   },
   {
     title: "Flat-fee clarity",
-    copy: "Each service is priced at ₦1,000,000, with no 'starting from' ambiguity anywhere on the site."
+    copy: "Each service is priced at ₦1,000,000, with no pricing theatre and no 'starting from' ambiguity."
   },
   {
     title: "Decision-pack reporting",
@@ -38,61 +38,44 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="hero">
-        <div className="shell hero__grid hero__grid--single">
-          <Reveal className="hero__content hero__content--landing">
-            <div className="section-heading__eyebrow">Lagos property risk intelligence</div>
-            <h1 className="hero__title">
-              Do not buy into Lagos <em>blind</em>.
-            </h1>
-            <p className="hero__description">
-              HIDD Advisory gives diaspora investors, high-net-worth buyers, and institutional
-              teams the inspection, legal clarity, neighbourhood risk insight, and valuation
-              discipline required before serious capital moves.
-            </p>
-            <div className="hero__actions">
-              <Link href="/contact" className="button button--primary">
-                Get a Report
-              </Link>
-              <Link href="/#risk-map" className="button button--ghost">
-                Explore the Risk Map
-              </Link>
-            </div>
-            <div className="hero__ticker" aria-label="HIDD positioning highlights">
-              <span>Diaspora buyer ready</span>
-              <span>Independent diligence</span>
-              <span>Ikoyi, VI, Lekki, Ikeja</span>
-              <span>Flat-fee clarity</span>
-            </div>
-            <div className="hero__metrics">
-              <div>
-                <strong>4</strong>
-                <span>core service verticals</span>
-              </div>
-              <div>
-                <strong>₦1M</strong>
-                <span>flat fee per service</span>
-              </div>
-              <div>
-                <strong>Ikoyi</strong>
-                <span>base of operations in Lagos</span>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section id="risk-map" className="section section--flush-top">
-        <div className="shell">
+      <section className="hero hero--map-first">
+        <div className="shell shell--hero">
           <Reveal>
-            <SectionHeading
-              eyebrow="Flagship homepage tool"
-              title="Interactive Lagos risk map"
-              description="Click Ikoyi, Victoria Island, Banana Island, Eko Atlantic, or Lekki Phase 1 to review an 8-category placeholder risk breakdown and route into Risk Intelligence."
-            />
+            <div className="hero-map-intro">
+              <div className="section-heading__eyebrow">Lagos property risk intelligence</div>
+              <h1 className="hero-map-intro__title">Do not buy into Lagos blind.</h1>
+              <p className="hero-map-intro__copy">
+                HIDD combines inspection, legal diligence, neighbourhood risk intelligence, and
+                valuation discipline for buyers making serious property decisions.
+              </p>
+            </div>
           </Reveal>
-          <Reveal delay={0.08}>
-            <RiskMap />
+
+          <Reveal delay={0.06}>
+            <RiskMap variant="hero" />
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div className="hero-map-actions">
+              <div className="hero-map-actions__buttons">
+                <Link href="/contact" className="button button--primary">
+                  Get a Report
+                </Link>
+                <Link href="/risk-map" className="button button--ghost">
+                  Explore Risk Map
+                </Link>
+              </div>
+
+              <div className="hero-downloads" aria-label="Featured downloadable assets">
+                {featuredReportAssets.map((asset) => (
+                  <Link key={asset.slug} href={`/reports?asset=${asset.slug}`} className="hero-download-card">
+                    <span>{asset.category}</span>
+                    <strong>{asset.title}</strong>
+                    <p>{asset.summary}</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
           </Reveal>
         </div>
       </section>
@@ -103,19 +86,8 @@ export default async function HomePage() {
             <SectionHeading
               eyebrow="What HIDD does"
               title="Four verticals. One disciplined pricing model."
+              description="Four advisory verticals. One flat ₦1,000,000 fee. Clear scope, disciplined pricing, and no transaction theatre."
             />
-          </Reveal>
-          <Reveal delay={0.04}>
-            <div className="copy-marquee copy-marquee--reverse" aria-label="Services pricing statement">
-              <div className="copy-marquee__track">
-                {Array.from({ length: 6 }).map((_, index) => (
-                  <span key={index}>
-                    Four advisory verticals. One flat ₦1,000,000 fee. Clear scope, disciplined
-                    pricing, and no transaction theatre.
-                  </span>
-                ))}
-              </div>
-            </div>
           </Reveal>
           <Reveal delay={0.08}>
             <ServiceMarquee items={services} />
@@ -129,7 +101,7 @@ export default async function HomePage() {
             <SectionHeading
               eyebrow="Why HIDD"
               title="Built for Lagos. Structured for trust."
-              description="The brand system is premium because the underlying service needs to feel credible to people making consequential property decisions."
+              description="The commercial layer is disciplined because serious buyers need evidence, not noise."
             />
           </Reveal>
           <Reveal delay={0.06}>
@@ -159,9 +131,9 @@ export default async function HomePage() {
         <div className="shell">
           <Reveal>
             <SectionHeading
-              eyebrow="Live news layer"
-              title="Signals shaping the Lagos property conversation"
-              description="The carousel is adapter-driven so mock content can be replaced with real RSS feeds later without changing the homepage component contract."
+              eyebrow="Signals from HIDD"
+              title="Internal intelligence, assets, and editorial routed within the site"
+              description="The homepage signal layer now routes only to HIDD pages, reports, and articles."
             />
           </Reveal>
           <Reveal delay={0.08}>
@@ -176,7 +148,7 @@ export default async function HomePage() {
             <SectionHeading
               eyebrow="Social proof"
               title="Decision-makers use HIDD when the downside matters."
-              description="This proof layer now moves like the live news section and carries richer placeholder testimony so the page feels credible before final client quotes arrive."
+              description="This layer remains a placeholder until final quotes arrive, but the proof surface is positioned where a premium advisory brand expects it."
             />
           </Reveal>
           <Reveal delay={0.08}>
@@ -191,18 +163,23 @@ export default async function HomePage() {
             <SectionHeading
               eyebrow="Common questions"
               title="Friction removed before the first enquiry"
-              description="The public FAQ is structured to support conversion while reducing repetitive sales clarification."
+              description="The public FAQ now stays aligned with the current HIDD offer, current map behavior, and current service model."
             />
           </Reveal>
           <Reveal delay={0.06}>
-            <FaqAccordion items={faqs.slice(0, 4)} />
+            <div className="faq-teaser">
+              <FaqAccordion items={faqs.slice(0, 4)} />
+              <Link href="/faqs" className="faq-teaser__link">
+                View all {faqs.length} FAQs →
+              </Link>
+            </div>
           </Reveal>
         </div>
       </section>
 
       <CtaBand
         title="Ready to protect your investment?"
-        description={`Get a professional property review before you commit. Or reach HIDD directly on WhatsApp at ${siteConfig.phoneDisplay}.`}
+        description="Start with the right HIDD engagement, or move directly into the reports library if you need an intelligence asset first."
       />
     </>
   );

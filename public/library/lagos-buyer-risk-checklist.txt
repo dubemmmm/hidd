@@ -1,0 +1,12 @@
+HIDD Advisory
+Lagos Buyer Risk Checklist
+
+This launch file is a placeholder release used to demonstrate the Reports / Library gating flow.
+
+Core diligence sequence:
+1. Confirm the asset exists in the condition presented.
+2. Validate title and document consistency.
+3. Review area-level risk before payment.
+4. Pressure-test asking price independently.
+
+The final designed asset will be supplied by HIDD and replace this file without requiring a structural change to the site.

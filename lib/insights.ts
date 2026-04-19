@@ -24,6 +24,7 @@ const insightFields = groq`{
   excerpt,
   author,
   "publishedAt": coalesce(publishedAt, _createdAt),
+  readTime,
   "coverImage": coalesce(coverImage, "/og-default.svg"),
   metaTitle,
   metaDescription,
@@ -37,10 +38,10 @@ const insightBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0]{
   body
 }`;
 
-function computeReadTime(content: string) {
-  const words = content.trim().split(/\s+/).filter(Boolean).length;
-  const minutes = Math.max(1, Math.round(words / 220));
-  return `${minutes} min read`;
+function normalizeReadTime(value: unknown) {
+  return typeof value === "string" && value.trim()
+    ? value.trim()
+    : "Read time confirmed at publishing";
 }
 
 async function readInsightFile(slug: string) {
@@ -61,7 +62,7 @@ async function getLocalInsights(): Promise<InsightPost[]> {
         return {
           ...frontmatter,
           content,
-          readTime: frontmatter.readTime ?? computeReadTime(content)
+          readTime: normalizeReadTime(frontmatter.readTime)
         };
       })
   );
@@ -77,7 +78,7 @@ async function getSanityInsights(): Promise<InsightPost[]> {
   return posts.map((post) => ({
     ...post,
     content: "",
-    readTime: post.readTime ?? computeReadTime(`${post.title} ${post.excerpt}`)
+    readTime: normalizeReadTime(post.readTime)
   }));
 }
 
@@ -104,7 +105,7 @@ export const getInsightBySlug = cache(async (slug: string) => {
         return {
           frontmatter: {
             ...post,
-            readTime: post.readTime ?? computeReadTime(`${post.title} ${post.excerpt}`)
+            readTime: normalizeReadTime(post.readTime)
           },
           content: createElement(PortableText, {
             value: post.body as Parameters<typeof PortableText>[0]["value"],
@@ -132,7 +133,7 @@ export const getInsightBySlug = cache(async (slug: string) => {
   return {
     frontmatter: {
       ...frontmatter,
-      readTime: frontmatter.readTime ?? computeReadTime(content)
+      readTime: normalizeReadTime(frontmatter.readTime)
     },
     content: compiled.content as ReactElement
   };
