@@ -15,21 +15,15 @@ function formatDate(date: string) {
 }
 
 export function NewsMarquee({ items }: NewsMarqueeProps) {
-  const loopItems = [...items, ...items];
-
   return (
     <div className="news-marquee" aria-label="Latest HIDD signals">
       <div className="news-marquee__track">
-        {loopItems.map((item, index) => {
-          const isDuplicate = index >= items.length;
-
+        {items.map((item) => {
           return (
             <Link
-              key={`${item.id}-${index}`}
+              key={item.id}
               href={item.href}
               className="news-card"
-              aria-hidden={isDuplicate ? "true" : undefined}
-              tabIndex={isDuplicate ? -1 : undefined}
             >
               <span className="news-card__category">{item.category}</span>
               <h3>{item.headline}</h3>

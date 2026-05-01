@@ -59,10 +59,11 @@ export default function RiskMap({ variant = "page" }: RiskMapProps) {
   const visibleBreakdown = activeArea
     ? expanded
       ? activeArea.breakdown
-      : activeArea.breakdown.slice(0, VISIBLE_BREAKDOWN_COUNT)
+      : activeArea.breakdown.slice(0, variant === "hero" ? 3 : VISIBLE_BREAKDOWN_COUNT)
     : [];
   const hasMoreBreakdown =
-    (activeArea?.breakdown.length ?? 0) > VISIBLE_BREAKDOWN_COUNT;
+    (activeArea?.breakdown.length ?? 0) > (variant === "hero" ? 3 : VISIBLE_BREAKDOWN_COUNT);
+  const showSummaryActions = variant !== "hero";
 
   if (!activeArea || !displayedTier) return null;
 
@@ -136,20 +137,22 @@ export default function RiskMap({ variant = "page" }: RiskMapProps) {
           </button>
         ) : null}
 
-        <div className="risk-map-summary__actions">
-          <Link
-            href={`/risk-map/${activeArea.slug}`}
-            className="button button--primary"
-          >
-            Open district brief
-          </Link>
-          <Link
-            href={`/contact?service=risk-intelligence&area=${encodeURIComponent(activeArea.name)}`}
-            className="button button--ghost"
-          >
-            Book Risk Intelligence
-          </Link>
-        </div>
+        {showSummaryActions ? (
+          <div className="risk-map-summary__actions">
+            <Link
+              href={`/risk-map/${activeArea.slug}`}
+              className="button button--primary"
+            >
+              Open district brief
+            </Link>
+            <Link
+              href={`/contact?service=risk-intelligence&area=${encodeURIComponent(activeArea.name)}`}
+              className="button button--ghost"
+            >
+              Book Risk Intelligence
+            </Link>
+          </div>
+        ) : null}
       </aside>
     </div>
   );

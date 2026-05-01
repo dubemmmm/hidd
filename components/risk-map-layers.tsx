@@ -9,9 +9,9 @@ type RiskMapLayersProps = {
 };
 
 const LEGEND_TIERS = [
-  { key: "low", label: "Low risk", swatch: "#1f6a48" },
-  { key: "medium", label: "Watch", swatch: "#a8772b" },
-  { key: "high", label: "Elevated", swatch: "#8f1f28" }
+  { key: "low", label: "Low risk", swatch: "#2c5f97" },
+  { key: "medium", label: "Watch", swatch: "#bc9136" },
+  { key: "high", label: "Elevated", swatch: "#8f3a30" }
 ] as const;
 
 export function RiskMapLayers({ layers, activeLayer, onSelect }: RiskMapLayersProps) {

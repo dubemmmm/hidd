@@ -12,10 +12,7 @@ type InsightPageProps = {
   params: Promise<{ slug: string }> | { slug: string };
 };
 
-export async function generateStaticParams() {
-  const posts = await getAllInsights();
-  return posts.map((post) => ({ slug: post.slug }));
-}
+export const revalidate = 60;
 
 export async function generateMetadata({ params }: InsightPageProps): Promise<Metadata> {
   const { slug } = await Promise.resolve(params);

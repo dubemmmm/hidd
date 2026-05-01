@@ -26,8 +26,8 @@ const LAGOS_BOUNDS: [[number, number], [number, number]] = [
   [3.58, 6.52]
 ];
 
-const CARTO_DARK_STYLE =
-  "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
+const CARTO_LIGHT_STYLE =
+  "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
 
 export default function RiskMapCanvas({
   areas,
@@ -133,7 +133,7 @@ export default function RiskMapCanvas({
   return (
     <Map
       ref={mapRef}
-      mapStyle={CARTO_DARK_STYLE}
+      mapStyle={CARTO_LIGHT_STYLE}
       initialViewState={{
         bounds: LAGOS_BOUNDS,
         fitBoundsOptions: { padding: 32 }
@@ -162,46 +162,51 @@ export default function RiskMapCanvas({
               "match",
               ["get", "tier"],
               "low",
-              "#1f6a48",
+              "#2c5f97",
               "medium",
-              "#a8772b",
+              "#bc9136",
               "high",
-              "#8f1f28",
-              "#555"
+              "#8f3a30",
+              "#6d7d91"
             ],
             "fill-opacity": [
               "case",
               ["boolean", ["feature-state", "active"], false],
-              0.75,
+              0.84,
               ["boolean", ["feature-state", "hover"], false],
-              0.6,
-              0.42
+              0.72,
+              0.56
             ]
           }}
         />
         <Layer
           id="district-outline"
           type="line"
+          layout={{
+            "line-join": "round",
+            "line-cap": "round"
+          }}
           paint={{
             "line-color": [
               "match",
               ["get", "tier"],
               "low",
-              "#8bd8b2",
+              "#173a63",
               "medium",
-              "#f0c171",
+              "#7f5b14",
               "high",
-              "#f1a2aa",
-              "#aaa"
+              "#5f211a",
+              "#49586d"
             ],
             "line-width": [
               "case",
               ["boolean", ["feature-state", "active"], false],
-              2.6,
+              3.2,
               ["boolean", ["feature-state", "hover"], false],
-              2,
-              1.2
-            ]
+              2.6,
+              1.7
+            ],
+            "line-opacity": 0.95
           }}
         />
         <Layer
@@ -217,9 +222,9 @@ export default function RiskMapCanvas({
             "symbol-placement": "point"
           }}
           paint={{
-            "text-color": "#f4f1ea",
-            "text-halo-color": "rgba(0,0,0,0.6)",
-            "text-halo-width": 1.4
+            "text-color": "#0f2340",
+            "text-halo-color": "rgba(250, 248, 243, 0.9)",
+            "text-halo-width": 1.8
           }}
         />
       </Source>

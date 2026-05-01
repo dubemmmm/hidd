@@ -3,7 +3,7 @@ import path from "node:path";
 
 import { NextResponse } from "next/server";
 
-import { getReportAsset } from "@/lib/data/reports";
+import { getReportAsset } from "@/lib/reports";
 
 export const runtime = "nodejs";
 
@@ -34,10 +34,17 @@ export async function POST(request: Request) {
     );
   }
 
-  const asset = getReportAsset(assetSlug);
+  const asset = await getReportAsset(assetSlug);
 
   if (!asset) {
     return NextResponse.json({ ok: false, error: "Asset not found." }, { status: 404 });
+  }
+
+  if (asset.status === "live" && !asset.assetUrl) {
+    return NextResponse.json(
+      { ok: false, error: "This live asset does not have a download file configured yet." },
+      { status: 409 }
+    );
   }
 
   await fs.appendFile(

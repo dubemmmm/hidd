@@ -17,7 +17,7 @@ import type { InsightPost, InsightPostFrontmatter } from "@/lib/types";
 
 const insightsDirectory = path.join(process.cwd(), "content", "insights");
 
-const insightFields = groq`{
+const insightFields = groq`
   title,
   "slug": slug.current,
   category,
@@ -30,9 +30,9 @@ const insightFields = groq`{
   metaDescription,
   "ogImage": coalesce(ogImage, "/og-default.svg"),
   relatedService
-}`;
+`;
 
-const allInsightsQuery = groq`*[_type == "post"] | order(publishedAt desc) ${insightFields}`;
+const allInsightsQuery = groq`*[_type == "post"] | order(publishedAt desc) {${insightFields}}`;
 const insightBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0]{
   ${insightFields},
   body

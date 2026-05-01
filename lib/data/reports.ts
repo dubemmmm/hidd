@@ -7,6 +7,7 @@ export const reportAssets: ReportAsset[] = [
     summary:
       "Flagship HIDD authority asset benchmarking premium Lagos districts through a buyer-risk lens.",
     category: "Flagship Report",
+    publishedAt: "2026-04-16T09:00:00.000Z",
     status: "live",
     gated: true,
     assetUrl: "/library/lagos-neighbourhood-risk-index.txt",
@@ -18,6 +19,7 @@ export const reportAssets: ReportAsset[] = [
     summary:
       "A practical pre-deposit checklist for buyers who want a cleaner diligence process before funds move.",
     category: "Checklist",
+    publishedAt: "2026-04-15T09:00:00.000Z",
     status: "live",
     gated: true,
     assetUrl: "/library/lagos-buyer-risk-checklist.txt",
@@ -29,6 +31,7 @@ export const reportAssets: ReportAsset[] = [
     summary:
       "Area-specific intelligence framing flood pressure, access, title complexity, and buyer defensibility.",
     category: "Neighbourhood Brief",
+    publishedAt: "2026-05-05T09:00:00.000Z",
     status: "coming-soon",
     gated: true
   },
@@ -38,6 +41,7 @@ export const reportAssets: ReportAsset[] = [
     summary:
       "A direct comparison asset for buyers weighing premium residential defensibility across both districts.",
     category: "Comparison Report",
+    publishedAt: "2026-05-12T09:00:00.000Z",
     status: "coming-soon",
     gated: true
   },
@@ -47,6 +51,7 @@ export const reportAssets: ReportAsset[] = [
     summary:
       "A plain-language authority asset explaining how buyers should think about title confidence before signing.",
     category: "Explainer",
+    publishedAt: "2026-05-19T09:00:00.000Z",
     status: "coming-soon",
     gated: true
   }

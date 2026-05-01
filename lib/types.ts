@@ -122,6 +122,7 @@ export type ReportAsset = {
   title: string;
   summary: string;
   category: string;
+  publishedAt: string;
   status: ReportAssetStatus;
   gated: boolean;
   assetUrl?: string;

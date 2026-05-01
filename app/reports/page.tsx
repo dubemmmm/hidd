@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { ReportsLibrary } from "@/components/reports-library";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
-import { reportAssets } from "@/lib/data/reports";
+import { getReportAssets } from "@/lib/reports";
 
 type ReportsPageProps = {
   searchParams?: Promise<{ asset?: string }> | { asset?: string };
@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 
 export default async function ReportsPage({ searchParams }: ReportsPageProps) {
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
+  const reportAssets = await getReportAssets();
 
   return (
     <>

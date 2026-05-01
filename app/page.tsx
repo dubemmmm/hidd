@@ -9,10 +9,10 @@ import { SectionHeading } from "@/components/section-heading";
 import { ServiceMarquee } from "@/components/service-marquee";
 import { TestimonialMarquee } from "@/components/testimonial-marquee";
 import { faqs } from "@/lib/data/faqs";
-import { featuredReportAssets } from "@/lib/data/reports";
 import { services } from "@/lib/data/services";
 import { testimonials } from "@/lib/data/testimonials";
 import { getHomepageNews } from "@/lib/news";
+import { getFeaturedReportAssets } from "@/lib/reports";
 
 const differentiators = [
   {
@@ -34,6 +34,7 @@ const differentiators = [
 ];
 
 export default async function HomePage() {
+  const featuredReportAssets = await getFeaturedReportAssets();
   const newsItems = await getHomepageNews();
 
   return (
@@ -107,20 +108,12 @@ export default async function HomePage() {
           <Reveal delay={0.06}>
             <div className="why-grid" aria-label="Why HIDD">
               <div className="why-grid__track">
-                {[...differentiators, ...differentiators].map((item, index) => {
-                  const isDuplicate = index >= differentiators.length;
-
-                  return (
-                    <article
-                      key={`${item.title}-${index}`}
-                      className="why-card"
-                      aria-hidden={isDuplicate ? "true" : undefined}
-                    >
-                      <span>{item.title}</span>
-                      <p>{item.copy}</p>
-                    </article>
-                  );
-                })}
+                {differentiators.map((item) => (
+                  <article key={item.title} className="why-card">
+                    <span>{item.title}</span>
+                    <p>{item.copy}</p>
+                  </article>
+                ))}
               </div>
             </div>
           </Reveal>
@@ -132,7 +125,7 @@ export default async function HomePage() {
           <Reveal>
             <SectionHeading
               eyebrow="Signals from HIDD"
-              title="Internal intelligence, assets, and editorial routed within the site"
+              title="Internal intelligence, assets, and editorial in a cleaner browse layer"
               description="The homepage signal layer now routes only to HIDD pages, reports, and articles."
             />
           </Reveal>

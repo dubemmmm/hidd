@@ -6,13 +6,11 @@ type ServiceMarqueeProps = {
 };
 
 export function ServiceMarquee({ items }: ServiceMarqueeProps) {
-  const loopItems = [...items, ...items];
-
   return (
     <div className="service-marquee" aria-label="HIDD service verticals">
       <div className="service-marquee__track">
-        {loopItems.map((service, index) => (
-          <div key={`${service.slug}-${index}`} className="service-marquee__item">
+        {items.map((service) => (
+          <div key={service.slug} className="service-marquee__item">
             <ServiceCard service={service} />
           </div>
         ))}

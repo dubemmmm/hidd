@@ -26,15 +26,10 @@ export default function ServicesPage() {
                 Four focused advisory services designed to protect buyers before serious capital
                 moves.
               </p>
-              <div className="anchor-nav anchor-nav--marquee" aria-label="Service shortcuts">
+              <div className="anchor-nav" aria-label="Service shortcuts">
                 <div className="anchor-nav__track">
                   {services.map((service) => (
                     <a key={service.slug} href={`#${service.slug}`}>
-                      {service.shortName}
-                    </a>
-                  ))}
-                  {services.map((service) => (
-                    <a key={`${service.slug}-duplicate`} href={`#${service.slug}`} tabIndex={-1} aria-hidden="true">
                       {service.shortName}
                     </a>
                   ))}
