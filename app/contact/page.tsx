@@ -22,7 +22,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
       <section className="page-hero">
         <div className="shell shell--support">
           <Reveal>
-            <div className="page-hero__content">
+            <div className="page-hero__content page-hero__content--contact">
               <div className="section-heading__eyebrow">Contact / Enquiry</div>
               <h1>Describe the property. HIDD will take it from there.</h1>
               <p>

@@ -6,7 +6,7 @@ export const homepageSignals: NewsItem[] = [
     headline: "Lagos Neighbourhood Risk Index now anchors the HIDD intelligence library",
     source: "HIDD Library",
     publishedAt: "2026-04-16",
-    href: "/reports",
+    href: "/insights",
     category: "Downloadable Asset",
     description: "A flagship reference point for buyers comparing premium Lagos districts before capital moves."
   },
@@ -15,7 +15,7 @@ export const homepageSignals: NewsItem[] = [
     headline: "Buyer checklist published for teams assessing property before deposit stage",
     source: "HIDD Library",
     publishedAt: "2026-04-15",
-    href: "/reports",
+    href: "/insights",
     category: "Checklist",
     description: "A practical conversion asset designed for buyers who need a sharper pre-commitment process."
   },

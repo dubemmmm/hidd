@@ -1,60 +1,79 @@
-import type { Testimonial } from "@/lib/types";
+export type TestimonialSeed = {
+  id: string;
+  name: string;
+  role: string;
+  location: string;
+  quote: string;
+  activityVerb: string;
+  recencyOffsetDays: number;
+  recencyOffsetHours: number;
+};
 
-export const testimonials: Testimonial[] = [
+export const testimonialSeeds: TestimonialSeed[] = [
   {
+    id: "seed-adewale-okonkwo",
     name: "Adewale Okonkwo",
-    role: "Buyer, Lekki Phase 1",
+    role: "Buyer",
+    location: "Lekki Phase 1, Lagos",
     quote:
       "HIDD stopped us from closing on a property with documentation gaps that would have become a serious legal problem later. The legal review was precise, commercial, and direct enough for us to change course before any money moved.",
-    initials: "AO"
+    activityVerb: "Commented",
+    recencyOffsetDays: 2,
+    recencyOffsetHours: 4
   },
   {
+    id: "seed-chioma-nwosu",
     name: "Chioma Nwosu",
-    role: "Investor, Victoria Island",
+    role: "Investor",
+    location: "Victoria Island, Lagos",
     quote:
       "The risk report changed our location decision. HIDD showed us the flood history and infrastructure weakness the selling materials ignored, then framed the downside in a way that actually affected our underwriting.",
-    initials: "CN"
+    activityVerb: "Shared feedback",
+    recencyOffsetDays: 3,
+    recencyOffsetHours: 6
   },
   {
+    id: "seed-tunde-ibrahim",
     name: "Tunde Ibrahim",
-    role: "Diaspora Buyer, London",
+    role: "Diaspora Buyer",
+    location: "London, United Kingdom",
     quote:
       "Buying remotely only worked because HIDD gave us an inspection and diligence process we could trust from abroad. The reporting quality was strong enough for us to make a serious decision from London without guesswork.",
-    initials: "TI"
+    activityVerb: "Reviewed",
+    recencyOffsetDays: 4,
+    recencyOffsetHours: 2
   },
   {
+    id: "seed-maya-eze",
     name: "Maya Eze",
     role: "Family Office Representative",
+    location: "Abuja, Nigeria",
     quote:
       "Their combined reporting style is sharp, commercial, and decision-oriented. It feels built for serious buyers, not generic compliance or checklist theatre.",
-    initials: "ME"
+    activityVerb: "Followed up",
+    recencyOffsetDays: 5,
+    recencyOffsetHours: 8
   },
   {
-    name: "Folarin Sanni",
-    role: "Developer-side Buyer Representative",
-    quote:
-      "What stood out was not just the depth of the findings, but how clearly HIDD separated manageable issues from real transaction risk. That saved time in negotiation and stopped the deal from drifting on false assumptions.",
-    initials: "FS"
-  },
-  {
-    name: "Nnenna Obi",
-    role: "Diaspora Investor, Toronto",
-    quote:
-      "HIDD gave us the confidence to walk away from one asset and pursue another with better title comfort. That kind of clarity is exactly what remote buyers need when everyone else is trying to rush the process.",
-    initials: "NO"
-  },
-  {
+    id: "seed-gbemisola-adebayo",
     name: "Gbemisola Adebayo",
-    role: "Luxury Residential Buyer, Ikoyi",
+    role: "Luxury Residential Buyer",
+    location: "Ikoyi, Lagos",
     quote:
       "The valuation and inspection combination was especially useful. It kept us from overpaying for presentation and helped us see what the asset would actually require after acquisition.",
-    initials: "GA"
+    activityVerb: "Recommended",
+    recencyOffsetDays: 6,
+    recencyOffsetHours: 5
   },
   {
+    id: "seed-kelechi-umeh",
     name: "Kelechi Umeh",
     role: "Corporate Acquisitions Lead",
+    location: "Toronto, Canada",
     quote:
       "HIDD's output felt built for decision-makers. It was concise where it needed to be, detailed where it mattered, and commercially useful from the first page to the last.",
-    initials: "KU"
+    activityVerb: "Commented",
+    recencyOffsetDays: 8,
+    recencyOffsetHours: 3
   }
 ];

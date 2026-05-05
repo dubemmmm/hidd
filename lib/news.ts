@@ -13,7 +13,7 @@ export async function getHomepageNews(): Promise<NewsItem[]> {
     headline: asset.title,
     source: "HIDD Library",
     publishedAt: asset.publishedAt,
-    href: `/reports?asset=${asset.slug}`,
+    href: `/insights?asset=${asset.slug}`,
     category: asset.category,
     description: asset.summary
   }));

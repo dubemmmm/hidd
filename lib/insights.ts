@@ -17,6 +17,21 @@ import type { InsightPost, InsightPostFrontmatter } from "@/lib/types";
 
 const insightsDirectory = path.join(process.cwd(), "content", "insights");
 
+type PortableTextSpan = {
+  _type?: string;
+  text?: string;
+  marks?: string[];
+};
+
+type PortableTextBlock = {
+  _type?: string;
+  style?: string;
+  children?: PortableTextSpan[];
+  markDefs?: unknown[];
+  listItem?: string;
+  level?: number;
+};
+
 const insightFields = groq`
   title,
   "slug": slug.current,
@@ -42,6 +57,45 @@ function normalizeReadTime(value: unknown) {
   return typeof value === "string" && value.trim()
     ? value.trim()
     : "Read time confirmed at publishing";
+}
+
+function extractMarkdownSource(body: unknown): string | null {
+  if (!Array.isArray(body) || body.length === 0) {
+    return null;
+  }
+
+  const blocks = body as PortableTextBlock[];
+
+  const supportsMarkdownFallback = blocks.every((block) => {
+    if (block?._type !== "block") return false;
+    if (block.listItem || typeof block.level === "number") return false;
+    if ((block.markDefs ?? []).length > 0) return false;
+
+    return (block.children ?? []).every(
+      (child) =>
+        child?._type === "span" &&
+        typeof child.text === "string" &&
+        ((child.marks ?? []).length === 0)
+    );
+  });
+
+  if (!supportsMarkdownFallback) {
+    return null;
+  }
+
+  const source = blocks
+    .map((block) => (block.children ?? []).map((child) => child.text ?? "").join(""))
+    .join("\n\n")
+    .trim();
+
+  if (!source) {
+    return null;
+  }
+
+  const markdownPattern =
+    /(^|\n)\s{0,3}(#{1,6}\s|[-*+]\s|\d+\.\s|>\s|```)|\[[^\]]+\]\([^)]+\)/m;
+
+  return markdownPattern.test(source) ? source : null;
 }
 
 async function readInsightFile(slug: string) {
@@ -102,6 +156,26 @@ export const getInsightBySlug = cache(async (slug: string) => {
       >(insightBySlugQuery, { slug });
 
       if (post) {
+        const markdownSource = extractMarkdownSource(post.body);
+
+        if (markdownSource) {
+          const compiled = await compileMDX({
+            source: markdownSource,
+            components: mdxComponents,
+            options: {
+              parseFrontmatter: false
+            }
+          });
+
+          return {
+            frontmatter: {
+              ...post,
+              readTime: normalizeReadTime(post.readTime)
+            },
+            content: compiled.content as ReactElement
+          };
+        }
+
         return {
           frontmatter: {
             ...post,

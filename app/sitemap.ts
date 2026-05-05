@@ -1,13 +1,14 @@
 import type { MetadataRoute } from "next";
 
-import { mapAreas } from "@/lib/data/map-areas";
 import { services } from "@/lib/data/services";
 import { getAllInsights } from "@/lib/insights";
+import { getMapAreas } from "@/lib/map-areas";
 import { siteConfig } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const mapAreas = await getMapAreas();
   const posts = await getAllInsights();
-  const staticRoutes = ["", "/risk-map", "/reports", "/services", "/insights", "/faqs", "/contact"];
+  const staticRoutes = ["", "/risk-map", "/services", "/insights", "/faqs", "/contact"];
 
   return [
     ...staticRoutes.map((route) => ({

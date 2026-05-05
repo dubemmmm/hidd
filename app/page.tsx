@@ -10,9 +10,12 @@ import { ServiceMarquee } from "@/components/service-marquee";
 import { TestimonialMarquee } from "@/components/testimonial-marquee";
 import { faqs } from "@/lib/data/faqs";
 import { services } from "@/lib/data/services";
-import { testimonials } from "@/lib/data/testimonials";
+import { getMapAreas } from "@/lib/map-areas";
 import { getHomepageNews } from "@/lib/news";
 import { getFeaturedReportAssets } from "@/lib/reports";
+import { getSocialProofItems } from "@/lib/social-proof";
+
+export const revalidate = 60;
 
 const differentiators = [
   {
@@ -34,26 +37,19 @@ const differentiators = [
 ];
 
 export default async function HomePage() {
-  const featuredReportAssets = await getFeaturedReportAssets();
-  const newsItems = await getHomepageNews();
+  const [mapAreas, featuredReportAssets, newsItems, socialProofItems] = await Promise.all([
+    getMapAreas(),
+    getFeaturedReportAssets(),
+    getHomepageNews(),
+    getSocialProofItems()
+  ]);
 
   return (
     <>
       <section className="hero hero--map-first">
         <div className="shell shell--hero">
-          <Reveal>
-            <div className="hero-map-intro">
-              <div className="section-heading__eyebrow">Lagos property risk intelligence</div>
-              <h1 className="hero-map-intro__title">Do not buy into Lagos blind.</h1>
-              <p className="hero-map-intro__copy">
-                HIDD combines inspection, legal diligence, neighbourhood risk intelligence, and
-                valuation discipline for buyers making serious property decisions.
-              </p>
-            </div>
-          </Reveal>
-
           <Reveal delay={0.06}>
-            <RiskMap variant="hero" />
+            <RiskMap areas={mapAreas} variant="hero" />
           </Reveal>
 
           <Reveal delay={0.1}>
@@ -63,13 +59,13 @@ export default async function HomePage() {
                   Get a Report
                 </Link>
                 <Link href="/risk-map" className="button button--ghost">
-                  Explore Risk Map
+                  Explore Area Compare
                 </Link>
               </div>
 
               <div className="hero-downloads" aria-label="Featured downloadable assets">
                 {featuredReportAssets.map((asset) => (
-                  <Link key={asset.slug} href={`/reports?asset=${asset.slug}`} className="hero-download-card">
+                  <Link key={asset.slug} href={`/insights?asset=${asset.slug}`} className="hero-download-card">
                     <span>{asset.category}</span>
                     <strong>{asset.title}</strong>
                     <p>{asset.summary}</p>
@@ -86,8 +82,8 @@ export default async function HomePage() {
           <Reveal>
             <SectionHeading
               eyebrow="What HIDD does"
-              title="Four verticals. One disciplined pricing model."
-              description="Four advisory verticals. One flat ₦1,000,000 fee. Clear scope, disciplined pricing, and no transaction theatre."
+              title="Four verticals for serious property decisions."
+              description="Inspection, legal diligence, neighbourhood risk intelligence, and valuation discipline arranged as a clear buyer-side advisory stack."
             />
           </Reveal>
           <Reveal delay={0.08}>
@@ -141,11 +137,11 @@ export default async function HomePage() {
             <SectionHeading
               eyebrow="Social proof"
               title="Decision-makers use HIDD when the downside matters."
-              description="This layer remains a placeholder until final quotes arrive, but the proof surface is positioned where a premium advisory brand expects it."
+              description="A combined proof layer of CMS-managed client signals and seeded recent activity that keeps the surface fresh without waiting on a full testimonial rollout."
             />
           </Reveal>
           <Reveal delay={0.08}>
-            <TestimonialMarquee items={testimonials} />
+            <TestimonialMarquee items={socialProofItems} />
           </Reveal>
         </div>
       </section>
@@ -172,7 +168,7 @@ export default async function HomePage() {
 
       <CtaBand
         title="Ready to protect your investment?"
-        description="Start with the right HIDD engagement, or move directly into the reports library if you need an intelligence asset first."
+        description="Start with the right HIDD engagement, or move directly into the combined insights and library page if you need an intelligence asset first."
       />
     </>
   );

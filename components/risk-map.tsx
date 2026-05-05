@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { RiskMapLayers } from "@/components/risk-map-layers";
-import { mapAreas, riskLayers, scoreToTier } from "@/lib/data/map-areas";
-import type { RiskLayerKey, RiskTier } from "@/lib/types";
+import { riskLayers, scoreToTier } from "@/lib/data/map-areas";
+import type { MapArea, RiskLayerKey, RiskTier } from "@/lib/types";
 
 const RiskMapCanvas = dynamic(() => import("./risk-map-canvas"), {
   ssr: false,
@@ -14,65 +14,53 @@ const RiskMapCanvas = dynamic(() => import("./risk-map-canvas"), {
 });
 
 type RiskMapProps = {
+  areas: MapArea[];
   variant?: "hero" | "page";
 };
 
 const tierLabels: Record<RiskTier, string> = {
   low: "Low risk",
-  medium: "Watch closely",
-  high: "Elevated risk"
+  medium: "Mid risk",
+  high: "High risk"
 };
 
-const VISIBLE_BREAKDOWN_COUNT = 4;
-
-export default function RiskMap({ variant = "page" }: RiskMapProps) {
-  const [activeSlug, setActiveSlug] = useState("victoria-island");
-  const [expanded, setExpanded] = useState(false);
+export default function RiskMap({ areas, variant = "page" }: RiskMapProps) {
+  const [activeSlug, setActiveSlug] = useState(areas[0]?.slug ?? "");
   const [activeLayer, setActiveLayer] = useState<RiskLayerKey | null>(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const showLayerControls = variant !== "hero";
 
-  const activeArea =
-    mapAreas.find((area) => area.slug === activeSlug) ?? mapAreas[0];
+  useEffect(() => {
+    if (areas.length === 0) return;
+    if (!areas.some((area) => area.slug === activeSlug)) {
+      setActiveSlug(areas[0].slug);
+    }
+  }, [activeSlug, areas]);
 
-  // Tier displayed per area: overall grade when no layer selected, otherwise
-  // the single-layer score translated via scoreToTier.
+  const activeArea = areas.find((area) => area.slug === activeSlug) ?? areas[0];
+
   const tierBySlug = useMemo<Record<string, RiskTier>>(() => {
-    if (!activeLayer) {
-      return Object.fromEntries(mapAreas.map((area) => [area.slug, area.riskGrade]));
+    if (!showLayerControls || !activeLayer) {
+      return Object.fromEntries(areas.map((area) => [area.slug, area.riskGrade]));
     }
 
     return Object.fromEntries(
-      mapAreas.map((area) => [area.slug, scoreToTier(area.layerScores[activeLayer])])
+      areas.map((area) => [area.slug, scoreToTier(area.layerScores[activeLayer])])
     );
-  }, [activeLayer]);
+  }, [activeLayer, areas, showLayerControls]);
 
   const displayedTier = activeArea ? tierBySlug[activeArea.slug] : undefined;
 
   const handleSelect = useCallback((slug: string) => {
     setActiveSlug(slug);
-    setExpanded(false);
+    setIsPopupOpen(true);
   }, []);
 
   const handleLayerSelect = useCallback((key: RiskLayerKey | null) => {
     setActiveLayer(key);
   }, []);
 
-  const visibleBreakdown = activeArea
-    ? expanded
-      ? activeArea.breakdown
-      : activeArea.breakdown.slice(0, variant === "hero" ? 3 : VISIBLE_BREAKDOWN_COUNT)
-    : [];
-  const hasMoreBreakdown =
-    (activeArea?.breakdown.length ?? 0) > (variant === "hero" ? 3 : VISIBLE_BREAKDOWN_COUNT);
-  const showSummaryActions = variant !== "hero";
-
   if (!activeArea || !displayedTier) return null;
-
-  const activeLayerMeta = activeLayer
-    ? riskLayers.find((layer) => layer.key === activeLayer)
-    : null;
-  const activeLayerScore = activeLayer
-    ? activeArea.layerScores[activeLayer]
-    : null;
 
   return (
     <div className={`risk-map-surface risk-map-surface--${variant}`}>
@@ -82,78 +70,116 @@ export default function RiskMap({ variant = "page" }: RiskMapProps) {
           <p>Click a district to pull its HIDD risk framing.</p>
         </div>
 
-        <RiskMapLayers
-          layers={riskLayers}
-          activeLayer={activeLayer}
-          onSelect={handleLayerSelect}
-        />
-
-        <div className="risk-map-canvas risk-map-canvas--live">
-          <RiskMapCanvas
-            areas={mapAreas}
-            tierBySlug={tierBySlug}
-            activeSlug={activeSlug}
-            onSelect={handleSelect}
+        {showLayerControls ? (
+          <RiskMapLayers
+            layers={riskLayers}
+            activeLayer={activeLayer}
+            onSelect={handleLayerSelect}
           />
+        ) : null}
+
+        <div className="risk-map-stage">
+          <div className="risk-map-canvas risk-map-canvas--live">
+            <RiskMapCanvas
+              areas={areas}
+              tierBySlug={tierBySlug}
+              activeSlug={activeSlug}
+              onSelect={handleSelect}
+            />
+          </div>
+
+          {isPopupOpen ? (
+            <aside
+              className={`risk-map-popup risk-map-popup--${variant}`}
+              role="dialog"
+              aria-modal="false"
+              aria-label={`${activeArea.name} risk details`}
+            >
+              <button
+                type="button"
+                className="risk-map-popup__close"
+                aria-label="Close location details"
+                onClick={() => setIsPopupOpen(false)}
+              >
+                ×
+              </button>
+
+              <div
+                className={`risk-map-popup__tier risk-map-popup__tier--${displayedTier}`}
+              >
+                {tierLabels[displayedTier]}
+              </div>
+
+              <div className="risk-map-popup__header">
+                <div>
+                  <h3>{activeArea.name}</h3>
+                  <p className="risk-map-popup__headline">{activeArea.headline}</p>
+                </div>
+              </div>
+
+              <div className="risk-map-popup__meta">
+                <div>
+                  <span>Assessment date</span>
+                  <strong>{activeArea.assessmentDate}</strong>
+                </div>
+                <div>
+                  <span>Analyst</span>
+                  <strong>{activeArea.analyst}</strong>
+                </div>
+                <div>
+                  <span>Red flag</span>
+                  <strong>{activeArea.redFlag}</strong>
+                </div>
+              </div>
+
+              <p className="risk-map-popup__copy">{activeArea.summary}</p>
+
+              <div className="risk-map-popup__assessment">
+                {activeArea.assessmentCategories.map((category) => (
+                  <article key={category.key} className="risk-map-assessment-card">
+                    <div className="risk-map-assessment-card__header">
+                      <span>{category.title}</span>
+                    </div>
+                    <div className="risk-map-assessment-card__items">
+                      {category.indicators.map((indicator) => (
+                        <div key={indicator.code} className="risk-map-assessment-item">
+                          <div className="risk-map-assessment-item__meta">
+                            <span>{indicator.code}</span>
+                          </div>
+                          <div className="risk-map-assessment-item__copy">
+                            <strong>{indicator.label}</strong>
+                            <p>{indicator.note}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+              <div className="risk-map-popup__actions">
+                <Link
+                  href={`/risk-map/${activeArea.slug}`}
+                  className="button button--primary"
+                >
+                  Open district brief
+                </Link>
+                <Link
+                  href={`/contact?service=risk-intelligence&area=${encodeURIComponent(activeArea.name)}`}
+                  className="button button--ghost"
+                >
+                  Book Risk Intelligence
+                </Link>
+              </div>
+            </aside>
+          ) : (
+            <div className="risk-map-popup-placeholder">
+              <strong>Select a district</strong>
+              <span>Click or tap a polygon to open its structured risk summary.</span>
+            </div>
+          )}
         </div>
       </div>
-
-      <aside className="risk-map-summary">
-        <div
-          className={`risk-map-summary__tier risk-map-summary__tier--${displayedTier}`}
-        >
-          {tierLabels[displayedTier]}
-          {activeLayerMeta && activeLayerScore !== null ? (
-            <span className="risk-map-summary__tier-score">
-              {activeLayerMeta.shortLabel} · {activeLayerScore}/100
-            </span>
-          ) : null}
-        </div>
-        <h3>{activeArea.name}</h3>
-
-        <p className="risk-map-summary__headline">{activeArea.headline}</p>
-        <p className="risk-map-summary__copy">{activeArea.summary}</p>
-
-        <div className="risk-map-summary__breakdown">
-          {visibleBreakdown.map((item) => (
-            <div key={item.key} className="risk-panel__row">
-              <div>
-                <strong>{item.label}</strong>
-                <span>{item.summary}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {hasMoreBreakdown ? (
-          <button
-            type="button"
-            className="risk-map-summary__toggle"
-            onClick={() => setExpanded((current) => !current)}
-          >
-            {expanded
-              ? "Show fewer risk factors"
-              : `Show all ${activeArea.breakdown.length} risk factors`}
-          </button>
-        ) : null}
-
-        {showSummaryActions ? (
-          <div className="risk-map-summary__actions">
-            <Link
-              href={`/risk-map/${activeArea.slug}`}
-              className="button button--primary"
-            >
-              Open district brief
-            </Link>
-            <Link
-              href={`/contact?service=risk-intelligence&area=${encodeURIComponent(activeArea.name)}`}
-              className="button button--ghost"
-            >
-              Book Risk Intelligence
-            </Link>
-          </div>
-        ) : null}
-      </aside>
     </div>
   );
 }

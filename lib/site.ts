@@ -19,10 +19,9 @@ export const siteConfig = {
 } as const;
 
 export const navItems: NavItem[] = [
-  { href: "/risk-map", label: "Risk Map" },
-  { href: "/reports", label: "Reports / Library" },
+  { href: "/risk-map", label: "Area Compare" },
   { href: "/services", label: "Services" },
-  { href: "/insights", label: "Insights" },
+  { href: "/insights", label: "Insights / Library" },
   { href: "/contact", label: "Contact" }
 ];
 

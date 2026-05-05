@@ -5,19 +5,18 @@ import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/cta-band";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
-import { getMapArea, mapAreas } from "@/lib/data/map-areas";
+import { getMapArea } from "@/lib/map-areas";
+import type { RiskTier } from "@/lib/types";
 
 type NeighbourhoodPageProps = {
   params: Promise<{ slug: string }> | { slug: string };
 };
 
-export async function generateStaticParams() {
-  return mapAreas.map((area) => ({ slug: area.slug }));
-}
+export const revalidate = 60;
 
 export async function generateMetadata({ params }: NeighbourhoodPageProps): Promise<Metadata> {
   const { slug } = await Promise.resolve(params);
-  const area = getMapArea(slug);
+  const area = await getMapArea(slug);
 
   if (!area) return {};
 
@@ -29,7 +28,7 @@ export async function generateMetadata({ params }: NeighbourhoodPageProps): Prom
 
 export default async function NeighbourhoodPage({ params }: NeighbourhoodPageProps) {
   const { slug } = await Promise.resolve(params);
-  const area = getMapArea(slug);
+  const area = await getMapArea(slug);
 
   if (!area) {
     notFound();
@@ -42,7 +41,7 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
           <Reveal>
             <div className="page-hero__content page-hero__content--district">
               <Link href="/risk-map" className="back-link">
-                Back to Risk Map
+                Back to Area Compare
               </Link>
               <div className="section-heading__eyebrow">Neighbourhood brief</div>
               <h1>{area.name}</h1>
@@ -64,7 +63,21 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
                 </div>
                 <div className={`district-grade district-grade--${area.riskGrade}`}>
                   <span>Current risk grade</span>
-                  <strong>{area.riskGrade === "low" ? "Low risk" : area.riskGrade === "medium" ? "Watch closely" : "Elevated risk"}</strong>
+                  <strong>{formatRiskTier(area.riskGrade)}</strong>
+                </div>
+              </div>
+              <div className="district-assessment-meta">
+                <div>
+                  <span>Assessment date</span>
+                  <strong>{area.assessmentDate}</strong>
+                </div>
+                <div>
+                  <span>Analyst</span>
+                  <strong>{area.analyst}</strong>
+                </div>
+                <div>
+                  <span>Red flag</span>
+                  <strong>{area.redFlag}</strong>
                 </div>
               </div>
               <div className="district-framing-note">
@@ -84,18 +97,31 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
         <div className="shell shell--district">
           <Reveal>
             <SectionHeading
-              eyebrow="Current risk dimensions"
-              title="Current risk breakdown"
-              description="A compact placeholder structure for the fuller neighbourhood intelligence layer."
+              eyebrow="Assessment categories"
+              title="Structured neighbourhood assessment"
+              description="A compact launch-format assessment using short indicator notes."
             />
           </Reveal>
           <div className="district-breakdown-grid">
-            {area.breakdown.map((item, index) => (
-              <Reveal key={item.key} delay={index * 0.03}>
+            {area.assessmentCategories.map((category, index) => (
+              <Reveal key={category.key} delay={index * 0.03}>
                 <article className="district-breakdown-card">
-                  <div className={`risk-score risk-score--${item.status}`}>{item.score}</div>
-                  <strong>{item.label}</strong>
-                  <p>{item.summary}</p>
+                  <div className="district-breakdown-card__header">
+                    <span>{category.title}</span>
+                  </div>
+                  <div className="district-breakdown-card__items">
+                    {category.indicators.map((indicator) => (
+                      <div key={indicator.code} className="district-breakdown-card__item">
+                        <div className="district-breakdown-card__item-meta">
+                          <span>{indicator.code}</span>
+                        </div>
+                        <div>
+                          <strong>{indicator.label}</strong>
+                          <p>{indicator.note}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </article>
               </Reveal>
             ))}
@@ -111,4 +137,10 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
       />
     </>
   );
+}
+
+function formatRiskTier(tier: RiskTier) {
+  if (tier === "low") return "Low risk";
+  if (tier === "medium") return "Mid risk";
+  return "High risk";
 }

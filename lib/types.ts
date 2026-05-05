@@ -45,8 +45,6 @@ export type FaqItem = {
   answer: string;
 };
 
-export type RiskBreakdownStatus = "clear" | "watch" | "critical";
-
 export type RiskLayerKey =
   | "flooding"
   | "title-complexity"
@@ -69,20 +67,16 @@ export type RiskLayer = {
   available: boolean;
 };
 
-export type RiskBreakdownItem = {
-  key:
-    | "demolition"
-    | "flooding"
-    | "litigation"
-    | "infrastructure"
-    | "security"
-    | "zoning"
-    | "environmental"
-    | "market-liquidity";
+export type RiskAssessmentIndicator = {
+  code: string;
   label: string;
-  status: RiskBreakdownStatus;
-  score: number;
-  summary: string;
+  note: string;
+};
+
+export type RiskAssessmentCategory = {
+  key: string;
+  title: string;
+  indicators: RiskAssessmentIndicator[];
 };
 
 export type MapArea = {
@@ -94,15 +88,22 @@ export type MapArea = {
   headline: string;
   summary: string;
   framingNote: string;
+  assessmentDate: string;
+  analyst: string;
+  redFlag: string;
   layerScores: Record<RiskLayerKey, number>;
-  breakdown: RiskBreakdownItem[];
+  assessmentCategories: RiskAssessmentCategory[];
 };
 
 export type Testimonial = {
+  id: string;
   name: string;
   role: string;
+  location: string;
   quote: string;
   initials: string;
+  activityLabel: string;
+  activityAt: string;
 };
 
 export type NewsItem = {

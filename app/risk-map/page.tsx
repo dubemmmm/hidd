@@ -2,26 +2,32 @@ import type { Metadata } from "next";
 
 import { CtaBand } from "@/components/cta-band";
 import { Reveal } from "@/components/reveal";
-import RiskMap from "@/components/risk-map";
+import RiskComparison from "@/components/risk-comparison";
+import { getMapAreas } from "@/lib/map-areas";
 
 export const metadata: Metadata = {
-  title: "Risk Map",
+  title: "Area Compare",
   description:
-    "Explore HIDD's launch neighbourhood risk map covering Victoria Island, Ikoyi, Banana Island, Lekki Phase 1, and Eko Atlantic."
+    "Compare HIDD's launch neighbourhoods across risk dimensions including flooding, title complexity, planning, infrastructure, security, environmental pressure, and market liquidity."
 };
 
-export default function RiskMapPage() {
+export const revalidate = 60;
+
+export default async function RiskMapPage() {
+  const mapAreas = await getMapAreas();
+
   return (
     <>
       <section className="page-hero page-hero--map">
         <div className="shell shell--map-page">
           <Reveal>
             <div className="page-hero__content page-hero__content--map-page">
-              <div className="section-heading__eyebrow">Risk Map</div>
+              <div className="section-heading__eyebrow">Area Compare</div>
               <h1>Neighbourhood-level judgement before you commit capital.</h1>
               <p>
-                HIDD&apos;s launch map is built around five premium Lagos districts with polygon
-                selection, compact risk summaries, and direct routing into dedicated district briefs.
+                HIDD&apos;s launch comparison tool lets you stack premium Lagos districts against one
+                another, read the shape of their risk exposure, and move straight into a dedicated
+                district brief when you need deeper context.
               </p>
             </div>
           </Reveal>
@@ -31,7 +37,7 @@ export default function RiskMapPage() {
       <section className="section section--flush-top">
         <div className="shell shell--map-page">
           <Reveal>
-            <RiskMap variant="page" />
+            <RiskComparison areas={mapAreas} />
           </Reveal>
         </div>
       </section>
