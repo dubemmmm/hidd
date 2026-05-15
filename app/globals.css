@@ -847,6 +847,7 @@ img {
   position: absolute;
   top: 24px;
   right: 24px;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -877,6 +878,12 @@ img {
   font-size: 1.9rem;
   line-height: 1;
   font-weight: 500;
+}
+
+.service-card h3 {
+  max-width: calc(100% - 92px);
+  padding-right: 12px;
+  line-height: 1.05;
 }
 
 .overview-grid--service .overview-card h2,
@@ -2955,6 +2962,23 @@ img {
     font-size: 1.55rem;
   }
 
+  .service-card__icon {
+    top: 18px;
+    right: 18px;
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+  }
+
+  .service-card__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .service-card h3 {
+    max-width: calc(100% - 76px);
+  }
+
   .why-card {
     padding: 20px;
   }
@@ -4211,6 +4235,10 @@ img {
   background: rgba(255, 255, 255, 0.9);
 }
 
+.risk-radar-mobile-list {
+  display: none;
+}
+
 .risk-radar-table table {
   width: 100%;
   min-width: 760px;
@@ -4303,6 +4331,55 @@ img {
 .risk-radar-table__tier--high {
   background: rgba(143, 31, 40, 0.12);
   color: var(--risk-high);
+}
+
+.risk-radar-mobile-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(18, 59, 114, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.risk-radar-mobile-card__factor {
+  display: grid;
+  gap: 6px;
+}
+
+.risk-radar-mobile-card__factor strong {
+  font-size: 0.92rem;
+  color: var(--text);
+}
+
+.risk-radar-mobile-card__factor span {
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.risk-radar-mobile-card__cells {
+  display: grid;
+  gap: 10px;
+}
+
+.risk-radar-mobile-card__cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(18, 59, 114, 0.08);
+}
+
+.risk-radar-mobile-card__cell:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.risk-radar-mobile-card__cell span {
+  font-size: 0.82rem;
+  color: var(--text);
 }
 
 .district-grade {
@@ -4846,19 +4923,30 @@ img {
   }
 
   .risk-map-surface {
-    padding: 14px;
-    border-radius: 26px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
   }
 
   .risk-map-surface__map,
-  .reports-library__panel,
   .risk-radar-chart-shell {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .reports-library__panel {
     padding: 18px;
     border-radius: 22px;
   }
 
   .risk-radar-chart-frame {
-    padding: 12px;
+    padding: 14px;
+    border-radius: 24px;
   }
 
   .district-summary-card {
@@ -4935,12 +5023,53 @@ img {
   }
 
   .risk-radar-chart-frame {
-    padding: 8px;
+    padding: 12px;
   }
 
   .risk-radar-chart__label {
     font-size: 15px;
     letter-spacing: 0.04em;
+  }
+
+  .risk-radar-controls {
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .risk-radar-controls__copy {
+    gap: 6px;
+  }
+
+  .risk-radar-controls__copy span,
+  .risk-radar-scale-note span {
+    font-size: 0.8rem;
+  }
+
+  .risk-radar-legend {
+    gap: 8px;
+  }
+
+  .risk-radar-legend__item {
+    padding: 9px 12px;
+    font-size: 0.76rem;
+  }
+
+  .risk-radar-scale-note {
+    padding: 12px 14px;
+    border-radius: 16px;
+  }
+
+  .risk-radar-table {
+    gap: 12px;
+  }
+
+  .risk-radar-table__wrap {
+    display: none;
+  }
+
+  .risk-radar-mobile-list {
+    display: grid;
+    gap: 10px;
   }
 
   .risk-map-popup h3 {

@@ -413,6 +413,41 @@ export default function RiskComparison({ areas }: RiskComparisonProps) {
                   </tbody>
                 </table>
               </div>
+
+              <div className="risk-radar-mobile-list">
+                {factorRows.map((row) => (
+                  <article key={row.key} className="risk-radar-mobile-card">
+                    <div className="risk-radar-mobile-card__factor">
+                      <strong>{row.label}</strong>
+                      <span>{row.description}</span>
+                    </div>
+
+                    <div className="risk-radar-mobile-card__cells">
+                      {row.cells.map((cell, index) => {
+                        const area = comparedAreas[index];
+
+                        if (!area) {
+                          return null;
+                        }
+
+                        return (
+                          <div
+                            key={`${row.key}-${cell.areaSlug}-mobile`}
+                            className="risk-radar-mobile-card__cell"
+                          >
+                            <span>{area.name}</span>
+                            <strong
+                              className={`risk-radar-table__tier risk-radar-table__tier--${cell.tier}`}
+                            >
+                              {tierLabels[cell.tier]}
+                            </strong>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </div>
