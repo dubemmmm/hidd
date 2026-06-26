@@ -1997,6 +1997,57 @@ img {
   background: rgba(255, 255, 255, 0.86);
 }
 
+.article-gate {
+  position: relative;
+}
+
+.article-gate__preview {
+  position: relative;
+  max-height: 260px;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.article-gate__fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.85) 70%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+
+.article-gate__panel {
+  margin-top: -40px;
+  position: relative;
+  z-index: 1;
+  padding: 26px;
+  border-radius: 24px;
+  border: 1px solid rgba(18, 59, 114, 0.14);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 40px rgba(18, 59, 114, 0.12);
+}
+
+.article-gate__panel h2 {
+  margin: 8px 0 10px;
+  font-size: 1.45rem;
+}
+
+.article-gate__panel p {
+  margin: 0 0 18px;
+}
+
+.article-gate__form-footer {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
 .article-inline-cta {
   margin-top: 30px;
   padding: 22px;

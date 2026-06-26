@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { CtaBand } from "@/components/cta-band";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
-import { faqs } from "@/lib/data/faqs";
+import { getFaqsByIds } from "@/lib/faqs";
 import { getAllInsights } from "@/lib/insights";
 import { getService, services } from "@/lib/data/services";
 
@@ -41,7 +41,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
 
   const insights = await getAllInsights();
   const relatedInsights = insights.filter((post) => service.relatedInsights.includes(post.slug));
-  const relatedFaqs = faqs.filter((faq) => service.relatedFaqIds.includes(faq.id));
+  const relatedFaqs = await getFaqsByIds(service.relatedFaqIds);
 
   return (
     <>

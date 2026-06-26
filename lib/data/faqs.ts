@@ -69,7 +69,9 @@ export const faqs: FaqItem[] = [
     category: "Process",
     question: "What is your turnaround time?",
     answer:
-      "Legal Due Diligence: 5 to 7 business days. Risk Intelligence: 3 to 5 business days. Valuation: 5 business days for residential and 7 for commercial. Comprehensive Report timelines are confirmed at engagement. Home Inspection turnaround will be confirmed before launch."
+      "Legal Due Diligence: 5 to 7 business days. Risk Intelligence: 3 to 5 business days. Valuation: 5 business days for residential and 7 for commercial. Comprehensive Report and Home Inspection timelines are confirmed at engagement.",
+    internalNote:
+      "Home Inspection turnaround is not yet finalized. Confirm the public turnaround commitment before the Home Inspection service launches."
   },
   {
     id: "report-confidentiality",

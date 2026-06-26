@@ -2,16 +2,14 @@ import Link from "next/link";
 
 import { CtaBand } from "@/components/cta-band";
 import { FaqAccordion } from "@/components/faq-accordion";
-import { NewsMarquee } from "@/components/news-marquee";
 import { Reveal } from "@/components/reveal";
 import RiskMap from "@/components/risk-map";
 import { SectionHeading } from "@/components/section-heading";
 import { ServiceMarquee } from "@/components/service-marquee";
 import { TestimonialMarquee } from "@/components/testimonial-marquee";
-import { faqs } from "@/lib/data/faqs";
 import { services } from "@/lib/data/services";
+import { getFaqs } from "@/lib/faqs";
 import { getMapAreas } from "@/lib/map-areas";
-import { getHomepageNews } from "@/lib/news";
 import { getFeaturedReportAssets } from "@/lib/reports";
 import { getSocialProofItems } from "@/lib/social-proof";
 
@@ -37,11 +35,11 @@ const differentiators = [
 ];
 
 export default async function HomePage() {
-  const [mapAreas, featuredReportAssets, newsItems, socialProofItems] = await Promise.all([
+  const [mapAreas, featuredReportAssets, socialProofItems, faqs] = await Promise.all([
     getMapAreas(),
     getFeaturedReportAssets(),
-    getHomepageNews(),
-    getSocialProofItems()
+    getSocialProofItems(),
+    getFaqs()
   ]);
 
   return (
@@ -112,21 +110,6 @@ export default async function HomePage() {
                 ))}
               </div>
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="shell">
-          <Reveal>
-            <SectionHeading
-              eyebrow="Signals from HIDD"
-              title="Internal intelligence, assets, and editorial in a cleaner browse layer"
-              description="The homepage signal layer now routes only to HIDD pages, reports, and articles."
-            />
-          </Reveal>
-          <Reveal delay={0.08}>
-            <NewsMarquee items={newsItems} />
           </Reveal>
         </div>
       </section>

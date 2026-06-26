@@ -5,7 +5,7 @@ export const services: Service[] = [
   {
     slug: "home-inspection",
     name: "Home Inspection",
-    shortName: "Inspection",
+    shortName: "Home Inspection",
     eyebrow: "Built condition clarity",
     summary:
       "Independent property inspections that expose structural, mechanical, and finishing risks before you commit capital.",
@@ -42,7 +42,7 @@ export const services: Service[] = [
   {
     slug: "legal-due-diligence",
     name: "Legal Due Diligence",
-    shortName: "Legal",
+    shortName: "Legal Due Diligence",
     eyebrow: "Title and documentation certainty",
     summary:
       "Title verification and land document review designed to protect buyers from forged documents, encumbrances, and transaction blind spots.",
@@ -78,7 +78,7 @@ export const services: Service[] = [
   {
     slug: "risk-intelligence",
     name: "Risk Intelligence",
-    shortName: "Risk",
+    shortName: "Risk Intelligence",
     eyebrow: "Area-level investment intelligence",
     summary:
       "Neighbourhood risk analysis covering flood exposure, infrastructure maturity, title friction, and broader development signals.",

@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "seed:faqs": "node --experimental-strip-types scripts/seed-faqs.ts"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.2.8",

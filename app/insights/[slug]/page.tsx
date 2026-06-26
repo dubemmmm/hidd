@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
+import { ArticleGate } from "@/components/article-gate";
 import { CtaBand } from "@/components/cta-band";
 import { Reveal } from "@/components/reveal";
 import { comprehensiveReport, getService } from "@/lib/data/services";
@@ -111,7 +112,9 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
           <div className="shell shell--article article-layout">
             <Reveal>
               <article className="article-prose">
-                {post.content}
+                <ArticleGate slug={slug} title={post.frontmatter.title}>
+                  {post.content}
+                </ArticleGate>
                 {relatedService ? (
                   <div className="article-inline-cta">
                     <span className="section-heading__eyebrow">Relevant next step</span>

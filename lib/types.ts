@@ -42,7 +42,14 @@ export type FaqItem = {
   id: string;
   category: FaqCategory;
   question: string;
+  /** Public-facing answer. This is the only answer text rendered to visitors. */
   answer: string;
+  /**
+   * Internal-only service notes (status, operational caveats, team reminders).
+   * NEVER rendered on public pages or included in search — keep public FAQ copy
+   * in `answer` and any internal notes here so they stay separate.
+   */
+  internalNote?: string;
 };
 
 export type RiskLayerKey =

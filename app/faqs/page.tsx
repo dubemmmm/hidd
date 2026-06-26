@@ -4,10 +4,8 @@ import { CtaBand } from "@/components/cta-band";
 import { FaqBrowser } from "@/components/faq-browser";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
-import { faqs } from "@/lib/data/faqs";
+import { getFaqs } from "@/lib/faqs";
 import type { FaqCategory } from "@/lib/types";
-
-const categories = [...new Set(faqs.map((faq) => faq.category))] as FaqCategory[];
 
 export const metadata: Metadata = {
   title: "FAQs",
@@ -15,7 +13,12 @@ export const metadata: Metadata = {
     "Questions and answers covering HIDD's services, pricing, turnaround, and support for diaspora buyers."
 };
 
-export default function FaqsPage() {
+export const revalidate = 60;
+
+export default async function FaqsPage() {
+  const faqs = await getFaqs();
+  const categories = [...new Set(faqs.map((faq) => faq.category))] as FaqCategory[];
+
   return (
     <>
       <section className="page-hero">
