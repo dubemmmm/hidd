@@ -47,6 +47,7 @@ export default async function RiskMapPage() {
         description="The public map is an entry point. The full HIDD service goes deeper into neighbourhood and transaction risk."
         primaryHref="/contact?service=risk-intelligence"
         primaryLabel="Book Risk Intelligence"
+        className="cta-band--hide-mobile"
       />
     </>
   );

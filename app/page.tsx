@@ -6,7 +6,7 @@ import { Reveal } from "@/components/reveal";
 import RiskMap from "@/components/risk-map";
 import { SectionHeading } from "@/components/section-heading";
 import { ServiceMarquee } from "@/components/service-marquee";
-import { TestimonialMarquee } from "@/components/testimonial-marquee";
+import { TestimonialColumn } from "@/components/testimonial-column";
 import { services } from "@/lib/data/services";
 import { getFaqs } from "@/lib/faqs";
 import { getMapAreas } from "@/lib/map-areas";
@@ -115,7 +115,7 @@ export default async function HomePage() {
       </section>
 
       <section className="section section--muted">
-        <div className="shell">
+        <div className="shell section-split">
           <Reveal>
             <SectionHeading
               eyebrow="Social proof"
@@ -124,7 +124,7 @@ export default async function HomePage() {
             />
           </Reveal>
           <Reveal delay={0.08}>
-            <TestimonialMarquee items={socialProofItems} />
+            <TestimonialColumn items={socialProofItems} />
           </Reveal>
         </div>
       </section>

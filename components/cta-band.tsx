@@ -5,16 +5,18 @@ type CtaBandProps = {
   description: string;
   primaryHref?: string;
   primaryLabel?: string;
+  className?: string;
 };
 
 export function CtaBand({
   title,
   description,
   primaryHref = "/contact",
-  primaryLabel = "Book a Service"
+  primaryLabel = "Book a Service",
+  className
 }: CtaBandProps) {
   return (
-    <section className="cta-band">
+    <section className={`cta-band${className ? ` ${className}` : ""}`}>
       <div className="shell">
         <div className="cta-band__panel">
           <div>

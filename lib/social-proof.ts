@@ -132,8 +132,11 @@ async function getSanitySocialProofItems() {
     .filter((item): item is SortableSocialProof => Boolean(item));
 }
 
-export async function getSocialProofItems(limit = 8): Promise<Testimonial[]> {
-  const seededItems = buildSeedItems();
+export async function getSocialProofItems(limit = 3): Promise<Testimonial[]> {
+  // Newest static testimonials first, so the ones dropped are always the oldest.
+  const seededItems = buildSeedItems().sort(
+    (a, b) => new Date(b.activityAt).getTime() - new Date(a.activityAt).getTime()
+  );
   let sanityItems: SortableSocialProof[] = [];
 
   if (sanityEnvReady) {
@@ -144,7 +147,12 @@ export async function getSocialProofItems(limit = 8): Promise<Testimonial[]> {
     }
   }
 
-  return [...sanityItems, ...seededItems]
+  // CMS-managed entries take priority and push the oldest static seeds out
+  // one-for-one, so the total count stays stable as Sanity is populated.
+  const seedSlots = Math.max(0, limit - sanityItems.length);
+  const keptSeeds = seededItems.slice(0, seedSlots);
+
+  return [...sanityItems, ...keptSeeds]
     .sort((a, b) => {
       if (a.sortOrder !== b.sortOrder) {
         return a.sortOrder - b.sortOrder;

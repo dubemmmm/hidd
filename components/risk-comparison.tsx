@@ -193,15 +193,15 @@ export default function RiskComparison({ areas }: RiskComparisonProps) {
     <div className="risk-map-surface risk-map-surface--page">
       <div className="risk-map-surface__map">
         <div className="risk-map-surface__map-header">
-          <span className="section-heading__eyebrow">Five launch neighbourhoods</span>
+          <span className="section-heading__eyebrow">Risk comparison</span>
         </div>
 
         <div className="risk-radar-controls">
           <div className="risk-radar-controls__copy">
-            <strong>Choose the locations to compare</strong>
+            <strong>Compare neighbourhood risk</strong>
             <span>
-              Build the comparison set below. The chart shows shape and relative exposure, while
-              the table underneath translates each factor into a public-facing risk band.
+              Build the comparison set below to read the shape of each district&apos;s risk
+              exposure across seven risk dimensions.
             </span>
           </div>
 
@@ -366,7 +366,8 @@ export default function RiskComparison({ areas }: RiskComparisonProps) {
               <span>Closer to the edge means higher relative risk exposure on that dimension.</span>
             </div>
 
-            <div className="risk-radar-table">
+            <div className="risk-radar-table risk-radar-gate">
+              <div className="risk-radar-gate__preview" aria-hidden="true">
               <div className="risk-radar-table__intro">
                 <strong>Factor comparison table</strong>
                 <span>
@@ -447,6 +448,18 @@ export default function RiskComparison({ areas }: RiskComparisonProps) {
                     </div>
                   </article>
                 ))}
+              </div>
+              </div>
+
+              <div className="risk-radar-gate__panel">
+                <strong>Want the full factor-by-factor breakdown?</strong>
+                <p>
+                  HIDD shares the in-depth risk breakdown for each district directly with you.
+                  Reach out and we&apos;ll walk you through it.
+                </p>
+                <a className="button button--primary" href="/contact?service=risk-intelligence">
+                  Reach out for the full breakdown
+                </a>
               </div>
             </div>
           </div>
