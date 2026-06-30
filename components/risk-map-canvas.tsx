@@ -36,7 +36,18 @@ export default function RiskMapCanvas({
   onSelect
 }: RiskMapCanvasProps) {
   const mapRef = useRef<MapRef | null>(null);
+  const frameRef = useRef<HTMLDivElement | null>(null);
   const hoveredSlugRef = useRef<string | null>(null);
+
+  const resizeMap = useCallback(() => {
+    const map = mapRef.current?.getMap();
+    if (!map) return;
+    map.resize();
+    map.fitBounds(LAGOS_BOUNDS, {
+      padding: 40,
+      duration: 0
+    });
+  }, []);
 
   const featureCollection = useMemo<GeoJSON.FeatureCollection<GeoJSON.Polygon>>(
     () => ({
@@ -75,6 +86,28 @@ export default function RiskMapCanvas({
       map.once("load", syncFeatureState);
     }
   }, [activeSlug, areas]);
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      window.requestAnimationFrame(resizeMap);
+    });
+
+    resizeObserver.observe(frame);
+    window.addEventListener("resize", resizeMap);
+
+    const resizeFrame = window.requestAnimationFrame(resizeMap);
+    const resizeTimeout = window.setTimeout(resizeMap, 250);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", resizeMap);
+      window.cancelAnimationFrame(resizeFrame);
+      window.clearTimeout(resizeTimeout);
+    };
+  }, [resizeMap]);
 
   const handleClick = useCallback(
     (event: MapLayerMouseEvent) => {
@@ -131,23 +164,27 @@ export default function RiskMapCanvas({
   }, []);
 
   return (
-    <Map
-      ref={mapRef}
-      mapStyle={CARTO_LIGHT_STYLE}
-      initialViewState={{
-        bounds: LAGOS_BOUNDS,
-        fitBoundsOptions: { padding: 32 }
-      }}
-      maxBounds={LAGOS_BOUNDS}
-      minZoom={10}
-      maxZoom={15}
-      interactiveLayerIds={["district-fill"]}
-      onClick={handleClick}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      attributionControl={true}
-      style={{ width: "100%", height: "100%" }}
-    >
+    <div ref={frameRef} className="risk-map-canvas__frame">
+      <Map
+        ref={mapRef}
+        mapStyle={CARTO_LIGHT_STYLE}
+        initialViewState={{
+          bounds: LAGOS_BOUNDS,
+          fitBoundsOptions: { padding: 40 }
+        }}
+        minZoom={10}
+        maxZoom={15}
+        renderWorldCopies={false}
+        dragRotate={false}
+        touchPitch={false}
+        interactiveLayerIds={["district-fill"]}
+        onLoad={resizeMap}
+        onClick={handleClick}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        attributionControl={true}
+        style={{ width: "100%", height: "100%" }}
+      >
       <Source
         id="districts"
         type="geojson"
@@ -214,20 +251,22 @@ export default function RiskMapCanvas({
           type="symbol"
           layout={{
             "text-field": ["get", "name"],
-            "text-size": 12,
+            "text-size": 10,
             "text-font": ["Open Sans Semibold"],
             "text-transform": "uppercase",
-            "text-letter-spacing": 0.1,
+            "text-letter-spacing": 0.06,
             "text-allow-overlap": false,
             "symbol-placement": "point"
           }}
           paint={{
             "text-color": "#0f2340",
             "text-halo-color": "rgba(250, 248, 243, 0.9)",
-            "text-halo-width": 1.8
+            "text-halo-width": 1.4
           }}
         />
       </Source>
+
     </Map>
+    </div>
   );
 }

@@ -23,7 +23,7 @@ export function RiskMapLayers({ layers, activeLayer, onSelect }: RiskMapLayersPr
 
   const helperLine = active
     ? active.description
-    : "Tap a layer to recolour the map by that single risk. Tap it again to return to the overall grade.";
+    : "Choose a risk layer to compare Prime Lagos districts by that factor, or return to the overall grade.";
 
   return (
     <div className="risk-map-layers" role="group" aria-label="Risk intelligence layers">

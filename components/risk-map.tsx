@@ -66,8 +66,8 @@ export default function RiskMap({ areas, variant = "page" }: RiskMapProps) {
     <div className={`risk-map-surface risk-map-surface--${variant}`}>
       <div className="risk-map-surface__map">
         <div className="risk-map-surface__map-header">
-          <span className="section-heading__eyebrow">Five launch neighbourhoods</span>
-          <p>Click a district to pull its HIDD risk framing.</p>
+          <span className="section-heading__eyebrow">Prime Lagos</span>
+          <p>Select a district to view its HIDD risk framing and open the full district brief.</p>
         </div>
 
         {showLayerControls ? (
@@ -175,7 +175,7 @@ export default function RiskMap({ areas, variant = "page" }: RiskMapProps) {
           ) : (
             <div className="risk-map-popup-placeholder">
               <strong>Select a district</strong>
-              <span>Click or tap a polygon to open its structured risk summary.</span>
+              <span>Choose a Prime Lagos district to review its risk framing.</span>
             </div>
           )}
         </div>

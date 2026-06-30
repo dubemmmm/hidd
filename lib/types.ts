@@ -137,6 +137,31 @@ export type ReportAsset = {
   featured?: boolean;
 };
 
+export type CaseStudySection = {
+  title: string;
+  body: string[];
+};
+
+export type CaseStudy = {
+  slug: string;
+  title: string;
+  summary: string;
+  clientProfile: string;
+  location: string;
+  service: BookableServiceSlug;
+  preventedRisk: string;
+  publishedAt: string;
+  readTime: string;
+  metaTitle: string;
+  metaDescription: string;
+  featured?: boolean;
+};
+
+export type CaseStudyDetail = CaseStudy & {
+  sections: CaseStudySection[];
+  body?: unknown[];
+};
+
 export type InsightPostFrontmatter = {
   title: string;
   slug: string;

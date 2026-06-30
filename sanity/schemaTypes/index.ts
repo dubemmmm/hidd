@@ -1,5 +1,6 @@
 import { type SchemaTypeDefinition } from "sanity";
 
+import { caseStudyType } from "./caseStudyType";
 import { faqType } from "./faqType";
 import { mapAreaType } from "./mapAreaType";
 import { postType } from "./postType";
@@ -8,6 +9,7 @@ import { socialProofType } from "./socialProofType";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   postType,
+  caseStudyType,
   reportAssetType,
   mapAreaType,
   socialProofType,

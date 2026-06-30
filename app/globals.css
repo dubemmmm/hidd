@@ -741,6 +741,7 @@ img {
 .why-grid,
 .content-grid,
 .insights-grid,
+.case-study-grid,
 .faq-browser__results {
   display: grid;
   gap: 18px;
@@ -751,7 +752,8 @@ img {
 .timeline-grid > .reveal,
 .why-grid > .reveal,
 .content-grid > .reveal,
-.insights-grid > .reveal {
+.insights-grid > .reveal,
+.case-study-grid > .reveal {
   height: 100%;
 }
 
@@ -760,7 +762,8 @@ img {
 .timeline-grid > .reveal > *,
 .why-grid > .reveal > *,
 .content-grid > .reveal > *,
-.insights-grid > .reveal > * {
+.insights-grid > .reveal > *,
+.case-study-grid > .reveal > * {
   height: 100%;
 }
 
@@ -786,6 +789,7 @@ img {
 .testimonial-card,
 .faq-browser__card,
 .insight-card,
+.case-study-card,
 .bundle-card,
 .article-sidebar__card,
 .contact-panel,
@@ -1957,6 +1961,119 @@ img {
   padding: 26px;
 }
 
+.case-study-grid {
+  margin-top: 34px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.case-study-card {
+  padding: 26px;
+  gap: 18px;
+  color: inherit;
+}
+
+.case-study-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(145deg, rgba(18, 59, 114, 0.07), transparent 52%),
+    radial-gradient(circle at 88% 12%, rgba(216, 162, 79, 0.18), transparent 32%);
+  pointer-events: none;
+}
+
+.case-study-card__meta,
+.case-study-card__footer,
+.case-study-card__prevented,
+.case-study-card h2,
+.case-study-card p {
+  position: relative;
+  z-index: 1;
+}
+
+.case-study-card__meta,
+.case-study-card__footer span,
+.case-study-card__prevented span,
+.case-study-detail-strip span {
+  color: var(--text-dim);
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.case-study-card h2 {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: 1.72rem;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.case-study-card p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.case-study-card__prevented,
+.case-study-detail-strip {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(18, 59, 114, 0.1);
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.case-study-card__prevented {
+  margin-top: auto;
+}
+
+.case-study-card__prevented strong,
+.case-study-detail-strip strong {
+  font-family: var(--font-display), serif;
+  font-size: 1.16rem;
+  line-height: 1.18;
+  font-weight: 500;
+}
+
+.case-study-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 2px;
+}
+
+.case-study-prose {
+  display: grid;
+  gap: 24px;
+}
+
+.case-study-detail-strip {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.case-study-callout {
+  padding: 22px;
+  border-radius: 22px;
+  border: 1px solid rgba(216, 162, 79, 0.22);
+  background: rgba(216, 162, 79, 0.1);
+}
+
+.case-study-callout p {
+  margin: 10px 0 0;
+  color: var(--text);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.case-study-section {
+  display: grid;
+  gap: 12px;
+}
+
 .insights-marquee {
   overflow: hidden;
   mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
@@ -2550,6 +2667,18 @@ img {
   }
 }
 
+@media (max-width: 1180px) {
+  .site-nav,
+  .site-nav__panel {
+    gap: 18px;
+  }
+
+  .site-nav__link,
+  .button--header {
+    font-size: 0.86rem;
+  }
+}
+
 @media (max-width: 1100px) {
   .hero__grid,
   .content-grid,
@@ -2568,6 +2697,7 @@ img {
   .hero-brief,
   .timeline-grid,
   .insights-grid,
+  .case-study-grid,
   .faq-browser__results,
   .service-grid,
   .overview-grid {
@@ -2668,6 +2798,7 @@ img {
   .page-hero__content,
   .service-card,
   .overview-card,
+  .case-study-card,
   .content-panel,
   .bundle-card,
   .article-prose,
@@ -2683,6 +2814,7 @@ img {
   .why-grid__track,
   .timeline-grid,
   .insights-grid,
+  .case-study-grid,
   .service-grid,
   .overview-grid,
   .service-marquee__track,
@@ -2751,6 +2883,10 @@ img {
   .article-prose {
     padding: 22px;
     border-radius: 24px;
+  }
+
+  .case-study-detail-strip {
+    grid-template-columns: 1fr;
   }
 
   .article-sidebar {
@@ -3763,6 +3899,16 @@ img {
   position: relative;
   background: radial-gradient(circle at 14% 18%, rgba(31, 92, 168, 0.08), transparent 24%),
     linear-gradient(180deg, #edf3f9 0%, #f8fafc 100%);
+}
+
+.risk-map-canvas__frame,
+.risk-map-canvas__frame .maplibregl-map {
+  width: 100%;
+  height: 100%;
+}
+
+.risk-map-canvas__frame canvas {
+  outline: none;
 }
 
 .risk-map-canvas--svg {
@@ -5044,7 +5190,8 @@ img {
   .reports-library__rail,
   .district-grid,
   .district-breakdown-grid,
-  .insights-grid {
+  .insights-grid,
+  .case-study-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
