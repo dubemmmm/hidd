@@ -2,7 +2,8 @@ import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const mapAreaType = defineType({
   name: "mapArea",
-  title: "Map Area",
+  title: "Risk Map District",
+  description: "Controls risk-map polygons, map popups, and district brief pages.",
   type: "document",
   fields: [
     defineField({
@@ -65,6 +66,18 @@ export const mapAreaType = defineType({
       type: "text",
       rows: 4,
       validation: (rule) => rule.required()
+    }),
+    defineField({
+      name: "briefBody",
+      title: "District Brief Body",
+      type: "array",
+      description:
+        "Optional longer content for the district brief page. Supports headings, paragraphs, lists, quotes, and links.",
+      of: [
+        defineArrayMember({
+          type: "block"
+        })
+      ]
     }),
     defineField({
       name: "assessmentDate",

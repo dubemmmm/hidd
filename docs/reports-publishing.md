@@ -1,12 +1,12 @@
 # Reports / Library Publishing Handover
 
 The `Reports / Library` area is now intended to be managed in Sanity through a dedicated
-`Report Asset` document type.
+`Report Download` document type.
 
 ## Where to publish
 
 1. Open `/studio`.
-2. In the left sidebar, select `Report Asset`.
+2. In the left sidebar, select `Report Download`.
 3. Create a new document.
 
 ## Fields to fill
@@ -30,6 +30,6 @@ The `Reports / Library` area is now intended to be managed in Sanity through a d
 
 ## Current site behavior
 
-- `/reports` reads Sanity `Report Asset` documents.
+- `/reports` reads Sanity `Report Download` documents.
 - The homepage featured download cards read the same Sanity source.
 - The homepage `Signals from HIDD` layer can now surface report assets alongside insight articles.

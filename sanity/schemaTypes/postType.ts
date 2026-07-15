@@ -2,7 +2,8 @@ import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const postType = defineType({
   name: "post",
-  title: "Post",
+  title: "Insight Article",
+  description: "Controls articles shown on /insights and /insights/[slug].",
   type: "document",
   fields: [
     defineField({
@@ -58,6 +59,97 @@ export const postType = defineType({
       of: [
         defineArrayMember({
           type: "block"
+        }),
+        defineArrayMember({
+          name: "articleImage",
+          title: "Article Image",
+          type: "image",
+          options: {
+            hotspot: true
+          },
+          fields: [
+            defineField({
+              name: "alt",
+              title: "Alternative Text",
+              type: "string",
+              description:
+                "Briefly describe what the image shows for readers using screen readers.",
+              validation: (rule) => rule.required()
+            }),
+            defineField({
+              name: "caption",
+              title: "Caption",
+              type: "text",
+              rows: 2,
+              description: "Optional context displayed directly below the image."
+            }),
+            defineField({
+              name: "credit",
+              title: "Image Credit",
+              type: "string",
+              description: "Optional photographer, organisation, or source credit."
+            })
+          ]
+        }),
+        defineArrayMember({
+          name: "articleTable",
+          title: "Article Table",
+          type: "object",
+          fields: [
+            defineField({
+              name: "caption",
+              title: "Table Caption",
+              type: "string",
+              description: "Optional short title displayed above the table."
+            }),
+            defineField({
+              name: "headers",
+              title: "Column Headings",
+              type: "array",
+              of: [defineArrayMember({ type: "string" })],
+              validation: (rule) =>
+                rule.required().min(2).error("Add at least two column headings.")
+            }),
+            defineField({
+              name: "rows",
+              title: "Rows",
+              type: "array",
+              of: [
+                defineArrayMember({
+                  name: "tableRow",
+                  title: "Row",
+                  type: "object",
+                  fields: [
+                    defineField({
+                      name: "cells",
+                      title: "Cells",
+                      type: "array",
+                      of: [defineArrayMember({ type: "string" })],
+                      validation: (rule) => rule.required().min(1)
+                    })
+                  ],
+                  preview: {
+                    select: { cells: "cells" },
+                    prepare({ cells }: { cells?: string[] }) {
+                      return {
+                        title: cells?.filter(Boolean).join(" | ") || "Empty row"
+                      };
+                    }
+                  }
+                })
+              ],
+              validation: (rule) => rule.required().min(1).error("Add at least one row.")
+            })
+          ],
+          preview: {
+            select: { caption: "caption", headers: "headers" },
+            prepare({ caption, headers }: { caption?: string; headers?: string[] }) {
+              return {
+                title: caption || "Article table",
+                subtitle: headers?.join(" | ")
+              };
+            }
+          }
         })
       ],
       validation: (rule) => rule.required()

@@ -20,10 +20,10 @@ export async function POST(request: Request) {
   const name = asString(payload.name);
   const email = asString(payload.email);
   const slug = asString(payload.slug);
-  const website = asString(payload.website);
+  const formConfirmation = asString(payload.formConfirmation);
   const submittedAt = asString(payload.submittedAt);
 
-  if (website) {
+  if (formConfirmation) {
     return NextResponse.json({ ok: false, error: "Spam rejected." }, { status: 400 });
   }
 

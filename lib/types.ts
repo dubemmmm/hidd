@@ -95,6 +95,7 @@ export type MapArea = {
   headline: string;
   summary: string;
   framingNote: string;
+  briefBody?: unknown[];
   assessmentDate: string;
   analyst: string;
   redFlag: string;

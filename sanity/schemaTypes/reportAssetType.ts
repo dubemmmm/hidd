@@ -2,7 +2,8 @@ import { defineField, defineType } from "sanity";
 
 export const reportAssetType = defineType({
   name: "reportAsset",
-  title: "Report Asset",
+  title: "Report Download",
+  description: "Controls downloadable reports, checklists, and gated resources.",
   type: "document",
   fields: [
     defineField({

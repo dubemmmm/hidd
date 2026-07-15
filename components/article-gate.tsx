@@ -34,7 +34,7 @@ export function ArticleGate({ slug, title, children }: ArticleGateProps) {
           name: formData.get("name"),
           email: formData.get("email"),
           slug,
-          website: formData.get("website"),
+          formConfirmation: formData.get("formConfirmation"),
           submittedAt: new Date().toISOString()
         })
       });
@@ -88,8 +88,15 @@ export function ArticleGate({ slug, title, children }: ArticleGateProps) {
           </div>
 
           <label className="field field--hidden" aria-hidden="true">
-            <span>Website</span>
-            <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+            <span>Leave this field empty</span>
+            <input
+              type="text"
+              name="formConfirmation"
+              tabIndex={-1}
+              autoComplete="new-password"
+              data-1p-ignore
+              data-lpignore="true"
+            />
           </label>
 
           <div className="article-gate__form-footer">

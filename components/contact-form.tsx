@@ -34,7 +34,7 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
           phone: formData.get("phone"),
           service: formData.get("service"),
           message: formData.get("message"),
-          website: formData.get("website"),
+          formConfirmation: formData.get("formConfirmation"),
           submittedAt: new Date().toISOString()
         })
       });
@@ -94,8 +94,15 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
       </label>
 
       <label className="field field--hidden" aria-hidden="true">
-        <span>Website</span>
-        <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+        <span>Leave this field empty</span>
+        <input
+          type="text"
+          name="formConfirmation"
+          tabIndex={-1}
+          autoComplete="new-password"
+          data-1p-ignore
+          data-lpignore="true"
+        />
       </label>
 
       <div className="contact-form__footer">

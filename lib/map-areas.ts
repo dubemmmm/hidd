@@ -35,6 +35,7 @@ type RawSanityMapArea = {
   headline?: string | null;
   summary?: string | null;
   framingNote?: string | null;
+  briefBody?: unknown[] | null;
   assessmentDate?: string | null;
   analyst?: string | null;
   redFlag?: string | null;
@@ -51,6 +52,7 @@ const mapAreaFields = groq`
   headline,
   summary,
   framingNote,
+  briefBody,
   assessmentDate,
   analyst,
   redFlag,
@@ -218,6 +220,7 @@ function normalizeMapArea(area: RawSanityMapArea): MapArea | null {
     headline,
     summary,
     framingNote,
+    briefBody: Array.isArray(area.briefBody) && area.briefBody.length > 0 ? area.briefBody : undefined,
     assessmentDate: formatAssessmentDate(area.assessmentDate),
     analyst,
     redFlag,

@@ -6,7 +6,7 @@ This document is for the HIDD team member responsible for publishing Insights ar
 
 ## What system you're using
 
-The site's Insights articles are stored in **Sanity CMS**. Sanity provides a web-based editor called **Sanity Studio** that HIDD uses to write, edit, and publish posts. No code changes or developer involvement are needed once Sanity is configured.
+The site's Insights articles are stored in **Sanity CMS**. Sanity provides a web-based editor called **Sanity Studio** that HIDD uses to write, edit, and publish Insight Articles. No code changes or developer involvement are needed once Sanity is configured.
 
 Articles you publish in Sanity appear on the live site automatically, usually within 1–2 minutes.
 
@@ -41,10 +41,10 @@ Log in with the email address HIDD invited to the project. Google or GitHub sign
 
 ## Publishing a new article — weekly workflow
 
-### Step 1. Open Studio and create a post
+### Step 1. Open Studio and create an Insight Article
 
 1. Go to `https://hiddadvisory.com/studio`.
-2. From the left sidebar, click **Post**.
+2. From the left sidebar, click **Insight Article**.
 3. Click the **+** (new document) button at the top.
 
 ### Step 2. Fill every required field
@@ -77,6 +77,28 @@ Supported formatting:
 - Bulleted and numbered lists.
 - Block quotes.
 - Internal and external links (select text → link icon → paste URL).
+- Inline article images uploaded directly to Sanity.
+- Tables with column headings, rows, and an optional caption.
+
+To add an image where it is relevant in the article:
+
+1. Put the cursor on a new line in the **Body** editor.
+2. Click the insert/add button and choose **Article Image**.
+3. Upload the image or select one from the Sanity media library.
+4. Add required **Alternative Text** describing what the image shows.
+5. Optionally add a visible caption and image credit.
+
+For example, in an article about flooding, place the image immediately after the paragraph that introduces the affected street or neighbourhood. Use a specific alt description such as “Floodwater covering parked-car tyres on Admiralty Way after heavy rainfall,” rather than “flood image.”
+
+To add a table:
+
+1. Put the cursor on a new line in the **Body** editor.
+2. Click the insert/add button and choose **Article Table**.
+3. Optionally enter a short table caption.
+4. Add the column headings in their left-to-right order.
+5. Add each row, then add its cells in the same left-to-right order.
+
+Each row should contain the same number of cells as the table has column headings. On smaller screens, wide tables can be scrolled horizontally.
 
 **Do not** use H1 — the article title is already rendered as H1 by the page template. Start section headings at H2.
 
@@ -105,7 +127,7 @@ If you added a custom Open Graph image, paste the article URL into the LinkedIn 
 
 ## Editing an existing article
 
-1. In Studio, click **Post** in the sidebar.
+1. In Studio, click **Insight Article** in the sidebar.
 2. Click the article in the list.
 3. Make changes.
 4. Click **Publish** again. The live site updates within 1–2 minutes.
@@ -125,15 +147,10 @@ This removes it from the live site but keeps the draft in Sanity. To permanently
 
 ## Images
 
-The cover image and OG image fields are **URL fields**, not uploaders. You have two options:
-
-**Option A — Host on Sanity's built-in asset CDN** *(recommended for weekly publishing)*
-A developer can extend the schema to use Sanity's native image upload in phase two. Until then, use Option B.
-
-**Option B — Host images externally**
-Upload your image to any hosted service (Google Drive with public share, Cloudinary, Imgix, or your own S3 bucket), copy the public URL, and paste it into the field.
+Images placed inside the article body use Sanity's native uploader and are delivered through Sanity's image CDN. The **Cover Image URL** and **Open Graph Image URL** fields are still URL fields; upload those images to your chosen hosted service and paste their public URLs.
 
 **Image specs:**
+- Inline body image: ideally at least 1200px wide, JPEG or WebP, compressed before upload.
 - Cover image: 1600×900 (16:9), under 400KB, JPEG.
 - OG image: 1200×630, under 400KB, JPEG.
 

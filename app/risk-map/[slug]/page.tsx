@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { PortableText } from "next-sanity";
 
 import { CtaBand } from "@/components/cta-band";
+import { portableTextComponents } from "@/components/portable-text";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { getMapArea } from "@/lib/map-areas";
@@ -84,10 +86,19 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
                 <span className="district-framing-note__eyebrow">Framing note</span>
                 <p>{area.framingNote}</p>
               </div>
-              <p className="district-summary-card__note">
-                Full neighbourhood intelligence content is still being built. This page exists to
-                give each district a clean destination now, without overloading the launch version.
-              </p>
+              {area.briefBody && area.briefBody.length > 0 ? (
+                <div className="district-brief-body">
+                  <PortableText
+                    value={area.briefBody as Parameters<typeof PortableText>[0]["value"]}
+                    components={portableTextComponents}
+                  />
+                </div>
+              ) : (
+                <p className="district-summary-card__note">
+                  Full neighbourhood intelligence content is still being built. This page exists to
+                  give each district a clean destination now, without overloading the launch version.
+                </p>
+              )}
             </article>
           </Reveal>
         </div>

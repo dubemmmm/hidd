@@ -71,7 +71,7 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
           name: formData.get("name"),
           email: formData.get("email"),
           assetSlug: activeAsset.slug,
-          website: formData.get("website"),
+          formConfirmation: formData.get("formConfirmation"),
           submittedAt: new Date().toISOString()
         })
       });
@@ -164,8 +164,15 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
           </div>
 
           <label className="field field--hidden" aria-hidden="true">
-            <span>Website</span>
-            <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+            <span>Leave this field empty</span>
+            <input
+              type="text"
+              name="formConfirmation"
+              tabIndex={-1}
+              autoComplete="new-password"
+              data-1p-ignore
+              data-lpignore="true"
+            />
           </label>
 
           <div className="reports-library__form-footer">

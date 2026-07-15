@@ -2286,6 +2286,86 @@ img {
   color: var(--text);
 }
 
+.article-body-image {
+  margin: 30px 0;
+}
+
+.article-body-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+  background: var(--surface-muted);
+  box-shadow: 0 18px 48px rgba(18, 59, 114, 0.12);
+}
+
+.article-body-image figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 10px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.article-body-image figcaption small {
+  flex: 0 0 auto;
+  color: var(--text-dim);
+  font-size: inherit;
+}
+
+.article-table {
+  margin: 30px 0;
+}
+
+.article-table > figcaption {
+  margin-bottom: 10px;
+  color: var(--text);
+  font-family: var(--font-display), serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+.article-table__scroll {
+  overflow-x: auto;
+  border: 1px solid rgba(18, 59, 114, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-overflow-scrolling: touch;
+}
+
+.article-table table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.article-table th,
+.article-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(18, 59, 114, 0.1);
+  text-align: left;
+  vertical-align: top;
+}
+
+.article-table th {
+  background: rgba(124, 150, 255, 0.1);
+  color: var(--text);
+  font-weight: 650;
+}
+
+.article-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.article-table tbody tr:nth-child(even) {
+  background: rgba(246, 239, 225, 0.3);
+}
+
 .text-link {
   color: var(--accent-3);
 }
@@ -4850,6 +4930,27 @@ img {
   margin-top: 12px !important;
   color: var(--text-dim) !important;
   font-size: 0.84rem !important;
+}
+
+.district-brief-body {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(18, 59, 114, 0.1);
+}
+
+.district-brief-body .mdx-heading-lg:first-child,
+.district-brief-body .mdx-heading-md:first-child {
+  margin-top: 0;
+}
+
+.district-brief-body .mdx-copy {
+  margin: 0 0 16px;
+}
+
+.district-brief-body .mdx-copy:last-child,
+.district-brief-body .mdx-list:last-child,
+.district-brief-body .mdx-quote:last-child {
+  margin-bottom: 0;
 }
 
 .district-framing-note {
