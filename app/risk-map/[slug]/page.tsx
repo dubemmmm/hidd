@@ -61,9 +61,11 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
         <div className="shell shell--district">
           <Reveal>
             <article className="district-summary-card">
+              <div className="section-heading__eyebrow district-summary-card__eyebrow">
+                Area overview
+              </div>
               <div className="district-summary-card__intro">
                 <div className="district-summary-card__copy">
-                  <div className="section-heading__eyebrow">Area overview</div>
                   <h2>Current framing</h2>
                   <p>{area.summary}</p>
                 </div>
@@ -97,12 +99,7 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
                     components={portableTextComponents}
                   />
                 </div>
-              ) : (
-                <p className="district-summary-card__note">
-                  Full neighbourhood intelligence content is still being built. This page exists to
-                  give each district a clean destination now, without overloading the launch version.
-                </p>
-              )}
+              ) : null}
             </article>
           </Reveal>
         </div>

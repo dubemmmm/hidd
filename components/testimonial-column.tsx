@@ -35,10 +35,6 @@ export function TestimonialColumn({ items }: TestimonialColumnProps) {
       </div>
 
       <div className="testimonial-showcase__footer">
-        <div className="testimonial-showcase__verified">
-          <strong aria-hidden="true">★★★★★</strong>
-          <span>Independent guidance for buyers and investors making high-stakes decisions.</span>
-        </div>
         <div className="testimonial-showcase__locations">
           <span>Trusted across</span>
           <strong>{locations}</strong>

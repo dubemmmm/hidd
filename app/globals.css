@@ -85,12 +85,16 @@
 }
 
 .section--insights-library .reports-library__filter {
-  min-height: 36px;
-  padding: 0 16px;
-  font-size: 0.65rem;
+  min-height: 32px;
+  padding: 0 11px;
+  font-size: 0.61rem;
   font-weight: 700;
   letter-spacing: 0.09em;
   text-transform: uppercase;
+}
+
+.section--insights-library .reports-library__filters {
+  gap: 6px;
 }
 
 .section--insights-library .reports-library__filter.is-active {
@@ -2145,36 +2149,14 @@ img {
 
 .testimonial-showcase__footer {
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-  gap: 16px;
+  grid-template-columns: 1fr;
 }
 
-.testimonial-showcase__verified,
 .testimonial-showcase__locations {
   min-height: 86px;
   padding: 20px 24px;
   border: 1px solid rgba(18, 59, 114, 0.1);
   border-radius: 18px;
-}
-
-.testimonial-showcase__verified {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  background: linear-gradient(135deg, rgba(216, 162, 79, 0.13), rgba(255, 255, 255, 0.72));
-}
-
-.testimonial-showcase__verified strong {
-  flex: 0 0 auto;
-  color: var(--accent-3);
-  font-size: 1.25rem;
-  letter-spacing: 0.06em;
-}
-
-.testimonial-showcase__verified span {
-  color: var(--text-muted);
-  font-size: 0.88rem;
-  line-height: 1.5;
 }
 
 .testimonial-showcase__locations {
@@ -4862,15 +4844,8 @@ img {
   }
 
   .testimonial-showcase .testimonial-card,
-  .testimonial-showcase__verified,
   .testimonial-showcase__locations {
     padding: 18px;
-  }
-
-  .testimonial-showcase__verified {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 10px;
   }
 
   .section {
@@ -6341,6 +6316,11 @@ img {
   margin: 0 auto;
   align-items: center;
   text-align: center;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .page-hero__content--district p {
@@ -6352,6 +6332,14 @@ img {
 
 .page-hero__content--district .back-link {
   align-self: center;
+}
+
+.page-hero__content--district .section-heading__eyebrow {
+  align-items: center;
+}
+
+.page-hero__content--district .section-heading__eyebrow::before {
+  margin-bottom: 10px;
 }
 
 .district-grid,
@@ -6411,6 +6399,14 @@ img {
   font-weight: 500;
 }
 
+.district-summary-card__eyebrow {
+  align-items: center;
+  width: 100%;
+  margin-inline: auto;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
 .district-assessment-meta {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -6425,10 +6421,10 @@ img {
   line-height: 1.65;
 }
 
-.district-summary-card__note {
-  margin-top: 12px !important;
-  color: var(--text-dim) !important;
-  font-size: 0.84rem !important;
+.contact-panel > .section-heading__eyebrow {
+  align-items: center;
+  margin-inline: auto;
+  text-align: center;
 }
 
 .district-brief-body {
@@ -6854,6 +6850,17 @@ img {
 }
 
 @media (max-width: 640px) {
+  .risk-map-surface--hero .risk-map-surface__map-header {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .risk-map-surface--hero .risk-map-surface__map-header .section-heading__eyebrow {
+    align-items: center;
+    margin-inline: auto;
+  }
+
   .shell--hero,
   .shell--map-page,
   .shell--reports,
@@ -7073,5 +7080,111 @@ img {
 
   .article-inline-cta p {
     margin-bottom: 18px;
+  }
+
+  .service-marquee {
+    margin-top: 28px;
+  }
+
+  .service-marquee__track {
+    gap: 12px;
+  }
+
+  .service-marquee .service-card {
+    min-height: 238px;
+    padding: 16px;
+  }
+
+  .service-marquee .service-card__topline {
+    margin-bottom: 12px;
+  }
+
+  .service-marquee .service-card__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+
+  .service-marquee .service-card h3 {
+    margin-bottom: 8px;
+    font-size: 1.22rem;
+  }
+
+  .service-marquee .service-card p {
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  .service-marquee .service-card__cta {
+    padding-top: 12px;
+  }
+
+  .social-proof-section__header > .reveal:last-child {
+    display: none;
+  }
+
+  .testimonial-showcase {
+    gap: 10px;
+  }
+
+  .testimonial-showcase .testimonial-column {
+    grid-auto-columns: min(82vw, 330px);
+    gap: 12px;
+    padding-bottom: 6px;
+  }
+
+  .testimonial-showcase .testimonial-card {
+    min-height: 280px;
+    padding: 18px;
+  }
+
+  .testimonial-card__topline {
+    padding-bottom: 12px;
+  }
+
+  .testimonial-showcase .testimonial-card > p {
+    padding: 16px 0;
+  }
+
+  .testimonial-card__rating {
+    padding-bottom: 12px;
+  }
+
+  .testimonial-showcase .testimonial-card__author {
+    margin-top: 0;
+    padding-top: 12px;
+  }
+
+  .testimonial-showcase__footer {
+    display: none;
+  }
+
+  .district-summary-card > .district-summary-card__eyebrow {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-inline: 0;
+    text-align: center;
+  }
+
+  .district-summary-card > .district-summary-card__eyebrow::before {
+    margin-inline: auto;
+  }
+
+  .district-summary-card__intro .district-grade {
+    justify-self: center;
+    width: min(100%, 170px);
+    min-width: 0;
+    padding: 10px 12px;
+    gap: 4px;
+    border-radius: 14px;
+  }
+
+  .district-summary-card__intro .district-grade span {
+    font-size: 0.58rem;
+  }
+
+  .district-summary-card__intro .district-grade strong {
+    font-size: 0.9rem;
   }
 }
