@@ -25,10 +25,6 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             <div className="page-hero__content page-hero__content--contact">
               <div className="section-heading__eyebrow">Contact / Enquiry</div>
               <h1>Describe the property. HIDD will take it from there.</h1>
-              <p>
-                The form is wired to a real server endpoint and structured so a final email provider
-                can be attached without redesigning the page.
-              </p>
             </div>
           </Reveal>
         </div>

@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { PortableText } from "next-sanity";
 
-import { CtaBand } from "@/components/cta-band";
 import { portableTextComponents } from "@/components/portable-text";
 import { Reveal } from "@/components/reveal";
 import { getCaseStudies, getCaseStudyBySlug } from "@/lib/case-studies";
@@ -59,10 +58,10 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
 
   return (
     <>
-      <section className="page-hero page-hero--article">
-        <div className="shell shell--article">
+      <section className="page-hero page-hero--article page-hero--case-study">
+        <div className="shell shell--case-study">
           <Reveal>
-            <div className="page-hero__content page-hero__content--article">
+            <div className="page-hero__content page-hero__content--article case-study-hero">
               <Link href="/case-studies" className="back-link">
                 Back to Case Studies
               </Link>
@@ -86,77 +85,73 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
         </div>
       </section>
 
-      <section className="section section--flush-top">
-        <div className="shell shell--article article-layout">
+      <section className="section section--case-study-detail">
+        <div className="shell shell--case-study case-study-editorial-layout">
           <Reveal>
-            <article className="article-prose case-study-prose">
-              <div className="case-study-detail-strip">
-                <div>
-                  <span>Client profile</span>
-                  <strong>{caseStudy.clientProfile}</strong>
-                </div>
-                <div>
-                  <span>Related service</span>
-                  <strong>{relatedService?.name ?? "HIDD Advisory"}</strong>
-                </div>
-              </div>
+            <div className="case-study-editorial-main">
+              <article className="case-study-prose">
+                {caseStudy.body && caseStudy.body.length > 0 ? (
+                  <>
+                    <header className="case-study-content-heading">
+                      <span>Case study details</span>
+                      <h2>The Situation</h2>
+                    </header>
+                    <PortableText
+                      value={caseStudy.body as Parameters<typeof PortableText>[0]["value"]}
+                      components={portableTextComponents}
+                    />
+                  </>
+                ) : (
+                  caseStudy.sections.map((section) => (
+                    <section key={section.title} className="case-study-section">
+                      <h2 className="mdx-heading-lg">{section.title}</h2>
+                      {section.body.map((paragraph) => (
+                        <p key={paragraph} className="mdx-copy">
+                          {paragraph}
+                        </p>
+                      ))}
+                    </section>
+                  ))
+                )}
+              </article>
 
               <section className="case-study-callout">
-                <span className="section-heading__eyebrow">What HIDD prevented</span>
-                <p>{caseStudy.preventedRisk}</p>
-              </section>
-
-              {caseStudy.body && caseStudy.body.length > 0 ? (
-                <PortableText
-                  value={caseStudy.body as Parameters<typeof PortableText>[0]["value"]}
-                  components={portableTextComponents}
-                />
-              ) : (
-                caseStudy.sections.map((section) => (
-                  <section key={section.title} className="case-study-section">
-                    <h2 className="mdx-heading-lg">{section.title}</h2>
-                    {section.body.map((paragraph) => (
-                      <p key={paragraph} className="mdx-copy">
-                        {paragraph}
-                      </p>
-                    ))}
-                  </section>
-                ))
-              )}
-            </article>
-          </Reveal>
-
-          <Reveal delay={0.08}>
-            <aside className="article-sidebar">
-              <div className="article-sidebar__card">
                 <span>What HIDD prevented</span>
                 <h2>Risk before commitment</h2>
                 <p>{caseStudy.preventedRisk}</p>
-              </div>
-              <div className="article-sidebar__card">
-                <span>Need this reviewed?</span>
-                <h2>Book HIDD</h2>
-                <p>
-                  Move before payment or signing, while the transaction can still be shaped.
-                </p>
-                <Link
-                  href={`/contact?service=${caseStudy.service}`}
-                  className="button button--primary"
-                >
+              </section>
+
+              <section className="case-study-booking">
+                <div>
+                  <span>Need this reviewed?</span>
+                  <h2>Book HIDD</h2>
+                  <p>Move before payment or signing, while the transaction can still be shaped.</p>
+                </div>
+                <Link href={`/contact?service=${caseStudy.service}`} className="button button--primary">
                   Book {relatedService?.name ?? "a HIDD service"}
                 </Link>
+              </section>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <aside className="case-study-fact-rail">
+              <div>
+                <span>Client profile</span>
+                <strong>{caseStudy.clientProfile}</strong>
+              </div>
+              <div>
+                <span>Related service</span>
+                <strong>{relatedService?.name ?? "HIDD Advisory"}</strong>
+              </div>
+              <div>
+                <span>What HIDD prevented</span>
+                <strong>{caseStudy.preventedRisk}</strong>
               </div>
             </aside>
           </Reveal>
         </div>
       </section>
-
-      <CtaBand
-        title="Need buyer-side leverage before you commit?"
-        description="Use HIDD to pressure-test the property, documents, area risk, and price before the transaction becomes expensive to unwind."
-        primaryHref={`/contact?service=${caseStudy.service}`}
-        primaryLabel="Start an enquiry"
-      />
     </>
   );
 }

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { draftMode } from "next/headers";
 
 import { CtaBand } from "@/components/cta-band";
 import { Reveal } from "@/components/reveal";
 import RiskComparison from "@/components/risk-comparison";
+import { SanityPreviewBanner } from "@/components/sanity-preview-banner";
 import { getMapAreas } from "@/lib/map-areas";
 
 export const metadata: Metadata = {
@@ -14,10 +16,14 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function RiskMapPage() {
-  const mapAreas = await getMapAreas();
+  const { isEnabled: isPreview } = await draftMode();
+  const mapAreas = await getMapAreas(isPreview);
 
   return (
     <>
+      {isPreview ? (
+        <SanityPreviewBanner gateOpen />
+      ) : null}
       <section className="page-hero page-hero--map">
         <div className="shell shell--map-page">
           <Reveal>
@@ -37,7 +43,7 @@ export default async function RiskMapPage() {
       <section className="section section--flush-top">
         <div className="shell shell--map-page">
           <Reveal>
-            <RiskComparison areas={mapAreas} />
+            <RiskComparison areas={mapAreas} isPreview={isPreview} />
           </Reveal>
         </div>
       </section>

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { draftMode } from "next/headers";
+import { VisualEditing } from "next-sanity/visual-editing";
 
 import { Analytics } from "@/components/analytics";
 import { FloatingWhatsApp } from "@/components/floating-whatsapp";
-import { SiteFooter } from "@/components/site-footer";
+import { RouteFooter } from "@/components/route-footer";
 import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/lib/site";
 
@@ -34,7 +36,9 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+  const { isEnabled: isPreview } = await draftMode();
+
   return (
     <html lang="en">
       <body>
@@ -42,9 +46,10 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <div className="page-grid" />
         <SiteHeader />
         <main className="page-main">{children}</main>
-        <SiteFooter />
+        <RouteFooter />
         <FloatingWhatsApp />
         <Analytics />
+        {isPreview ? <VisualEditing /> : null}
       </body>
     </html>
   );

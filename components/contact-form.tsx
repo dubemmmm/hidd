@@ -14,13 +14,18 @@ type Status = "idle" | "submitting" | "success" | "error";
 export function ContactForm({ initialService = "", initialArea = "" }: ContactFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState(
-    initialArea ? `I would like a risk report for ${initialArea}.` : ""
+    initialArea
+      ? initialService === "area-comparison-breakdown"
+        ? `I would like to request the full Area Compare breakdown for ${initialArea}.`
+        : `I would like a risk report for ${initialArea}.`
+      : ""
   );
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("submitting");
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
 
     try {
       const response = await fetch("/api/contact", {
@@ -44,7 +49,7 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
       }
 
       setStatus("success");
-      event.currentTarget.reset();
+      form.reset();
       setMessage("");
     } catch {
       setStatus("error");
@@ -56,15 +61,15 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
       <div className="form-grid">
         <label className="field">
           <span>Full Name</span>
-          <input type="text" name="name" placeholder="Adewale Okonkwo" required />
+          <input type="text" name="name" required />
         </label>
         <label className="field">
           <span>Email</span>
-          <input type="email" name="email" placeholder="you@example.com" required />
+          <input type="email" name="email" required />
         </label>
         <label className="field">
           <span>Phone</span>
-          <input type="tel" name="phone" placeholder="+234 704 819 4242" />
+          <input type="tel" name="phone" />
         </label>
         <label className="field">
           <span>Service of Interest</span>
@@ -78,6 +83,7 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
             <option value="comprehensive-report">
               {comprehensiveReport.name} — {comprehensiveReport.fee}
             </option>
+            <option value="area-comparison-breakdown">Area Comparison Breakdown</option>
           </select>
         </label>
       </div>
@@ -87,7 +93,6 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
         <textarea
           name="message"
           rows={5}
-          placeholder="Tell us about the property, the area, and the transaction timeline."
           value={message}
           onChange={(event) => setMessage(event.target.value)}
         />
@@ -109,14 +114,14 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
         <button type="submit" className="button button--primary" disabled={status === "submitting"}>
           {status === "submitting" ? "Sending enquiry..." : "Send enquiry"}
         </button>
-        <p className={`form-message form-message--${status}`}>
-          {status === "success" &&
-            "Enquiry sent. HIDD will review the brief and respond within 24 hours."}
-          {status === "error" &&
-            "Something went wrong while sending your enquiry. Please try again or use the floating WhatsApp widget."}
-          {status === "idle" &&
-            "Your enquiry will route through a deployment-ready endpoint that can be wired to the final email provider later."}
-        </p>
+        {(status === "success" || status === "error") && (
+          <p className={`form-message form-message--${status}`}>
+            {status === "success" &&
+              "Enquiry sent. HIDD will review the brief and respond within 48 hours."}
+            {status === "error" &&
+              "Something went wrong while sending your enquiry. Please try again or use the floating WhatsApp widget."}
+          </p>
+        )}
       </div>
     </form>
   );

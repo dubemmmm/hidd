@@ -50,12 +50,16 @@ const serviceIcons: Record<Service["slug"], ReactNode> = {
 
 type ServiceCardProps = {
   service: Service;
+  index?: number;
 };
 
-export function ServiceCard({ service }: ServiceCardProps) {
+export function ServiceCard({ service, index }: ServiceCardProps) {
   return (
     <Link href={`/services/${service.slug}`} className="service-card">
-      <span className="service-card__icon">{serviceIcons[service.slug]}</span>
+      <div className="service-card__topline">
+        {index ? <span className="service-card__number">No. {String(index).padStart(2, "0")}</span> : null}
+        <span className="service-card__icon">{serviceIcons[service.slug]}</span>
+      </div>
       <h3>{service.name}</h3>
       <p>{service.summary}</p>
       {service.proofNote ? <span className="service-card__proof">{service.proofNote}</span> : null}

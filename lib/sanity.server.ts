@@ -8,11 +8,12 @@ function isUsableToken(value: string | undefined): value is string {
   return Boolean(value) && !value!.includes("REPLACE_ME") && value !== "your_read_token";
 }
 
-// Server-only token. Prefer a dedicated read token; fall back to the write token
-// for local development. Picks the first *usable* value (ignores placeholders).
+// Server-only token. Use the current write token first because it also has read
+// access; fall back to a dedicated read token when no write token is configured.
+// Picks the first *usable* value (ignores placeholders).
 // This token is NEVER sent to the browser (server-only).
 const token =
-  [process.env.SANITY_API_READ_TOKEN, process.env.SANITY_API_WRITE_TOKEN].find(isUsableToken) ?? "";
+  [process.env.SANITY_API_WRITE_TOKEN, process.env.SANITY_API_READ_TOKEN].find(isUsableToken) ?? "";
 
 export const sanityHasServerToken = isUsableToken(token);
 
@@ -25,4 +26,15 @@ export const sanityServerClient = createClient({
   token: sanityHasServerToken ? token : undefined,
   useCdn: false,
   perspective: "published"
+});
+
+// Draft-aware client used only after Sanity's signed Presentation Tool
+// handshake enables Next.js Draft Mode for an authenticated editor.
+export const sanityPreviewClient = createClient({
+  projectId: sanityProjectId || "placeholder",
+  dataset: sanityDataset || "production",
+  apiVersion: sanityApiVersion,
+  token: sanityHasServerToken ? token : undefined,
+  useCdn: false,
+  perspective: "drafts"
 });

@@ -161,7 +161,7 @@ export const faqs: FaqItem[] = [
     category: "Contact & Booking",
     question: "How do I get started?",
     answer:
-      "Simply reach out via our website contact form, email us at info@hiddadvisory.com, or call us directly. Tell us the property address, the service or services you need, and your timeline, and we will respond within a working day with a scope confirmation and invoice."
+      "Simply reach out via our website contact form, email us at dapodpscwre@gmail.com, or call us directly. Tell us the property address, the service or services you need, and your timeline, and we will respond within a working day with a scope confirmation and invoice."
   },
   {
     id: "speak-before-committing",

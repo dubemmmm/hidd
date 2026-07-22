@@ -9,22 +9,41 @@ export function TestimonialColumn({ items }: TestimonialColumnProps) {
     return null;
   }
 
+  const locations = [...new Set(items.map((item) => item.location))].join(" · ");
+
   return (
-    <div className="testimonial-column" aria-label="Client social proof">
-      {items.map((testimonial) => (
-        <article key={testimonial.id} className="testimonial-card testimonial-card--stacked">
-          <span className="testimonial-card__activity">{testimonial.activityLabel}</span>
-          <p>{testimonial.quote}</p>
-          <div className="testimonial-card__author">
-            <span>{testimonial.initials}</span>
-            <div className="testimonial-card__identity">
-              <strong>{testimonial.name}</strong>
-              <small>{testimonial.role}</small>
-              <small className="testimonial-card__location">{testimonial.location}</small>
+    <div className="testimonial-showcase" aria-label="Client social proof">
+      <div className="testimonial-column">
+        {items.map((testimonial, index) => (
+          <article key={testimonial.id} className="testimonial-card testimonial-card--stacked">
+            <div className="testimonial-card__topline">
+              <span>No. {String(index + 1).padStart(2, "0")}</span>
+              <small>{testimonial.activityLabel}</small>
             </div>
-          </div>
-        </article>
-      ))}
+            <p>{testimonial.quote}</p>
+            <div className="testimonial-card__rating" aria-label="5 out of 5 stars">★★★★★</div>
+            <div className="testimonial-card__author">
+              <span>{testimonial.initials}</span>
+              <div className="testimonial-card__identity">
+                <strong>{testimonial.name}</strong>
+                <small>{testimonial.role}</small>
+                <small className="testimonial-card__location">{testimonial.location}</small>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="testimonial-showcase__footer">
+        <div className="testimonial-showcase__verified">
+          <strong aria-hidden="true">★★★★★</strong>
+          <span>Independent guidance for buyers and investors making high-stakes decisions.</span>
+        </div>
+        <div className="testimonial-showcase__locations">
+          <span>Trusted across</span>
+          <strong>{locations}</strong>
+        </div>
+      </div>
     </div>
   );
 }

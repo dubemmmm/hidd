@@ -12,11 +12,18 @@ type InsightsFilterProps = {
 export function InsightsFilter({ posts }: InsightsFilterProps) {
   const categories = ["All", ...new Set(posts.map((post) => post.category))];
   const [activeCategory, setActiveCategory] = useState("All");
+  const [showAll, setShowAll] = useState(false);
 
   const filteredPosts =
     activeCategory === "All"
       ? posts
       : posts.filter((post) => post.category === activeCategory);
+  const visiblePosts = showAll ? filteredPosts : filteredPosts.slice(0, 3);
+
+  function selectCategory(category: string) {
+    setActiveCategory(category);
+    setShowAll(false);
+  }
 
   return (
     <div className="insights-filter">
@@ -26,7 +33,7 @@ export function InsightsFilter({ posts }: InsightsFilterProps) {
             type="button"
             key={category}
             className={`chip ${activeCategory === category ? "is-active" : ""}`}
-            onClick={() => setActiveCategory(category)}
+            onClick={() => selectCategory(category)}
           >
             {category}
           </button>
@@ -34,7 +41,7 @@ export function InsightsFilter({ posts }: InsightsFilterProps) {
       </div>
 
       <div className="insights-grid" aria-label="Browse articles">
-        {filteredPosts.map((post, index) => (
+        {visiblePosts.map((post, index) => (
           <Link key={post.slug} href={`/insights/${post.slug}`} className="insight-card insight-card--grid">
             <span className="insight-card__meta">
               {post.category} · {post.readTime}
@@ -58,6 +65,11 @@ export function InsightsFilter({ posts }: InsightsFilterProps) {
           <div className="insights-empty-state">No articles in this category yet.</div>
         ) : null}
       </div>
+      {!showAll && filteredPosts.length > 3 ? (
+        <button type="button" className="insights-filter__show-all" onClick={() => setShowAll(true)}>
+          Show all {filteredPosts.length} articles
+        </button>
+      ) : null}
     </div>
   );
 }

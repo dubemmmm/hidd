@@ -21,22 +21,7 @@ export default async function FaqsPage() {
 
   return (
     <>
-      <section className="page-hero">
-        <div className="shell shell--support">
-          <Reveal>
-            <div className="page-hero__content" style={{ alignItems: "center", textAlign: "center" }}>
-              <div className="section-heading__eyebrow">FAQs</div>
-              <h1>Common pre-purchase questions, answered clearly.</h1>
-              <p>
-                This page reduces avoidable friction in the funnel while keeping the tone aligned
-                with a premium advisory brand.
-              </p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="section section--flush-top">
+      <section className="section">
         <div className="shell shell--support">
           <Reveal>
             <SectionHeading

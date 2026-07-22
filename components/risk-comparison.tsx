@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useIsPresentationTool } from "next-sanity/hooks";
 
 import { riskLayers, scoreToTier } from "@/lib/data/map-areas";
 import type { MapArea, RiskTier } from "@/lib/types";
 
 type RiskComparisonProps = {
   areas: MapArea[];
+  isPreview?: boolean;
 };
 
 const tierLabels: Record<RiskTier, string> = {
@@ -63,7 +65,9 @@ function getLabelAnchor(x: number) {
   return x > chartConfig.centerX ? "start" : "end";
 }
 
-export default function RiskComparison({ areas }: RiskComparisonProps) {
+export default function RiskComparison({ areas, isPreview = false }: RiskComparisonProps) {
+  const isPresentationTool = useIsPresentationTool();
+  const canViewFullComparison = isPreview && isPresentationTool;
   const maxCompare = 3;
   const initialCompareSlugs = areas.slice(0, 2).map((area) => area.slug);
   const [compareSlugs, setCompareSlugs] = useState(initialCompareSlugs);
@@ -138,6 +142,7 @@ export default function RiskComparison({ areas }: RiskComparisonProps) {
   }));
 
   const mobileSlots = Array.from({ length: maxCompare }, (_, index) => compareSlugs[index] ?? "");
+  const breakdownAreas = comparedAreas.map((area) => area.name).join(", ");
 
   function commitCompareSlugs(nextValues: string[]) {
     const nextCompareSlugs: string[] = [];
@@ -366,7 +371,7 @@ export default function RiskComparison({ areas }: RiskComparisonProps) {
               <span>Closer to the edge means higher relative risk exposure on that dimension.</span>
             </div>
 
-            <div className="risk-radar-table risk-radar-gate">
+            <div className={`risk-radar-table risk-radar-gate ${canViewFullComparison ? "is-preview" : ""}`}>
               <div className="risk-radar-gate__preview" aria-hidden="true">
               <div className="risk-radar-table__intro">
                 <strong>Factor comparison table</strong>
@@ -451,16 +456,19 @@ export default function RiskComparison({ areas }: RiskComparisonProps) {
               </div>
               </div>
 
-              <div className="risk-radar-gate__panel">
+              {!canViewFullComparison ? <div className="risk-radar-gate__panel">
                 <strong>Want the full factor-by-factor breakdown?</strong>
                 <p>
                   HIDD shares the in-depth risk breakdown for each district directly with you.
                   Reach out and we&apos;ll walk you through it.
                 </p>
-                <a className="button button--primary" href="/contact?service=risk-intelligence">
+                <a
+                  className="button button--primary"
+                  href={`/contact?service=area-comparison-breakdown&area=${encodeURIComponent(breakdownAreas)}`}
+                >
                   Reach out for the full breakdown
                 </a>
-              </div>
+              </div> : null}
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import type { ReportAsset } from "@/lib/types";
 
@@ -119,7 +119,7 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
           <ReportGroup
             heading="Available now"
             count={liveAssets.length}
-            description="Unlock these assets instantly with your email."
+            description="Unlock these assets instantly with your email. Scroll for more."
             assets={liveAssets}
             activeSlug={activeSlug}
             onSelect={selectAsset}
@@ -130,7 +130,7 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
           <ReportGroup
             heading="Upcoming releases"
             count={upcomingAssets.length}
-            description="Join the waitlist and HIDD will notify you on release."
+            description="Join the waitlist and HIDD will notify you on release. Scroll for more."
             assets={upcomingAssets}
             activeSlug={activeSlug}
             onSelect={selectAsset}
@@ -155,11 +155,11 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
           <div className="form-grid">
             <label className="field">
               <span>Full Name</span>
-              <input type="text" name="name" placeholder="Adaora Okafor" required />
+              <input type="text" name="name" placeholder="Full Name" required />
             </label>
             <label className="field">
               <span>Email</span>
-              <input type="email" name="email" placeholder="you@example.com" required />
+              <input type="email" name="email" placeholder="Email" required />
             </label>
           </div>
 
@@ -217,6 +217,15 @@ type ReportGroupProps = {
 };
 
 function ReportGroup({ heading, description, count, assets, activeSlug, onSelect }: ReportGroupProps) {
+  const railRef = useRef<HTMLDivElement>(null);
+
+  function scroll(direction: -1 | 1) {
+    railRef.current?.scrollBy({
+      left: direction * Math.max(280, railRef.current.clientWidth * 0.8),
+      behavior: "smooth"
+    });
+  }
+
   return (
     <section className="reports-library__group" aria-label={heading}>
       <header className="reports-library__group-header">
@@ -227,8 +236,16 @@ function ReportGroup({ heading, description, count, assets, activeSlug, onSelect
           </h4>
           <p className="reports-library__group-description">{description}</p>
         </div>
+        <div className="reports-library__group-actions" aria-label={`${heading} carousel controls`}>
+          <button type="button" aria-label={`Scroll ${heading} left`} onClick={() => scroll(-1)}>
+            ‹
+          </button>
+          <button type="button" aria-label={`Scroll ${heading} right`} onClick={() => scroll(1)}>
+            ›
+          </button>
+        </div>
       </header>
-      <div className="reports-library__rail">
+      <div ref={railRef} className="reports-library__rail">
         {assets.map((asset) => (
           <button
             type="button"
@@ -239,9 +256,6 @@ function ReportGroup({ heading, description, count, assets, activeSlug, onSelect
             <span className="report-card__category">{asset.category}</span>
             <strong>{asset.title}</strong>
             <p>{asset.summary}</p>
-            <span className={`report-card__status report-card__status--${asset.status}`}>
-              {asset.status === "live" ? "Launch-ready asset" : "Coming soon"}
-            </span>
           </button>
         ))}
       </div>

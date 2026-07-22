@@ -79,7 +79,13 @@ export const caseStudyType = defineType({
       type: "array",
       of: [
         defineArrayMember({
-          type: "block"
+          type: "block",
+          styles: [
+            { title: "Paragraph", value: "normal" },
+            { title: "Section Heading", value: "h2" },
+            { title: "Subheading", value: "h3" },
+            { title: "Quote", value: "blockquote" }
+          ]
         })
       ],
       validation: (rule) => rule.required()

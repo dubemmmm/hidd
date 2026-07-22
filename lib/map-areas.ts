@@ -4,10 +4,10 @@ import groq from "groq";
 import { cache } from "react";
 
 import {
-  getMapArea as getLocalMapArea,
   mapAreas as localMapAreas
 } from "@/lib/data/map-areas";
 import { sanityClient, sanityEnvReady } from "@/lib/sanity";
+import { sanityPreviewClient, sanityServerClient } from "@/lib/sanity.server";
 import type { MapArea, RiskAssessmentCategory, RiskLayerKey, RiskTier } from "@/lib/types";
 
 type RawSanityCoordinate = {
@@ -229,30 +229,48 @@ function normalizeMapArea(area: RawSanityMapArea): MapArea | null {
   };
 }
 
-async function getSanityMapAreas(): Promise<MapArea[]> {
-  const areas = await sanityClient.fetch<RawSanityMapArea[]>(allMapAreasQuery);
+async function getSanityMapAreas(preview = false): Promise<MapArea[]> {
+  let areas: RawSanityMapArea[];
+
+  if (preview) {
+    areas = await sanityPreviewClient.fetch<RawSanityMapArea[]>(allMapAreasQuery, {}, {
+      cache: "no-store"
+    });
+
+    return areas
+      .map(normalizeMapArea)
+      .filter((area): area is MapArea => Boolean(area));
+  }
+
+  try {
+    areas = await sanityServerClient.fetch<RawSanityMapArea[]>(allMapAreasQuery);
+  } catch {
+    // Map districts are public content, so an anonymous CMS read remains valid
+    // if a configured server token is temporarily unavailable or rotated.
+    areas = await sanityClient.fetch<RawSanityMapArea[]>(allMapAreasQuery);
+  }
 
   return areas
     .map(normalizeMapArea)
     .filter((area): area is MapArea => Boolean(area));
 }
 
-export const getMapAreas = cache(async (): Promise<MapArea[]> => {
+export const getMapAreas = cache(async (preview = false): Promise<MapArea[]> => {
   if (sanityEnvReady) {
     try {
-      const areas = await getSanityMapAreas();
+      const areas = await getSanityMapAreas(preview);
       if (areas.length > 0) {
         return areas;
       }
     } catch {
-      // Fall back to local seed data while the CMS model is being populated.
+      // Keep the map online until the CMS write/read credentials are corrected.
     }
   }
 
   return localMapAreas;
 });
 
-export const getMapArea = cache(async (slug: string): Promise<MapArea | undefined> => {
-  const areas = await getMapAreas();
-  return areas.find((area) => area.slug === slug) ?? getLocalMapArea(slug);
+export const getMapArea = cache(async (slug: string, preview = false): Promise<MapArea | undefined> => {
+  const areas = await getMapAreas(preview);
+  return areas.find((area) => area.slug === slug);
 });

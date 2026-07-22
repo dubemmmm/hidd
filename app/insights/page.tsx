@@ -23,30 +23,30 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
 
   return (
     <>
-      <section className="page-hero page-hero--reports">
+      <section className="page-hero page-hero--reports page-hero--insights">
         <div className="shell shell--reports">
           <Reveal>
-            <div className="page-hero__content page-hero__content--reports">
+            <div className="page-hero__content page-hero__content--reports insights-hero">
               <div className="section-heading__eyebrow">Insights / Library</div>
               <h1>Editorial and downloadable intelligence in one HIDD browse layer.</h1>
               <p>
-                Browse HIDD&apos;s reports, checklists, neighbourhood briefs, and editorial in one
-                place instead of splitting the authority layer across separate tabs.
+                Explore HIDD reports, checklists, neighbourhood briefs, and expert articles—all in
+                one place.
               </p>
             </div>
           </Reveal>
         </div>
       </section>
 
-      <section className="section section--flush-top">
+      <section className="section section--insights-library">
         <div className="shell shell--reports">
           <Reveal>
-            <SectionHeading
-              eyebrow="The library"
-              title="Unlock what&apos;s live. Browse what&apos;s published."
-              description="Downloadable assets and editorial now sit on one authority page so the HIDD browse layer feels unified."
-              centered
-            />
+            <div className="insights-section-heading">
+              <SectionHeading
+                eyebrow="The library"
+                title="Unlock what&apos;s live. Browse what&apos;s published."
+              />
+            </div>
           </Reveal>
           <Reveal delay={0.08}>
             <ReportsLibrary
@@ -57,14 +57,16 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
         </div>
       </section>
 
-      <section className="section">
-        <div className="shell">
+      <section className="section section--insights-articles">
+        <div className="shell shell--reports insights-articles">
           <Reveal>
-            <SectionHeading
-              eyebrow="Browse articles"
-              title="Filter by content pillar"
-              description="Each article links back to the relevant HIDD service, carries an explicit read time, and appears once in the browse layer."
-            />
+            <div className="insights-section-heading">
+              <SectionHeading
+                eyebrow="Browse articles"
+                title="Filter by content pillar"
+                description="Each article links back to the relevant HIDD service, carries an explicit read time, and appears once in the browse layer."
+              />
+            </div>
           </Reveal>
           <Reveal delay={0.08}>
             <InsightsFilter posts={posts} />

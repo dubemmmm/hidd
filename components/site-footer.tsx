@@ -82,3 +82,22 @@ export function SiteFooter() {
     </footer>
   );
 }
+
+export function CompactSiteFooter() {
+  return (
+    <footer className="footer footer--compact">
+      <div className="shell footer-compact">
+        <div className="footer-compact__contact">
+          <Link href="/" className="footer-compact__brand">
+            HIDD Advisory
+          </Link>
+          <span aria-hidden="true">·</span>
+          <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+          <span aria-hidden="true">·</span>
+          <a href={siteConfig.phoneHref}>{siteConfig.phoneDisplay}</a>
+        </div>
+        <p>© 2026 HIDD Advisory · A Chateau &amp; Capital company</p>
+      </div>
+    </footer>
+  );
+}

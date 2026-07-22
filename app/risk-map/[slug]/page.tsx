@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import { PortableText } from "next-sanity";
 
+import { BackButton } from "@/components/back-button";
 import { CtaBand } from "@/components/cta-band";
 import { portableTextComponents } from "@/components/portable-text";
 import { Reveal } from "@/components/reveal";
+import { SanityPreviewBanner } from "@/components/sanity-preview-banner";
 import { SectionHeading } from "@/components/section-heading";
 import { getMapArea } from "@/lib/map-areas";
 import type { RiskTier } from "@/lib/types";
@@ -30,7 +32,8 @@ export async function generateMetadata({ params }: NeighbourhoodPageProps): Prom
 
 export default async function NeighbourhoodPage({ params }: NeighbourhoodPageProps) {
   const { slug } = await Promise.resolve(params);
-  const area = await getMapArea(slug);
+  const { isEnabled: isPreview } = await draftMode();
+  const area = await getMapArea(slug, isPreview);
 
   if (!area) {
     notFound();
@@ -38,13 +41,14 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
 
   return (
     <>
+      {isPreview ? (
+        <SanityPreviewBanner />
+      ) : null}
       <section className="page-hero page-hero--district">
         <div className="shell shell--district">
           <Reveal>
             <div className="page-hero__content page-hero__content--district">
-              <Link href="/risk-map" className="back-link">
-                Back to Area Compare
-              </Link>
+              <BackButton fallbackHref="/risk-map" label="Back" className="back-link back-link--button" />
               <div className="section-heading__eyebrow">Neighbourhood brief</div>
               <h1>{area.name}</h1>
               <p>{area.headline}</p>

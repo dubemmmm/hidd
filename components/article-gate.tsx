@@ -79,11 +79,11 @@ export function ArticleGate({ slug, title, children }: ArticleGateProps) {
           <div className="form-grid">
             <label className="field">
               <span>Full Name</span>
-              <input type="text" name="name" placeholder="Adaora Okafor" required />
+              <input type="text" name="name" required />
             </label>
             <label className="field">
               <span>Email</span>
-              <input type="email" name="email" placeholder="you@example.com" required />
+              <input type="email" name="email" required />
             </label>
           </div>
 
@@ -108,7 +108,6 @@ export function ArticleGate({ slug, title, children }: ArticleGateProps) {
               {status === "submitting" ? "Unlocking..." : "Unlock article"}
             </button>
             <p className={`form-message form-message--${status}`}>
-              {status === "idle" && "Enter your details to read the full article."}
               {status === "error" && responseMessage}
               {status === "success" && responseMessage}
             </p>

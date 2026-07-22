@@ -2,12 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { CtaBand } from "@/components/cta-band";
+import { BackButton } from "@/components/back-button";
 import { Reveal } from "@/components/reveal";
-import { SectionHeading } from "@/components/section-heading";
 import { getFaqsByIds } from "@/lib/faqs";
-import { getAllInsights } from "@/lib/insights";
-import { getService, services } from "@/lib/data/services";
+import { services } from "@/lib/data/services";
 
 type ServicePageProps = {
   params: Promise<{ slug: string }> | { slug: string };
@@ -39,8 +37,6 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
     notFound();
   }
 
-  const insights = await getAllInsights();
-  const relatedInsights = insights.filter((post) => service.relatedInsights.includes(post.slug));
   const relatedFaqs = await getFaqsByIds(service.relatedFaqIds);
 
   return (
@@ -70,62 +66,65 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 <Link href={`/contact?service=${service.slug}`} className="button button--primary">
                   Book This Service
                 </Link>
-                <Link href="/services" className="button button--ghost">
-                  Back to all services
-                </Link>
+                <BackButton fallbackHref="/services" label="Back" />
               </div>
             </div>
           </Reveal>
         </div>
       </section>
 
-      <section className="section">
-        <div className="shell shell--service content-grid content-grid--service">
+      <section className="section section--service-detail">
+        <div className="shell shell--service service-detail-section">
           <Reveal>
-            <article className="content-panel">
-              <SectionHeading
-                eyebrow="What HIDD assesses"
-                title="Included in scope"
-                description={service.heroKicker}
-              />
+            <div className="service-detail-heading">
+              <span>What HIDD assesses</span>
+              <h2>Included in scope</h2>
+              <p>{service.heroKicker}</p>
               {service.proofNote ? <p className="content-panel__proof">{service.proofNote}</p> : null}
-              <ul className="feature-list">
-                {service.included.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
+            </div>
           </Reveal>
-          <Reveal delay={0.08}>
-            <article className="content-panel">
-              <SectionHeading
-                eyebrow="What the client receives"
-                title="Deliverables"
-                description={service.keyMetric}
-              />
-              <ul className="feature-list">
-                {service.deliverables.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
+          <Reveal delay={0.06}>
+            <ul className="service-detail-list">
+              {service.included.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           </Reveal>
         </div>
       </section>
 
-      <section className="section section--muted">
-        <div className="shell shell--service">
+      <section className="section section--service-detail">
+        <div className="shell shell--service service-detail-section">
           <Reveal>
-            <SectionHeading
-              eyebrow="How it works"
-              title="A clear four-step process"
-              description="Built to be clear, remote-friendly, and fast to review."
-            />
+            <div className="service-detail-heading">
+              <span>What the client receives</span>
+              <h2>Deliverables</h2>
+              <p>{service.keyMetric}</p>
+            </div>
           </Reveal>
-          <div className="timeline-grid timeline-grid--service">
+          <Reveal delay={0.06}>
+            <ul className="service-detail-list">
+              {service.deliverables.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="section section--service-detail">
+        <div className="shell shell--service service-detail-section">
+          <Reveal>
+            <div className="service-detail-heading">
+              <span>How it works</span>
+              <h2>A clear four-step process</h2>
+              <p>Built to be clear, remote-friendly, and fast to review.</p>
+            </div>
+          </Reveal>
+          <div className="service-detail-process">
             {service.process.map((step, index) => (
               <Reveal key={step} delay={index * 0.06}>
-                <article className="timeline-card">
+                <article className="service-detail-process__card">
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   <p>{step}</p>
                 </article>
@@ -135,53 +134,28 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
         </div>
       </section>
 
-      <section className="section">
-        <div className="shell shell--service content-grid content-grid--service">
+      <section className="section section--service-detail">
+        <div className="shell shell--service service-detail-section">
           <Reveal>
-            <article className="content-panel">
-              <SectionHeading
-                eyebrow="Related reading"
-                title="Relevant Insights"
-                description="Useful context without leaving the conversion path."
-              />
-              <div className="stack-list">
-                {relatedInsights.map((post) => (
-                  <Link key={post.slug} href={`/insights/${post.slug}`} className="stack-link">
-                    <strong>{post.title}</strong>
-                    <span>
-                      {post.category} · {post.readTime}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </article>
+            <div className="service-detail-heading">
+              <span>Pre-sale objections</span>
+              <h2>Related FAQs</h2>
+              <p>Short answers to the questions buyers ask first.</p>
+            </div>
           </Reveal>
-          <Reveal delay={0.08}>
-            <article className="content-panel">
-              <SectionHeading
-                eyebrow="Pre-sale objections"
-                title="Related FAQs"
-                description="Short answers to the questions buyers ask first."
-              />
-              <div className="stack-list">
-                {relatedFaqs.map((faq) => (
-                  <Link key={faq.id} href="/faqs" className="stack-link">
-                    <strong>{faq.question}</strong>
-                    <span>{faq.answer}</span>
-                  </Link>
-                ))}
-              </div>
-            </article>
+          <Reveal delay={0.06}>
+            <div className="service-detail-faqs">
+              {relatedFaqs.map((faq, index) => (
+                <article key={faq.id}>
+                  <span>No. {String(index + 1).padStart(2, "0")}</span>
+                  <h3>{faq.question}</h3>
+                  <p>{faq.answer}</p>
+                </article>
+              ))}
+            </div>
           </Reveal>
         </div>
       </section>
-
-      <CtaBand
-        title={`Need ${service.name.toLowerCase()} for a live transaction?`}
-        description="Use the enquiry form to preselect this service and send the asset details directly to the HIDD team."
-        primaryHref={`/contact?service=${service.slug}`}
-        primaryLabel="Book This Service"
-      />
     </>
   );
 }

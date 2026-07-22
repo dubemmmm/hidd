@@ -215,5 +215,10 @@ export const getInsightBySlug = cache(async (slug: string) => {
 
 export async function getRelatedInsights(slug: string, category: string, limit = 3) {
   const posts = await getAllInsights();
-  return posts.filter((post) => post.slug !== slug && post.category === category).slice(0, limit);
+  const candidates = posts.filter((post) => post.slug !== slug);
+
+  return [
+    ...candidates.filter((post) => post.category === category),
+    ...candidates.filter((post) => post.category !== category)
+  ].slice(0, limit);
 }

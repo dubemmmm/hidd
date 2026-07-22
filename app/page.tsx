@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { CtaBand } from "@/components/cta-band";
 import { FaqAccordion } from "@/components/faq-accordion";
 import { Reveal } from "@/components/reveal";
 import RiskMap from "@/components/risk-map";
@@ -38,7 +37,7 @@ export default async function HomePage() {
   const [mapAreas, featuredReportAssets, socialProofItems, faqs] = await Promise.all([
     getMapAreas(),
     getFeaturedReportAssets(),
-    getSocialProofItems(),
+    getSocialProofItems(12),
     getFaqs()
   ]);
 
@@ -115,14 +114,23 @@ export default async function HomePage() {
       </section>
 
       <section className="section section--muted">
-        <div className="shell section-split">
-          <Reveal>
-            <SectionHeading
-              eyebrow="Social proof"
-              title="Decision-makers use HIDD when the downside matters."
-              description="A combined proof layer of CMS-managed client signals and seeded recent activity that keeps the surface fresh without waiting on a full testimonial rollout."
-            />
-          </Reveal>
+        <div className="shell social-proof-section">
+          <div className="social-proof-section__header">
+            <Reveal>
+              <div className="social-proof-section__heading">
+                <SectionHeading
+                  eyebrow="Social proof"
+                  title="Decision-makers use HIDD when the downside matters."
+                />
+              </div>
+            </Reveal>
+            <Reveal delay={0.04}>
+              <div className="social-proof-section__summary" aria-label={`${socialProofItems.length} client reviews`}>
+                <span>Client reviews · {String(socialProofItems.length).padStart(2, "0")}</span>
+                <strong aria-label="5 out of 5 stars">★★★★★</strong>
+              </div>
+            </Reveal>
+          </div>
           <Reveal delay={0.08}>
             <TestimonialColumn items={socialProofItems} />
           </Reveal>
@@ -149,10 +157,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <CtaBand
-        title="Ready to protect your investment?"
-        description="Start with the right HIDD engagement, or move directly into the combined insights and library page if you need an intelligence asset first."
-      />
     </>
   );
 }

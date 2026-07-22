@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { AccreditationStrip } from "@/components/accreditation-strip";
-import { CtaBand } from "@/components/cta-band";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { comprehensiveReport, services } from "@/lib/data/services";
@@ -107,11 +106,6 @@ export default function ServicesPage() {
           </Reveal>
         </div>
       </section>
-
-      <CtaBand
-        title="Need help choosing the right service?"
-        description="Describe the asset and timing, and HIDD will route you into the right engagement."
-      />
     </>
   );
 }
