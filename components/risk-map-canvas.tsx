@@ -251,10 +251,24 @@ export default function RiskMapCanvas({
           type="symbol"
           layout={{
             "text-field": ["get", "name"],
-            "text-size": 10,
+            "text-size": 9,
             "text-font": ["Open Sans Semibold"],
             "text-transform": "uppercase",
             "text-letter-spacing": 0.06,
+            "text-variable-anchor": [
+              "center",
+              "top",
+              "bottom",
+              "left",
+              "right",
+              "top-left",
+              "top-right",
+              "bottom-left",
+              "bottom-right"
+            ],
+            "text-radial-offset": 0.75,
+            "text-justify": "auto",
+            "text-padding": 1,
             "text-allow-overlap": false,
             "symbol-placement": "point"
           }}

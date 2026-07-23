@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useIsPresentationTool } from "next-sanity/hooks";
 
 import { riskLayers, scoreToTier } from "@/lib/data/map-areas";
+import { radarAxisLabels, radarConfig } from "@/lib/data/radar-config";
 import type { MapArea, RiskTier } from "@/lib/types";
 
 type RiskComparisonProps = {
@@ -36,9 +37,9 @@ const seriesStyles = [
 ] as const;
 
 const chartConfig = {
-  width: 760,
+  width: 860,
   height: 620,
-  centerX: 380,
+  centerX: 430,
   centerY: 300,
   radius: 246
 };
@@ -46,7 +47,13 @@ const chartConfig = {
 const gridLevels = [0.2, 0.4, 0.6, 0.8, 1];
 
 function clampScore(score: number) {
-  return Math.max(0, Math.min(100, score));
+  return Math.max(radarConfig.minScore, Math.min(radarConfig.maxScore, score));
+}
+
+function riskToResilience(risk: number) {
+  const normalizedRisk = clampScore(risk) / radarConfig.maxScore;
+
+  return radarConfig.maxScore * Math.pow(1 - normalizedRisk, radarConfig.gamma);
 }
 
 function getPoint(angle: number, distance: number) {
@@ -110,6 +117,8 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
 
       return {
         ...layer,
+        radarLabel: radarAxisLabels[layer.key],
+        radarLabelLines: radarAxisLabels[layer.key].split(" "),
         angle,
         axisPoint,
         labelPoint
@@ -120,7 +129,11 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
   const comparedSeries = comparedAreas.map((area, index) => {
     const style = seriesStyles[index % seriesStyles.length];
     const points = chartAxes.map((axis) =>
-      getPoint(axis.angle, chartConfig.radius * (clampScore(area.layerScores[axis.key]) / 100))
+      getPoint(
+        axis.angle,
+        chartConfig.radius *
+          (riskToResilience(area.layerScores[axis.key]) / radarConfig.maxScore)
+      )
     );
 
     return {
@@ -198,7 +211,7 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
     <div className="risk-map-surface risk-map-surface--page">
       <div className="risk-map-surface__map">
         <div className="risk-map-surface__map-header">
-          <span className="section-heading__eyebrow">Risk comparison</span>
+          <span className="section-heading__eyebrow">Resilience profile</span>
         </div>
 
         <div className="risk-radar-controls">
@@ -295,7 +308,7 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
                 viewBox={`0 0 ${chartConfig.width} ${chartConfig.height}`}
                 className="risk-radar-chart"
                 role="img"
-                aria-label="Radar chart comparing neighbourhood risk dimensions"
+                aria-label="Radar chart comparing neighbourhood resilience profiles"
               >
                 {gridLevels.map((level) => {
                   const points = chartAxes.map((axis) =>
@@ -360,7 +373,15 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
                     textAnchor={getLabelAnchor(axis.labelPoint.x)}
                     className="risk-radar-chart__label"
                   >
-                    {axis.shortLabel}
+                    {axis.radarLabelLines.map((line, index) => (
+                      <tspan
+                        key={`${axis.key}-${line}`}
+                        x={axis.labelPoint.x}
+                        dy={index === 0 ? 0 : "1.15em"}
+                      >
+                        {line}
+                      </tspan>
+                    ))}
                   </text>
                 ))}
               </svg>
@@ -368,7 +389,10 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
 
             <div className="risk-radar-scale-note">
               <strong>Reading the chart</strong>
-              <span>Closer to the edge means higher relative risk exposure on that dimension.</span>
+              <span>
+                A fuller shape means a stronger position. The scale is comparative rather than
+                linear.
+              </span>
             </div>
 
             <div className={`risk-radar-table risk-radar-gate ${canViewFullComparison ? "is-preview" : ""}`}>
