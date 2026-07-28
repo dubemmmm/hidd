@@ -28,6 +28,13 @@ const LAGOS_BOUNDS: [[number, number], [number, number]] = [
   [3.55, 6.5]
 ];
 
+// Portrait screens need a tighter longitude span; otherwise fitBounds leaves
+// the selectable districts looking disproportionately small.
+const MOBILE_LAGOS_BOUNDS: [[number, number], [number, number]] = [
+  [3.395, 6.395],
+  [3.49, 6.475]
+];
+
 const CARTO_LIGHT_STYLE =
   "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
 
@@ -110,9 +117,12 @@ export default function RiskMapCanvas({
   const resizeMap = useCallback(() => {
     const map = mapRef.current?.getMap();
     if (!map) return;
+
+    const isMobile = (frameRef.current?.clientWidth ?? window.innerWidth) <= 640;
+
     map.resize();
-    map.fitBounds(LAGOS_BOUNDS, {
-      padding: 40,
+    map.fitBounds(isMobile ? MOBILE_LAGOS_BOUNDS : LAGOS_BOUNDS, {
+      padding: isMobile ? 20 : 40,
       duration: 0
     });
   }, []);
