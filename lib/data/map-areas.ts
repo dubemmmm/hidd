@@ -164,13 +164,16 @@ const mapAreaSeeds: MapAreaSeed[] = [
     name: "Victoria Island",
     label: "Victoria Island",
     riskGrade: "low",
+    // Compact assessment zone around the OSM/Nominatim Victoria Island centre
+    // (lat 6.4300279, lon 3.4259904). These are intentionally inset display
+    // polygons, not administrative boundaries, so adjacent districts do not overlap.
     coordinates: [
-      [3.3995, 6.4194],
-      [3.4294, 6.4211],
-      [3.4425, 6.4069],
-      [3.4319, 6.3907],
-      [3.4033, 6.3946],
-      [3.3949, 6.4067]
+      [3.41749, 6.43003],
+      [3.42174, 6.43566],
+      [3.43024, 6.43566],
+      [3.43449, 6.43003],
+      [3.43024, 6.4244],
+      [3.42174, 6.4244]
     ],
     headline: "Institutional depth and mature infrastructure support a relatively low-risk premium position.",
     summary:
@@ -215,13 +218,15 @@ const mapAreaSeeds: MapAreaSeed[] = [
     name: "Ikoyi",
     label: "Ikoyi",
     riskGrade: "low",
+    // Compact assessment zone around the OSM/Nominatim Ikoyi centre
+    // (lat 6.4523431, lon 3.4280523).
     coordinates: [
-      [3.4317, 6.4513],
-      [3.4552, 6.4501],
-      [3.4687, 6.4381],
-      [3.4631, 6.4141],
-      [3.4415, 6.4127],
-      [3.4281, 6.4279]
+      [3.41905, 6.45234],
+      [3.42355, 6.45754],
+      [3.43255, 6.45754],
+      [3.43705, 6.45234],
+      [3.43255, 6.44714],
+      [3.42355, 6.44714]
     ],
     headline: "Premium core with strong defensibility, but title and planning diligence still matter.",
     summary:
@@ -266,13 +271,16 @@ const mapAreaSeeds: MapAreaSeed[] = [
     name: "Banana Island",
     label: "Banana Island",
     riskGrade: "low",
+    // Compact assessment zone around the centre of OSM way 1020019238
+    // (lat 6.4600581, lon 3.4593152). It is inset from greater Ikoyi so the
+    // two selectable assessment zones remain visually and spatially distinct.
     coordinates: [
-      [3.4586, 6.4449],
-      [3.4769, 6.4437],
-      [3.4839, 6.4332],
-      [3.4761, 6.4215],
-      [3.4584, 6.4232],
-      [3.4518, 6.4341]
+      [3.45332, 6.46006],
+      [3.45632, 6.46396],
+      [3.46232, 6.46396],
+      [3.46532, 6.46006],
+      [3.46232, 6.45616],
+      [3.45632, 6.45616]
     ],
     headline: "Prestige and control support a low-risk profile, but premium pricing still demands exacting review.",
     summary:
@@ -317,13 +325,15 @@ const mapAreaSeeds: MapAreaSeed[] = [
     name: "Lekki Phase 1",
     label: "Lekki Phase 1",
     riskGrade: "medium",
+    // Compact assessment zone around the OSM/Nominatim Lekki Phase I centre
+    // (lat 6.4413987, lon 3.4704698).
     coordinates: [
-      [3.4688, 6.4584],
-      [3.5107, 6.4595],
-      [3.5274, 6.4371],
-      [3.5178, 6.4082],
-      [3.4769, 6.4096],
-      [3.4628, 6.4307]
+      [3.46147, 6.4414],
+      [3.46597, 6.4466],
+      [3.47497, 6.4466],
+      [3.47947, 6.4414],
+      [3.47497, 6.4362],
+      [3.46597, 6.4362]
     ],
     headline: "Demand remains strong, but flood pressure, access, and planning quality vary materially by pocket.",
     summary:
@@ -368,13 +378,15 @@ const mapAreaSeeds: MapAreaSeed[] = [
     name: "Eko Atlantic",
     label: "Eko Atlantic",
     riskGrade: "medium",
+    // Compact assessment zone around the centre of OSM way 375803555
+    // (lat 6.4096024, lon 3.4182044).
     coordinates: [
-      [3.3845, 6.3977],
-      [3.4188, 6.3987],
-      [3.4301, 6.3832],
-      [3.4259, 6.3678],
-      [3.3946, 6.3654],
-      [3.3812, 6.3801]
+      [3.4092, 6.4096],
+      [3.4137, 6.4148],
+      [3.4227, 6.4148],
+      [3.4272, 6.4096],
+      [3.4227, 6.4044],
+      [3.4137, 6.4044]
     ],
     headline: "High-ambition district with strong upside, but delivery, infrastructure, and market absorption need sharper scrutiny.",
     summary:

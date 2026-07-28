@@ -19,15 +19,83 @@ type RiskMapCanvasProps = {
   onSelect: (slug: string) => void;
 };
 
-// Tight bbox around the five launch districts (VI, Ikoyi, Banana Island, Lekki Phase 1, Eko Atlantic)
+// Contextual bbox around the six displayed districts. It is intentionally a
+// little tighter than the wider Lagos overview so the assessment zones remain
+// easy to select without losing their coastal context.
 // [[west, south], [east, north]]
 const LAGOS_BOUNDS: [[number, number], [number, number]] = [
-  [3.28, 6.34],
-  [3.58, 6.52]
+  [3.34, 6.36],
+  [3.55, 6.5]
 ];
 
 const CARTO_LIGHT_STYLE =
   "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
+
+type DisplayZone = {
+  center: [number, number];
+  radiusLng: number;
+  radiusLat: number;
+};
+
+// Deliberately compact map-selection zones centered on verified Lagos locations.
+// They are not presented as cadastral or administrative boundaries. Keeping the
+// zones inset is important because Banana Island sits within greater Ikoyi and
+// Oniru adjoins Victoria Island; literal neighbourhood extents would overlap.
+const DISTRICT_DISPLAY_ZONES: Record<string, DisplayZone> = {
+  "victoria-island": {
+    center: [3.4259904, 6.4300279],
+    radiusLng: 0.0105,
+    radiusLat: 0.008
+  },
+  ikoyi: {
+    center: [3.4280523, 6.4523431],
+    radiusLng: 0.013,
+    radiusLat: 0.008
+  },
+  "banana-island": {
+    center: [3.4593152, 6.4600581],
+    radiusLng: 0.012,
+    radiusLat: 0.009
+  },
+  oniru: {
+    center: [3.4421978, 6.4305],
+    radiusLng: 0.005,
+    radiusLat: 0.004
+  },
+  "lekki-phase-1": {
+    center: [3.4704698, 6.4413987],
+    radiusLng: 0.007,
+    radiusLat: 0.0045
+  },
+  "eko-atlantic": {
+    center: [3.4182044, 6.4096024],
+    radiusLng: 0.013,
+    radiusLat: 0.008
+  }
+};
+
+function displayZonePolygon(zone: DisplayZone): GeoJSON.Feature<GeoJSON.Polygon> {
+  const [lng, lat] = zone.center;
+  const x = zone.radiusLng;
+  const y = zone.radiusLat;
+  const coordinates: Array<[number, number]> = [
+    [lng - x, lat],
+    [lng - x / 2, lat + y],
+    [lng + x / 2, lat + y],
+    [lng + x, lat],
+    [lng + x / 2, lat - y],
+    [lng - x / 2, lat - y]
+  ];
+
+  return {
+    type: "Feature",
+    properties: {},
+    geometry: {
+      type: "Polygon",
+      coordinates: [[...coordinates, coordinates[0]]]
+    }
+  };
+}
 
 export default function RiskMapCanvas({
   areas,
@@ -53,7 +121,9 @@ export default function RiskMapCanvas({
     () => ({
       type: "FeatureCollection",
       features: areas.map((area) => ({
-        ...area.geojsonFeature,
+        ...(DISTRICT_DISPLAY_ZONES[area.slug]
+          ? displayZonePolygon(DISTRICT_DISPLAY_ZONES[area.slug])
+          : area.geojsonFeature),
         id: area.slug,
         properties: {
           slug: area.slug,

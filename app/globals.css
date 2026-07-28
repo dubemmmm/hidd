@@ -39,9 +39,9 @@
 
 .page-hero__content--reports.insights-hero {
   max-width: 780px;
-  margin: 0;
-  align-items: flex-start;
-  text-align: left;
+  margin: 0 auto;
+  align-items: center;
+  text-align: center;
 }
 
 .page-hero__content--reports.insights-hero h1 {
@@ -51,8 +51,8 @@
 
 .page-hero__content--reports.insights-hero > p {
   max-width: 68ch;
-  margin-left: 0;
-  margin-right: 0;
+  margin-left: auto;
+  margin-right: auto;
   font-size: 1rem;
   line-height: 1.7;
 }
@@ -66,12 +66,14 @@
 }
 
 .insights-section-heading .section-heading {
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  text-align: center;
 }
 
 .insights-section-heading .section-heading__description {
   max-width: 66ch;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .section--insights-library .reports-library {
@@ -2765,13 +2767,14 @@ img {
 
 .case-studies-hero {
   max-width: 780px;
+  margin: 0 auto;
   padding: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  text-align: center;
 }
 
 .case-studies-hero h1 {
@@ -2781,6 +2784,8 @@ img {
 
 .case-studies-hero > p {
   max-width: 66ch;
+  margin-left: auto;
+  margin-right: auto;
   font-size: 1.05rem;
   line-height: 1.7;
 }
@@ -2790,11 +2795,13 @@ img {
 }
 
 .case-studies-archive-heading .section-heading {
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  text-align: center;
 }
 
 .case-studies-archive-heading .section-heading__description {
+  margin-left: auto;
+  margin-right: auto;
   max-width: 64ch;
 }
 
@@ -4750,6 +4757,26 @@ img {
 }
 
 @media (max-width: 560px) {
+  .insights-hero,
+  .case-studies-hero,
+  .insights-section-heading .section-heading,
+  .case-studies-archive-heading .section-heading {
+    align-items: center;
+    text-align: center;
+  }
+
+  .insights-hero,
+  .case-studies-hero {
+    margin-inline: auto;
+  }
+
+  .insights-hero > p,
+  .case-studies-hero > p,
+  .insights-section-heading .section-heading__description,
+  .case-studies-archive-heading .section-heading__description {
+    margin-inline: auto;
+  }
+
   .page-hero--case-studies {
     padding: 28px 0 18px;
   }
