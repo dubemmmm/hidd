@@ -2,7 +2,6 @@ import "server-only";
 
 import groq from "groq";
 
-import { testimonialSeeds } from "@/lib/data/testimonials";
 import { sanityClient, sanityEnvReady } from "@/lib/sanity";
 import type { Testimonial } from "@/lib/types";
 
@@ -74,10 +73,6 @@ function buildActivityLabel(activityVerb: string, activityAt: string) {
   return `${activityVerb.trim()} ${formatRelativeTime(activityAt)}`;
 }
 
-function buildSeedActivityAt(days: number, hours: number) {
-  return new Date(Date.now() - (days * 24 + hours) * 3_600_000).toISOString();
-}
-
 function normalizeSanityItem(item: RawSanitySocialProof): SortableSocialProof | null {
   const id = item._id?.trim();
   const name = item.name?.trim();
@@ -106,24 +101,6 @@ function normalizeSanityItem(item: RawSanitySocialProof): SortableSocialProof | 
   };
 }
 
-function buildSeedItems(): SortableSocialProof[] {
-  return testimonialSeeds.map((seed) => {
-    const activityAt = buildSeedActivityAt(seed.recencyOffsetDays, seed.recencyOffsetHours);
-
-    return {
-      id: seed.id,
-      name: seed.name,
-      role: seed.role,
-      location: seed.location,
-      quote: seed.quote,
-      initials: initialsFromName(seed.name),
-      activityAt,
-      activityLabel: buildActivityLabel(seed.activityVerb, activityAt),
-      sortOrder: 100
-    };
-  });
-}
-
 async function getSanitySocialProofItems() {
   const items = await sanityClient.fetch<RawSanitySocialProof[]>(allSocialProofQuery);
 
@@ -133,26 +110,19 @@ async function getSanitySocialProofItems() {
 }
 
 export async function getSocialProofItems(limit = 3): Promise<Testimonial[]> {
-  // Newest static testimonials first, so the ones dropped are always the oldest.
-  const seededItems = buildSeedItems().sort(
-    (a, b) => new Date(b.activityAt).getTime() - new Date(a.activityAt).getTime()
-  );
-  let sanityItems: SortableSocialProof[] = [];
-
-  if (sanityEnvReady) {
-    try {
-      sanityItems = await getSanitySocialProofItems();
-    } catch {
-      // Leave seeded items in place if the CMS model is still being populated.
-    }
+  if (!sanityEnvReady) {
+    return [];
   }
 
-  // CMS-managed entries take priority and push the oldest static seeds out
-  // one-for-one, so the total count stays stable as Sanity is populated.
-  const seedSlots = Math.max(0, limit - sanityItems.length);
-  const keptSeeds = seededItems.slice(0, seedSlots);
+  let sanityItems: SortableSocialProof[] = [];
 
-  return [...sanityItems, ...keptSeeds]
+  try {
+    sanityItems = await getSanitySocialProofItems();
+  } catch {
+    return [];
+  }
+
+  return sanityItems
     .sort((a, b) => {
       if (a.sortOrder !== b.sortOrder) {
         return a.sortOrder - b.sortOrder;

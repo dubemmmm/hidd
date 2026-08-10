@@ -13,11 +13,11 @@ export const services: Service[] = [
       "HIDD's home inspection service gives buyers and investors a disciplined technical view of a target property. We assess visible defects, workmanship quality, life-safety concerns, and likely remediation costs so decisions are based on facts instead of seller assurances.",
     heroKicker: "Certified engineers reviewing what the brochure will not show you.",
     fee: serviceFee,
-    turnaround: "Turnaround confirmed at engagement",
+    turnaround: "Confirmed after the initial property briefing",
     accent: "#77a2ff",
     accreditation: ["InterNACHI"],
     included: [
-      "Structural observations across walls, slabs, roofing, and settlement indicators",
+      "Structural observations across walls, slabs, roofing, and settlement indicators, with drone-assisted roof review where safe and appropriate",
       "Electrical, plumbing, drainage, and water-pressure checks",
       "Interior and exterior finish review for defects, dampness, and workmanship issues",
       "Snag list prioritised by severity and repair urgency"
@@ -47,7 +47,7 @@ export const services: Service[] = [
     summary:
       "Title verification and land document review designed to protect buyers from forged documents, encumbrances, and transaction blind spots.",
     longDescription:
-      "This service is for buyers who need confidence that the seller has the legal right to transfer the asset and that the documentation stack can withstand scrutiny. HIDD coordinates document checks, registry research, and legal risk summaries that help clients avoid expensive disputes.",
+      "This service is for buyers who need confidence that the seller has the legal right to transfer the property and that the documents are complete and consistent. HIDD coordinates document checks, registry research, and legal risk summaries that help clients avoid expensive disputes.",
     heroKicker: "Clear title strategy for buyers who cannot afford documentation surprises.",
     fee: serviceFee,
     turnaround: "5 to 7 business days",
@@ -66,7 +66,7 @@ export const services: Service[] = [
     ],
     process: [
       "Document intake and transaction-context review",
-      "Legal and title verification workflow",
+      "Legal and title verification",
       "Escalation of material inconsistencies for deeper scrutiny",
       "Delivery of an actionable diligence summary"
     ],
@@ -81,17 +81,17 @@ export const services: Service[] = [
     shortName: "Risk Intelligence",
     eyebrow: "Area-level investment intelligence",
     summary:
-      "Neighbourhood risk analysis covering flood exposure, infrastructure maturity, title friction, and broader development signals.",
+      "Neighbourhood risk analysis covering flood exposure, infrastructure, title concerns, planning, security, and market demand.",
     longDescription:
-      "HIDD's flagship risk intelligence work helps buyers understand whether an area justifies the asking price and long-term exposure. We combine local market context with risk scoring so the client sees the neighbourhood the way an informed operator would.",
-    heroKicker: "The flagship HIDD lens for reading Lagos before you buy into it.",
+      "HIDD Risk Intelligence helps buyers understand whether an area supports the asking price and their long-term plans. We combine local market knowledge with risk scoring to explain the strengths and concerns that may affect the purchase.",
+    heroKicker: "Understand the neighbourhood risks before you buy.",
     fee: serviceFee,
     turnaround: "3 to 5 business days",
     accent: "#f2b764",
     included: [
       "Flood-risk and drainage context review",
       "Infrastructure maturity assessment covering access, utilities, and planned works",
-      "Title-complexity and transaction-friction risk grading",
+      "Title complexity and transaction risk grading",
       "Narrative on demand drivers, buyer profile, and downside signals"
     ],
     deliverables: [
@@ -102,9 +102,9 @@ export const services: Service[] = [
     ],
     process: [
       "Confirm target location, intent, and budget range",
-      "Pull area intelligence from HIDD data layers and analyst review",
-      "Synthesize risk findings into a client-ready dashboard",
-      "Deliver recommendation with escalation options for deeper diligence"
+      "Review HIDD area research and complete an analyst assessment",
+      "Present the findings in a clear visual report",
+      "Explain the recommendation and any further checks you should consider"
     ],
     suitableFor: ["Remote investors", "Site selection", "Land banking decisions"],
     keyMetric: "Built around HIDD's neighbourhood-level risk edge",
@@ -122,7 +122,7 @@ export const services: Service[] = [
       "HIDD valuation is built for buyers who need more than seller pricing or informal agent guidance. We frame the subject asset against comparable deals, replacement considerations, and local demand context so clients can pressure-test the asking price before committing.",
     heroKicker: "Independent valuation grounded in Lagos transaction logic and buyer realism.",
     fee: serviceFee,
-    turnaround: "5 business days",
+    turnaround: "5 business days for residential properties; 7 business days for commercial properties",
     accent: "#de8dd0",
     included: [
       "Comparable market analysis using relevant local benchmarks",
@@ -153,12 +153,12 @@ export const comprehensiveReport = {
   name: "Comprehensive Report",
   fee: comprehensiveReportFee,
   summary:
-    "A bundled engagement that combines inspection, legal diligence, risk intelligence, and valuation into one coordinated buyer decision package.",
+    "A complete review that combines inspection, legal due diligence, risk intelligence, and valuation in one report.",
   includes: [
-    "All four HIDD service verticals under one coordinated workflow",
-    "One integrated report pack for high-value acquisitions",
-    "A single engagement path for diaspora and institutional buyers",
-    "Priority orchestration across inspection, legal, and market review"
+    "All four HIDD services coordinated by one team",
+    "One combined report for your property decision",
+    "One point of contact for diaspora and institutional buyers",
+    "Coordinated inspection, legal, neighbourhood, and valuation reviews"
   ]
 };
 

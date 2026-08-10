@@ -10,6 +10,7 @@ import { Reveal } from "@/components/reveal";
 import { SanityPreviewBanner } from "@/components/sanity-preview-banner";
 import { SectionHeading } from "@/components/section-heading";
 import { getMapArea } from "@/lib/map-areas";
+import { createPageMetadata } from "@/lib/seo";
 import type { RiskTier } from "@/lib/types";
 
 type NeighbourhoodPageProps = {
@@ -24,10 +25,11 @@ export async function generateMetadata({ params }: NeighbourhoodPageProps): Prom
 
   if (!area) return {};
 
-  return {
+  return createPageMetadata({
     title: area.name,
-    description: area.summary
-  };
+    description: area.summary,
+    path: `/risk-map/${area.slug}`
+  });
 }
 
 export default async function NeighbourhoodPage({ params }: NeighbourhoodPageProps) {
@@ -66,7 +68,7 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
               </div>
               <div className="district-summary-card__intro">
                 <div className="district-summary-card__copy">
-                  <h2>Current framing</h2>
+                  <h2>Current assessment</h2>
                   <p>{area.summary}</p>
                 </div>
                 <div className={`district-grade district-grade--${area.riskGrade}`}>
@@ -89,7 +91,7 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
                 </div>
               </div>
               <div className="district-framing-note">
-                <span className="district-framing-note__eyebrow">Framing note</span>
+                <span className="district-framing-note__eyebrow">What to keep in mind</span>
                 <p>{area.framingNote}</p>
               </div>
               {area.briefBody && area.briefBody.length > 0 ? (
@@ -110,8 +112,8 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
           <Reveal>
             <SectionHeading
               eyebrow="Assessment categories"
-              title="Structured neighbourhood assessment"
-              description="A compact launch-format assessment using short indicator notes."
+              title="What HIDD assessed"
+              description="Review the main title, planning, infrastructure, environmental, security, and market factors for this district."
             />
           </Reveal>
           <div className="district-breakdown-grid">
@@ -143,7 +145,7 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
 
       <CtaBand
         title={`Need deeper diligence on ${area.name}?`}
-        description="Move from public neighbourhood framing into the full HIDD Risk Intelligence engagement."
+        description="Book HIDD Risk Intelligence for a more detailed review of the area and the risks relevant to your purchase."
         primaryHref={`/contact?service=risk-intelligence&area=${encodeURIComponent(area.name)}`}
         primaryLabel="Book Risk Intelligence"
       />

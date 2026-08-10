@@ -3,9 +3,12 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { BackButton } from "@/components/back-button";
+import { JsonLd } from "@/components/json-ld";
 import { Reveal } from "@/components/reveal";
 import { getFaqsByIds } from "@/lib/faqs";
 import { services } from "@/lib/data/services";
+import { absoluteUrl, createPageMetadata } from "@/lib/seo";
+import { siteConfig } from "@/lib/site";
 
 type ServicePageProps = {
   params: Promise<{ slug: string }> | { slug: string };
@@ -23,10 +26,11 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
     return {};
   }
 
-  return {
+  return createPageMetadata({
     title: service.name,
-    description: service.summary
-  };
+    description: service.summary,
+    path: `/services/${service.slug}`
+  });
 }
 
 export default async function ServiceDetailPage({ params }: ServicePageProps) {
@@ -41,10 +45,40 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "@id": `${absoluteUrl(`/services/${service.slug}`)}#service`,
+          name: service.name,
+          description: service.summary,
+          url: absoluteUrl(`/services/${service.slug}`),
+          provider: {
+            "@type": "Organization",
+            "@id": `${siteConfig.url}/#organization`,
+            name: siteConfig.name
+          },
+          areaServed: {
+            "@type": "AdministrativeArea",
+            name: "Lagos State, Nigeria"
+          },
+          offers: {
+            "@type": "Offer",
+            priceCurrency: "NGN",
+            price: service.fee.replace(/[^0-9]/g, ""),
+            url: absoluteUrl(`/contact?service=${service.slug}`)
+          }
+        }}
+      />
       <section className="page-hero page-hero--service">
         <div className="shell shell--service">
           <Reveal>
             <div className="page-hero__content page-hero__content--service">
+              <BackButton
+                fallbackHref="/services"
+                label="← Back to Services"
+                className="service-back-link"
+              />
               <div className="section-heading__eyebrow">{service.eyebrow}</div>
               <h1>{service.name}</h1>
               <p>{service.summary}</p>
@@ -66,49 +100,69 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 <Link href={`/contact?service=${service.slug}`} className="button button--primary">
                   Book This Service
                 </Link>
-                <BackButton fallbackHref="/services" label="Back" />
               </div>
             </div>
           </Reveal>
         </div>
       </section>
 
-      <section className="section section--service-detail">
-        <div className="shell shell--service service-detail-section">
+      <section className="section section--service-introduction">
+        <div className="shell shell--service service-introduction">
           <Reveal>
             <div className="service-detail-heading">
-              <span>What HIDD assesses</span>
-              <h2>Included in scope</h2>
-              <p>{service.heroKicker}</p>
-              {service.proofNote ? <p className="content-panel__proof">{service.proofNote}</p> : null}
+              <span>Service overview</span>
+              <h2>What this service does</h2>
             </div>
           </Reveal>
-          <Reveal delay={0.06}>
-            <ul className="service-detail-list">
-              {service.included.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
+          <Reveal delay={0.05}>
+            <div className="service-introduction__body">
+              <p>{service.longDescription}</p>
+              <aside>
+                <span>Best suited for</span>
+                <ul>
+                  {service.suitableFor.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </aside>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      <section className="section section--service-detail">
+      <section className="section section--service-detail section--service-paired">
         <div className="shell shell--service service-detail-section">
-          <Reveal>
-            <div className="service-detail-heading">
-              <span>What the client receives</span>
-              <h2>Deliverables</h2>
-              <p>{service.keyMetric}</p>
-            </div>
-          </Reveal>
-          <Reveal delay={0.06}>
-            <ul className="service-detail-list">
-              {service.deliverables.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </Reveal>
+          <div className="service-detail-pair">
+            <Reveal>
+              <article className="service-detail-column">
+                <div className="service-detail-heading">
+                  <span>What HIDD assesses</span>
+                  <h2>Included in scope</h2>
+                  <p>{service.heroKicker}</p>
+                  {service.proofNote ? <p className="content-panel__proof">{service.proofNote}</p> : null}
+                </div>
+                <ul className="service-detail-list service-detail-list--single">
+                  {service.included.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </article>
+            </Reveal>
+            <Reveal delay={0.06}>
+              <article className="service-detail-column">
+                <div className="service-detail-heading">
+                  <span>What you receive</span>
+                  <h2>Deliverables</h2>
+                  <p>{service.keyMetric}</p>
+                </div>
+                <ul className="service-detail-list service-detail-list--single">
+                  {service.deliverables.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </article>
+            </Reveal>
+          </div>
         </div>
       </section>
 
@@ -138,7 +192,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
         <div className="shell shell--service service-detail-section">
           <Reveal>
             <div className="service-detail-heading">
-              <span>Pre-sale objections</span>
+              <span>Common questions</span>
               <h2>Related FAQs</h2>
               <p>Short answers to the questions buyers ask first.</p>
             </div>
@@ -152,6 +206,23 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                   <p>{faq.answer}</p>
                 </article>
               ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="section section--service-booking">
+        <div className="shell shell--service">
+          <Reveal>
+            <div className="service-booking">
+              <div>
+                <span>Ready to begin?</span>
+                <h2>Request {service.name}</h2>
+                <p>Tell us about the property and your timeline. We will confirm the scope, professional fee, and next steps.</p>
+              </div>
+              <Link href={`/contact?service=${service.slug}`} className="button button--primary">
+                Book This Service
+              </Link>
             </div>
           </Reveal>
         </div>

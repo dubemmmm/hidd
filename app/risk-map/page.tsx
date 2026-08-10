@@ -6,12 +6,14 @@ import { Reveal } from "@/components/reveal";
 import RiskComparison from "@/components/risk-comparison";
 import { SanityPreviewBanner } from "@/components/sanity-preview-banner";
 import { getMapAreas } from "@/lib/map-areas";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Area Compare",
+export const metadata: Metadata = createPageMetadata({
+  title: "Compare Lagos Neighbourhood Risks",
   description:
-    "Compare HIDD's launch neighbourhoods across risk dimensions including flooding, title complexity, planning, infrastructure, security, environmental pressure, and market liquidity."
-};
+    "Compare Lagos districts across flooding, title, planning, infrastructure, safety, environment, and market liquidity before you buy.",
+  path: "/risk-map"
+});
 
 export const revalidate = 60;
 
@@ -31,9 +33,8 @@ export default async function RiskMapPage() {
               <div className="section-heading__eyebrow">Area Compare</div>
               <h1>Neighbourhood-level judgement before you commit capital.</h1>
               <p>
-                HIDD&apos;s launch comparison tool lets you stack premium Lagos districts against one
-                another, read the shape of their risk exposure, and move straight into a dedicated
-                district brief when you need deeper context.
+                Compare premium Lagos districts, see where their strengths and risks differ, and
+                open a district brief for a closer review.
               </p>
             </div>
           </Reveal>
@@ -49,8 +50,8 @@ export default async function RiskMapPage() {
       </section>
 
       <CtaBand
-        title="Need the full Risk Intelligence engagement?"
-        description="The public map is an entry point. The full HIDD service goes deeper into neighbourhood and transaction risk."
+        title="Need a detailed review of an area?"
+        description="HIDD Risk Intelligence examines the neighbourhood and transaction risks that may affect your purchase."
         primaryHref="/contact?service=risk-intelligence"
         primaryLabel="Book Risk Intelligence"
         className="cta-band--hide-mobile"

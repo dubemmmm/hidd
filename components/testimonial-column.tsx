@@ -9,8 +9,6 @@ export function TestimonialColumn({ items }: TestimonialColumnProps) {
     return null;
   }
 
-  const locations = [...new Set(items.map((item) => item.location))].join(" · ");
-
   return (
     <div className="testimonial-showcase" aria-label="Client social proof">
       <div className="testimonial-column">
@@ -34,12 +32,6 @@ export function TestimonialColumn({ items }: TestimonialColumnProps) {
         ))}
       </div>
 
-      <div className="testimonial-showcase__footer">
-        <div className="testimonial-showcase__locations">
-          <span>Trusted across</span>
-          <strong>{locations}</strong>
-        </div>
-      </div>
     </div>
   );
 }

@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
   if (!name || !emailPattern.test(email) || !assetSlug) {
     return NextResponse.json(
-      { ok: false, error: "Name, valid email, and asset selection are required." },
+      { ok: false, error: "Name, valid email, and resource selection are required." },
       { status: 400 }
     );
   }
@@ -37,12 +37,12 @@ export async function POST(request: Request) {
   const asset = await getReportAsset(assetSlug);
 
   if (!asset) {
-    return NextResponse.json({ ok: false, error: "Asset not found." }, { status: 404 });
+    return NextResponse.json({ ok: false, error: "Resource not found." }, { status: 404 });
   }
 
   if (asset.status === "live" && !asset.assetUrl) {
     return NextResponse.json(
-      { ok: false, error: "This live asset does not have a download file configured yet." },
+      { ok: false, error: "This resource does not have a download file available yet." },
       { status: 409 }
     );
   }
@@ -63,6 +63,6 @@ export async function POST(request: Request) {
     message:
       asset.status === "live"
         ? "Access recorded. You can download the current release below."
-        : "Interest recorded. HIDD will notify you when this asset is released."
+        : "Interest recorded. HIDD will notify you when this resource is released."
   });
 }

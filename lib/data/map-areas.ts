@@ -105,49 +105,49 @@ export const riskLayers: RiskLayer[] = [
     key: "flooding",
     label: "Flooding",
     shortLabel: "Flood",
-    description: "Drainage pressure, coastal exposure, and failure-condition resilience.",
+    description: "Flood exposure, drainage conditions, and coastal pressure.",
     available: true
   },
   {
     key: "title-complexity",
     label: "Title Complexity",
     shortLabel: "Title",
-    description: "Title-chain quality, documentation friction, and ownership complexity.",
+    description: "Ownership records, document consistency, and title concerns.",
     available: true
   },
   {
     key: "planning-zoning",
     label: "Planning & Zoning",
     shortLabel: "Planning",
-    description: "Planning alignment, demolition exposure, and zoning pressure.",
+    description: "Land use, building approvals, zoning, and demolition exposure.",
     available: true
   },
   {
     key: "infrastructure",
     label: "Infrastructure",
     shortLabel: "Infra",
-    description: "Access, utilities, and neighbourhood readiness.",
+    description: "Road access, utilities, drainage, and other essential infrastructure.",
     available: true
   },
   {
     key: "security",
     label: "Security",
     shortLabel: "Security",
-    description: "Security profile, access control, and general operating comfort.",
+    description: "Safety conditions, access control, and local security concerns.",
     available: true
   },
   {
     key: "environmental",
     label: "Environmental",
     shortLabel: "Env",
-    description: "Environmental constraints and location-specific externalities.",
+    description: "Noise, pollution, erosion, and other environmental concerns.",
     available: true
   },
   {
     key: "market-liquidity",
     label: "Market Liquidity",
     shortLabel: "Market",
-    description: "Absorption strength, exit flexibility, and premium-demand resilience.",
+    description: "Buyer demand, pricing support, and how easily a property may be resold.",
     available: true
   }
 ];
@@ -196,7 +196,7 @@ const mapAreaSeeds: MapAreaSeed[] = [
       "documentation-quality":
         "Registered title quality is often stronger here, but transaction chain review still matters.",
       "tenure-security-revocation":
-        "Competing-claim exposure is comparatively lower, though asset-level diligence remains necessary.",
+        "Competing-claim exposure is comparatively lower, though the property documents still need to be checked.",
       "government-action-demolition":
         "Planning enforcement risk is lower than speculative corridors, but assumptions still need verification.",
       "flooding-drainage":
@@ -228,11 +228,11 @@ const mapAreaSeeds: MapAreaSeed[] = [
       [3.43255, 6.44714],
       [3.42355, 6.44714]
     ],
-    headline: "Premium core with strong defensibility, but title and planning diligence still matter.",
+    headline: "Premium district with strong demand, but title and planning checks still matter.",
     summary:
       "Ikoyi remains one of Lagos' strongest premium districts, with resilient demand and relatively mature infrastructure, but buyers should still test title chains, zoning edge cases, and pricing discipline.",
     framingNote:
-      "Ikoyi's reputation does not remove diligence requirements. The district is premium, but family-held assets, redevelopment pressure, and overconfidence in title quality still create buyer risk.",
+      "Ikoyi's reputation does not remove the need for careful checks. Family-held properties, redevelopment pressure, and assumptions about title quality can still create buyer risk.",
     assessmentDate: "May 5, 2026",
     analyst: "HIDD Advisory",
     redFlag: "None",
@@ -247,7 +247,7 @@ const mapAreaSeeds: MapAreaSeed[] = [
     },
     assessmentNotes: {
       "documentation-quality":
-        "Title chains are generally stronger, though family-held assets can still create documentary friction.",
+        "Title records are generally stronger, though family-held properties can still have document gaps or inconsistencies.",
       "tenure-security-revocation":
         "Competing-claim risk is lower than many Lagos corridors, but tenure assumptions still need proof.",
       "government-action-demolition":
@@ -337,7 +337,7 @@ const mapAreaSeeds: MapAreaSeed[] = [
     ],
     headline: "Demand remains strong, but flood pressure, access, and planning quality vary materially by pocket.",
     summary:
-      "Lekki Phase 1 continues to attract premium demand, though drainage exposure, access strain, and development inconsistency mean asset-level review remains essential before capital moves.",
+      "Lekki Phase 1 continues to attract strong demand, but drainage, road access, and uneven development make a property-specific review essential before you buy.",
     framingNote:
       "Lekki Phase 1 should not be treated as uniformly low-risk. Buyers need to read it block by block, especially on drainage, access, and development quality.",
     assessmentDate: "May 5, 2026",
@@ -356,7 +356,7 @@ const mapAreaSeeds: MapAreaSeed[] = [
       "documentation-quality":
         "Documentation quality can vary with development history and transaction chain complexity.",
       "tenure-security-revocation":
-        "Competing-claim risk is moderate and should be checked carefully at asset level.",
+        "Competing-claim risk is moderate and should be checked carefully for the specific property.",
       "government-action-demolition":
         "Enforcement exposure is moderate and often turns on planning compliance.",
       "flooding-drainage":

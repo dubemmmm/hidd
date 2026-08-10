@@ -17,6 +17,7 @@ type RiskMapCanvasProps = {
   tierBySlug: Record<string, RiskTier>;
   activeSlug: string;
   onSelect: (slug: string) => void;
+  onReady?: () => void;
 };
 
 // Contextual bbox around the six displayed districts. It is intentionally a
@@ -108,7 +109,8 @@ export default function RiskMapCanvas({
   areas,
   tierBySlug,
   activeSlug,
-  onSelect
+  onSelect,
+  onReady
 }: RiskMapCanvasProps) {
   const mapRef = useRef<MapRef | null>(null);
   const frameRef = useRef<HTMLDivElement | null>(null);
@@ -258,7 +260,10 @@ export default function RiskMapCanvas({
         dragRotate={false}
         touchPitch={false}
         interactiveLayerIds={["district-fill"]}
-        onLoad={resizeMap}
+        onLoad={() => {
+          resizeMap();
+          onReady?.();
+        }}
         onClick={handleClick}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}

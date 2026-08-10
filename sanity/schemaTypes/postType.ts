@@ -49,8 +49,12 @@ export const postType = defineType({
       name: "readTime",
       title: "Read Time",
       type: "string",
-      description: "Explicit read time label shown on the Insights index and article page.",
-      validation: (rule) => rule.required()
+      description: 'Use the format “6 min read”.',
+      validation: (rule) =>
+        rule.required().regex(/^\d+ min read$/, {
+          name: "read time",
+          invert: false
+        })
     }),
     defineField({
       name: "body",

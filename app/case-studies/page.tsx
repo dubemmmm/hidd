@@ -4,12 +4,14 @@ import { CaseStudiesBrowser } from "@/components/case-studies-browser";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { getCaseStudies } from "@/lib/case-studies";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Case Studies",
+export const metadata: Metadata = createPageMetadata({
+  title: "Property Buyer Case Studies",
   description:
-    "Real HIDD Advisory transaction-impact stories showing what buyers avoided, renegotiated, or clarified before committing capital."
-};
+    "Read HIDD property case studies showing the risks buyers identified, avoided, or renegotiated before committing to a transaction.",
+  path: "/case-studies"
+});
 
 export const revalidate = 60;
 

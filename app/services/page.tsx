@@ -1,16 +1,17 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
-import { AccreditationStrip } from "@/components/accreditation-strip";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { comprehensiveReport, services } from "@/lib/data/services";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Services",
+export const metadata: Metadata = createPageMetadata({
+  title: "Property Advisory Services",
   description:
-    "Explore HIDD Advisory's four service verticals and the bundled comprehensive report for Lagos property buyers."
-};
+    "Compare HIDD home inspection, legal due diligence, risk intelligence, valuation, and comprehensive property review services.",
+  path: "/services"
+});
 
 export default function ServicesPage() {
   return (
@@ -20,10 +21,9 @@ export default function ServicesPage() {
           <Reveal>
             <div className="page-hero__content page-hero__content--service-overview">
               <div className="section-heading__eyebrow">Services overview</div>
-              <h1>One premium diligence stack for Lagos buyers.</h1>
+              <h1>Four services to help you buy with confidence.</h1>
               <p>
-                Four focused advisory services designed to protect buyers before serious capital
-                moves.
+                Choose the checks you need before you pay, sign, or complete a property purchase.
               </p>
               <div className="anchor-nav" aria-label="Service shortcuts">
                 <div className="anchor-nav__track">
@@ -41,15 +41,12 @@ export default function ServicesPage() {
 
       <section className="section">
         <div className="shell shell--service">
-          <Reveal delay={0.04}>
-            <AccreditationStrip compact />
-          </Reveal>
           <Reveal>
-            <div style={{ marginTop: "40px" }}>
+            <div>
               <SectionHeading
-                eyebrow="Comparison view"
+                eyebrow="Compare services"
                 title="Choose the right engagement for the deal in front of you"
-                description="Scan the scope, fee, and best-fit engagement quickly."
+                description="Compare what each service covers, the fee, and who it is designed for."
               />
             </div>
           </Reveal>
@@ -71,9 +68,14 @@ export default function ServicesPage() {
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
-                  <Link href={`/contact?service=${service.slug}`} className="button button--primary">
-                    Book This Service
-                  </Link>
+                  <div className="overview-card__actions">
+                    <Link href={`/services/${service.slug}`} className="button button--ghost">
+                      View Service Details
+                    </Link>
+                    <Link href={`/contact?service=${service.slug}`} className="button button--primary">
+                      Book This Service
+                    </Link>
+                  </div>
                 </article>
               </Reveal>
             ))}
@@ -92,7 +94,7 @@ export default function ServicesPage() {
               </div>
               <div className="bundle-card__aside">
                 <strong>{comprehensiveReport.fee}</strong>
-                <span>Bundled premium diligence package</span>
+                <span>All four services in one coordinated review</span>
               </div>
               <ul>
                 {comprehensiveReport.includes.map((item) => (

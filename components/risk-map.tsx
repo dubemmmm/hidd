@@ -10,7 +10,7 @@ import type { MapArea, RiskLayerKey, RiskTier } from "@/lib/types";
 
 const RiskMapCanvas = dynamic(() => import("./risk-map-canvas"), {
   ssr: false,
-  loading: () => <div className="risk-map-canvas__placeholder">Loading map…</div>
+  loading: () => null
 });
 
 type RiskMapProps = {
@@ -28,6 +28,7 @@ export default function RiskMap({ areas, variant = "page" }: RiskMapProps) {
   const [activeSlug, setActiveSlug] = useState(areas[0]?.slug ?? "");
   const [activeLayer, setActiveLayer] = useState<RiskLayerKey | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isMapReady, setIsMapReady] = useState(false);
   const showLayerControls = variant !== "hero";
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export default function RiskMap({ areas, variant = "page" }: RiskMapProps) {
       <div className="risk-map-surface__map">
         <div className="risk-map-surface__map-header">
           <span className="section-heading__eyebrow">Prime Lagos</span>
-          <p>Select a district to view its HIDD risk framing and open the full district brief.</p>
+          <p>Select a district to view its HIDD risk assessment and open the full district brief.</p>
         </div>
 
         {showLayerControls ? (
@@ -80,12 +81,20 @@ export default function RiskMap({ areas, variant = "page" }: RiskMapProps) {
 
         <div className="risk-map-stage">
           <div className="risk-map-canvas risk-map-canvas--live">
-            <RiskMapCanvas
-              areas={areas}
-              tierBySlug={tierBySlug}
-              activeSlug={activeSlug}
-              onSelect={handleSelect}
+            <img
+              src="/risk-map-fallback.svg"
+              alt="Static overview of the Prime Lagos districts covered by HIDD"
+              className={`risk-map-canvas__fallback ${isMapReady ? "is-hidden" : ""}`}
             />
+            <div className={`risk-map-canvas__interactive ${isMapReady ? "is-ready" : ""}`}>
+              <RiskMapCanvas
+                areas={areas}
+                tierBySlug={tierBySlug}
+                activeSlug={activeSlug}
+                onSelect={handleSelect}
+                onReady={() => setIsMapReady(true)}
+              />
+            </div>
           </div>
 
           {isPopupOpen ? (
@@ -175,7 +184,7 @@ export default function RiskMap({ areas, variant = "page" }: RiskMapProps) {
           ) : (
             <div className="risk-map-popup-placeholder">
               <strong>Select a district</strong>
-              <span>Choose a Prime Lagos district to review its risk framing.</span>
+              <span>Choose a Prime Lagos district to review its risk assessment.</span>
             </div>
           )}
         </div>

@@ -88,7 +88,7 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
     } catch (error) {
       setStatus("error");
       setResponseMessage(
-        error instanceof Error ? error.message : "Something went wrong while requesting the asset."
+        error instanceof Error ? error.message : "Something went wrong while requesting the resource."
       );
     }
   }
@@ -119,7 +119,7 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
           <ReportGroup
             heading="Available now"
             count={liveAssets.length}
-            description="Unlock these assets instantly with your email. Scroll for more."
+            description="Enter your email to download these resources. Scroll for more."
             assets={liveAssets}
             activeSlug={activeSlug}
             onSelect={selectAsset}
@@ -145,7 +145,7 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
       <div className="reports-library__panel">
         <div className="reports-library__panel-copy">
           <span className="section-heading__eyebrow">
-            {activeAsset.status === "live" ? "Selected asset" : "Waitlist asset"}
+            {activeAsset.status === "live" ? "Selected resource" : "Upcoming resource"}
           </span>
           <h3>{activeAsset.title}</h3>
           <p>{activeAsset.summary}</p>
@@ -180,14 +180,14 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
               {status === "submitting"
                 ? "Submitting..."
                 : activeAsset.status === "live"
-                  ? "Unlock asset"
+                  ? "Get resource"
                   : "Join waitlist"}
             </button>
             <p className={`form-message form-message--${status}`}>
               {status === "idle" &&
                 (activeAsset.status === "live"
                   ? "Enter your email to unlock the current release."
-                  : "Register interest and HIDD will notify you when this asset is released.")}
+                  : "Register interest and HIDD will notify you when this resource is released.")}
               {status === "success" && responseMessage}
               {status === "error" && responseMessage}
             </p>
@@ -198,7 +198,7 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
           <div className="reports-library__download">
             <span className="section-heading__eyebrow">Access granted</span>
             <a href={downloadHref} className="button button--ghost" download>
-              Download current asset file
+              Download resource
             </a>
           </div>
         ) : null}

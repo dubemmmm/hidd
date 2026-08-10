@@ -6,16 +6,18 @@ import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { getAllInsights } from "@/lib/insights";
 import { getReportAssets } from "@/lib/reports";
+import { createPageMetadata } from "@/lib/seo";
 
 type InsightsPageProps = {
   searchParams?: Promise<{ asset?: string }> | { asset?: string };
 };
 
-export const metadata: Metadata = {
-  title: "Insights / Library",
+export const metadata: Metadata = createPageMetadata({
+  title: "Property Insights and Buyer Resources",
   description:
-    "Editorial and downloadable HIDD intelligence assets in one browse layer for Lagos property decisions."
-};
+    "Browse HIDD reports, checklists, neighbourhood briefs, comparisons, and expert guidance for Lagos property buyers.",
+  path: "/insights"
+});
 
 export default async function InsightsPage({ searchParams }: InsightsPageProps) {
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
@@ -28,7 +30,7 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
           <Reveal>
             <div className="page-hero__content page-hero__content--reports insights-hero">
               <div className="section-heading__eyebrow">Insights / Library</div>
-              <h1>Editorial and downloadable intelligence in one HIDD browse layer.</h1>
+              <h1>Reports and expert guidance for Lagos property buyers.</h1>
               <p>
                 Explore HIDD reports, checklists, neighbourhood briefs, and expert articles—all in
                 one place.
@@ -44,7 +46,7 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
             <div className="insights-section-heading">
               <SectionHeading
                 eyebrow="The library"
-                title="Unlock what&apos;s live. Browse what&apos;s published."
+                title="Download available resources and see what is coming next."
               />
             </div>
           </Reveal>
@@ -63,8 +65,8 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
             <div className="insights-section-heading">
               <SectionHeading
                 eyebrow="Browse articles"
-                title="Filter by content pillar"
-                description="Each article links back to the relevant HIDD service, carries an explicit read time, and appears once in the browse layer."
+                title="Find articles by topic"
+                description="Choose a topic to find practical guidance and the HIDD service that can help with your property decision."
               />
             </div>
           </Reveal>

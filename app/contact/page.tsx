@@ -3,16 +3,18 @@ import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact-form";
 import { Reveal } from "@/components/reveal";
 import { siteConfig } from "@/lib/site";
+import { createPageMetadata } from "@/lib/seo";
 
 type ContactPageProps = {
   searchParams?: Promise<{ service?: string; area?: string }> | { service?: string; area?: string };
 };
 
-export const metadata: Metadata = {
-  title: "Contact",
+export const metadata: Metadata = createPageMetadata({
+  title: "Contact HIDD Advisory",
   description:
-    "Send a HIDD Advisory enquiry for inspection, legal due diligence, risk intelligence, or valuation."
-};
+    "Request a HIDD property assessment, inspection, legal due diligence review, valuation, or neighbourhood risk report.",
+  path: "/contact"
+});
 
 export default async function ContactPage({ searchParams }: ContactPageProps) {
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});

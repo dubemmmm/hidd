@@ -12,6 +12,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 
 import { mdxComponents } from "@/components/mdx-components";
 import { portableTextComponents } from "@/components/portable-text";
+import { formatReadTime } from "@/lib/read-time";
 import { sanityClient, sanityEnvReady } from "@/lib/sanity";
 import type { InsightPost, InsightPostFrontmatter } from "@/lib/types";
 
@@ -40,10 +41,10 @@ const insightFields = groq`
   author,
   "publishedAt": coalesce(publishedAt, _createdAt),
   readTime,
-  "coverImage": coalesce(coverImage, "/og-default.svg"),
+  "coverImage": coalesce(coverImage, "/og/hidd-advisory-og-v1.png"),
   metaTitle,
   metaDescription,
-  "ogImage": coalesce(ogImage, "/og-default.svg"),
+  "ogImage": coalesce(ogImage, "/og/hidd-advisory-og-v1.png"),
   relatedService
 `;
 
@@ -52,12 +53,6 @@ const insightBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0]{
   ${insightFields},
   body
 }`;
-
-function normalizeReadTime(value: unknown) {
-  return typeof value === "string" && value.trim()
-    ? value.trim()
-    : "Read time confirmed at publishing";
-}
 
 function extractMarkdownSource(body: unknown): string | null {
   if (!Array.isArray(body) || body.length === 0) {
@@ -116,7 +111,7 @@ async function getLocalInsights(): Promise<InsightPost[]> {
         return {
           ...frontmatter,
           content,
-          readTime: normalizeReadTime(frontmatter.readTime)
+          readTime: formatReadTime(frontmatter.readTime)
         };
       })
   );
@@ -132,7 +127,7 @@ async function getSanityInsights(): Promise<InsightPost[]> {
   return posts.map((post) => ({
     ...post,
     content: "",
-    readTime: normalizeReadTime(post.readTime)
+    readTime: formatReadTime(post.readTime)
   }));
 }
 
@@ -170,7 +165,7 @@ export const getInsightBySlug = cache(async (slug: string) => {
           return {
             frontmatter: {
               ...post,
-              readTime: normalizeReadTime(post.readTime)
+              readTime: formatReadTime(post.readTime)
             },
             content: compiled.content as ReactElement
           };
@@ -179,7 +174,7 @@ export const getInsightBySlug = cache(async (slug: string) => {
         return {
           frontmatter: {
             ...post,
-            readTime: normalizeReadTime(post.readTime)
+            readTime: formatReadTime(post.readTime)
           },
           content: createElement(PortableText, {
             value: post.body as Parameters<typeof PortableText>[0]["value"],
@@ -207,7 +202,7 @@ export const getInsightBySlug = cache(async (slug: string) => {
   return {
     frontmatter: {
       ...frontmatter,
-      readTime: normalizeReadTime(frontmatter.readTime)
+      readTime: formatReadTime(frontmatter.readTime)
     },
     content: compiled.content as ReactElement
   };

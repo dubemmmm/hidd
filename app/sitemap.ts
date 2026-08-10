@@ -23,23 +23,33 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...staticRoutes.map((route) => ({
       url: `${siteConfig.url}${route}`,
-      lastModified: new Date()
+      lastModified: new Date(),
+      changeFrequency: route === "" ? ("weekly" as const) : ("monthly" as const),
+      priority: route === "" ? 1 : route === "/services" || route === "/insights" ? 0.9 : 0.8
     })),
     ...services.map((service) => ({
       url: `${siteConfig.url}/services/${service.slug}`,
-      lastModified: new Date()
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.9
     })),
     ...posts.map((post) => ({
       url: `${siteConfig.url}/insights/${post.slug}`,
-      lastModified: new Date(post.publishedAt)
+      lastModified: new Date(post.publishedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.8
     })),
     ...caseStudies.map((caseStudy) => ({
       url: `${siteConfig.url}/case-studies/${caseStudy.slug}`,
-      lastModified: new Date(caseStudy.publishedAt)
+      lastModified: new Date(caseStudy.publishedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.8
     })),
     ...mapAreas.map((area) => ({
       url: `${siteConfig.url}/risk-map/${area.slug}`,
-      lastModified: new Date()
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7
     }))
   ];
 }

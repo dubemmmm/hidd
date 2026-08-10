@@ -7,6 +7,7 @@ import {
   caseStudies as localCaseStudies,
   getLocalCaseStudy
 } from "@/lib/data/case-studies";
+import { formatReadTime } from "@/lib/read-time";
 import { sanityClient, sanityEnvReady } from "@/lib/sanity";
 import { sanityHasServerToken, sanityServerClient } from "@/lib/sanity.server";
 import type { CaseStudy, CaseStudyDetail } from "@/lib/types";
@@ -41,14 +42,10 @@ const caseStudyBySlugQuery = groq`
 
 const caseStudyReadClient = sanityHasServerToken ? sanityServerClient : sanityClient;
 
-function normalizeReadTime(value: unknown) {
-  return typeof value === "string" && value.trim() ? value.trim() : "Case study";
-}
-
 function normalizeCaseStudy<T extends CaseStudy>(caseStudy: T): T {
   return {
     ...caseStudy,
-    readTime: normalizeReadTime(caseStudy.readTime),
+    readTime: formatReadTime(caseStudy.readTime, "Case study"),
     metaTitle: caseStudy.metaTitle || caseStudy.title,
     metaDescription: caseStudy.metaDescription || caseStudy.summary
   };

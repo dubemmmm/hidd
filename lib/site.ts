@@ -5,7 +5,7 @@ export const siteConfig = {
   shortName: "HIDD",
   description:
     "Premium property risk intelligence, due diligence, valuation, and inspection services for Lagos buyers.",
-  url: "https://hiddadvisory.com",
+  url: "https://www.hiddadvisory.com",
   phoneDisplay: "+234 704 819 4242",
   phoneHref: "tel:+2347048194242",
   whatsappHref: "https://wa.me/2347048194242",

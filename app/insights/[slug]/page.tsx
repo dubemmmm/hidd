@@ -3,9 +3,12 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { ArticleGate } from "@/components/article-gate";
+import { JsonLd } from "@/components/json-ld";
 import { Reveal } from "@/components/reveal";
 import { comprehensiveReport, getService } from "@/lib/data/services";
 import { getAllInsights, getInsightBySlug, getRelatedInsights } from "@/lib/insights";
+import { stripSiteNameFromTitle } from "@/lib/read-time";
+import { absoluteUrl, createPageMetadata, safeSocialImage } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 
 type InsightPageProps = {
@@ -19,21 +22,16 @@ export async function generateMetadata({ params }: InsightPageProps): Promise<Me
 
   try {
     const post = await getInsightBySlug(slug);
-    return {
-      title: post.frontmatter.metaTitle,
+    const pageTitle = stripSiteNameFromTitle(
+      post.frontmatter.metaTitle || post.frontmatter.title
+    );
+    return createPageMetadata({
+      title: pageTitle,
       description: post.frontmatter.metaDescription,
-      openGraph: {
-        title: post.frontmatter.metaTitle,
-        description: post.frontmatter.metaDescription,
-        images: [post.frontmatter.ogImage]
-      },
-      twitter: {
-        card: "summary_large_image",
-        title: post.frontmatter.metaTitle,
-        description: post.frontmatter.metaDescription,
-        images: [post.frontmatter.ogImage]
-      }
-    };
+      path: `/insights/${slug}`,
+      image: safeSocialImage(post.frontmatter.ogImage),
+      type: "article"
+    });
   } catch {
     return {};
   }
@@ -60,6 +58,29 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
 
     return (
       <>
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "@id": `${canonicalUrl}#article`,
+            headline: post.frontmatter.title,
+            description: post.frontmatter.metaDescription,
+            image: absoluteUrl(safeSocialImage(post.frontmatter.ogImage)),
+            datePublished: post.frontmatter.publishedAt,
+            dateModified: post.frontmatter.publishedAt,
+            author: {
+              "@type": "Organization",
+              "@id": `${siteConfig.url}/#organization`,
+              name: post.frontmatter.author
+            },
+            publisher: {
+              "@type": "Organization",
+              "@id": `${siteConfig.url}/#organization`,
+              name: siteConfig.name
+            },
+            mainEntityOfPage: canonicalUrl
+          }}
+        />
         <section className="page-hero page-hero--article">
           <div className="shell shell--article">
             <Reveal>
@@ -108,7 +129,7 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
             <Reveal delay={0.08}>
               <aside className="article-sidebar">
                 <div className="article-sidebar__card">
-                  <span>Content pillar</span>
+                  <span>Topic</span>
                   <strong>{post.frontmatter.category}</strong>
                 </div>
                 <div className="article-sidebar__card">

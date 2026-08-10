@@ -71,7 +71,12 @@ export const caseStudyType = defineType({
       title: "Read Time",
       type: "string",
       initialValue: "4 min read",
-      validation: (rule) => rule.required()
+      description: 'Use the format “6 min read”.',
+      validation: (rule) =>
+        rule.required().regex(/^\d+ min read$/, {
+          name: "read time",
+          invert: false
+        })
     }),
     defineField({
       name: "body",

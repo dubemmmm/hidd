@@ -3,10 +3,12 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { PortableText } from "next-sanity";
 
+import { JsonLd } from "@/components/json-ld";
 import { portableTextComponents } from "@/components/portable-text";
 import { Reveal } from "@/components/reveal";
 import { getCaseStudies, getCaseStudyBySlug } from "@/lib/case-studies";
 import { comprehensiveReport, getService } from "@/lib/data/services";
+import { absoluteUrl, createPageMetadata, defaultOgImage } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 
 type CaseStudyPageProps = {
@@ -21,21 +23,12 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
 
   if (!caseStudy) return {};
 
-  return {
+  return createPageMetadata({
     title: caseStudy.metaTitle,
     description: caseStudy.metaDescription,
-    openGraph: {
-      title: caseStudy.metaTitle,
-      description: caseStudy.metaDescription,
-      url: `${siteConfig.url}/case-studies/${caseStudy.slug}`,
-      type: "article"
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: caseStudy.metaTitle,
-      description: caseStudy.metaDescription
-    }
-  };
+    path: `/case-studies/${caseStudy.slug}`,
+    type: "article"
+  });
 }
 
 export async function generateStaticParams() {
@@ -55,9 +48,35 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
     caseStudy.service === "comprehensive-report"
       ? comprehensiveReport
       : getService(caseStudy.service);
+  const canonicalUrl = absoluteUrl(`/case-studies/${caseStudy.slug}`);
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          additionalType: "https://schema.org/CaseStudy",
+          "@id": `${canonicalUrl}#case-study`,
+          headline: caseStudy.title,
+          description: caseStudy.metaDescription,
+          image: absoluteUrl(defaultOgImage),
+          datePublished: caseStudy.publishedAt,
+          dateModified: caseStudy.publishedAt,
+          author: {
+            "@type": "Organization",
+            "@id": `${siteConfig.url}/#organization`,
+            name: siteConfig.name
+          },
+          publisher: {
+            "@type": "Organization",
+            "@id": `${siteConfig.url}/#organization`,
+            name: siteConfig.name
+          },
+          about: relatedService?.name ?? "Property due diligence",
+          mainEntityOfPage: canonicalUrl
+        }}
+      />
       <section className="page-hero page-hero--article page-hero--case-study">
         <div className="shell shell--case-study">
           <Reveal>

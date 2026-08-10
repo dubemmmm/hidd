@@ -34,28 +34,28 @@ export const faqs: FaqItem[] = [
     category: "Our Services",
     question: "What are the four services HIDD offers?",
     answer:
-      "HIDD operates across four verticals: (1) Home Inspection — physical assessment of structural and systems condition; (2) Legal Due Diligence — title verification, encumbrances, litigation and planning checks; (3) Risk Intelligence — area level and property level risk profiling across demolition, flooding, security, infrastructure, and market risks; (4) Valuation — independent market value opinions for buying, selling, or lending purposes."
+      "HIDD offers four services: (1) Home Inspection — an assessment of the building and its systems; (2) Legal Due Diligence — title, ownership, encumbrance, litigation, and planning checks; (3) Risk Intelligence — an assessment of area and property risks including flooding, demolition, security, infrastructure, and market demand; and (4) Valuation — an independent opinion of market value for buying, selling, or lending."
   },
   {
     id: "single-or-bundled-services",
     category: "Our Services",
     question: "Can I order just one service, or do I have to take all four?",
     answer:
-      "You can order any single vertical or any combination. If you want a complete picture, particularly for a significant purchase, we recommend our Comprehensive Report, which integrates all four verticals into a single unified assessment."
+      "You can order one service or combine several. If you want a complete review of a significant purchase, the Comprehensive Report brings all four services together in one assessment."
   },
   {
     id: "comprehensive-report",
     category: "Our Services",
     question: "What is the Comprehensive Report?",
     answer:
-      "The Comprehensive Report is HIDD's flagship product. It combines findings from your home inspection, legal due diligence, risk intelligence assessment, and valuation into a single, professionally structured report with a clear overall recommendation: Proceed, Proceed with Conditions, or Do Not Proceed."
+      "The Comprehensive Report combines the home inspection, legal due diligence, risk intelligence assessment, and valuation in one report. It ends with a clear recommendation: Proceed, Proceed with Conditions, or Do Not Proceed."
   },
   {
     id: "how-the-process-works",
     category: "Process",
     question: "How does the process work?",
     answer:
-      "It's straightforward: (1) Contact us with your property details; (2) We confirm scope and issue an invoice; (3) You make payment in full before we commence; (4) We conduct inspections and searches; (5) We deliver your report within the agreed timeframe; (6) We are available to walk you through the findings."
+      "It's straightforward: (1) Contact us with your property details; (2) We confirm the scope, professional fee, and agreed timeframe; (3) The engagement commences once the agreed professional fee has been received; (4) We conduct the required inspections and searches; (5) We deliver your report; (6) We are available to walk you through the findings."
   },
   {
     id: "documents-needed",
@@ -85,20 +85,20 @@ export const faqs: FaqItem[] = [
     category: "Pricing & Payment",
     question: "How much does HIDD charge?",
     answer:
-      "Our flat rate is ₦1,000,000 per vertical. For a Comprehensive Report (all four verticals), please contact us for a package price. All fees are confirmed in writing before any work commences."
+      "Our flat rate is ₦1,000,000 per service. For a Comprehensive Report covering all four services, please contact us for the package price. All fees are confirmed in writing before work begins."
   },
   {
     id: "payment-terms",
     category: "Pricing & Payment",
     question: "When is payment due?",
-    answer: "Full payment is required upfront before any work begins. No exceptions."
+    answer: "Engagements commence once the agreed professional fee has been received."
   },
   {
     id: "fee-coverage",
     category: "Pricing & Payment",
     question: "What does the fee cover?",
     answer:
-      "The fee covers the full assessment, professional analysis, report production, and delivery. For Premium inspection tier, it also includes one post-inspection client consultation session."
+      "The fee covers the full assessment, professional analysis, report production, delivery, and one consultation with the HIDD team to review the findings."
   },
   {
     id: "privacy-security",
@@ -112,7 +112,7 @@ export const faqs: FaqItem[] = [
     category: "Technical Questions",
     question: "What equipment do you use for inspections?",
     answer:
-      "Our inspectors use professional grade tools including a Schmidt Hammer (structural integrity), thermal imaging camera (moisture detection), moisture meters, electrical circuit analysers, gas detectors, endoscope cameras, drones for roof inspection (Premium tier), and environmental meters. We provide a non-invasive inspection. We do not dismantle systems or carry out destructive testing."
+      "Our inspectors use professional-grade tools including a Schmidt Hammer for structural assessment, thermal imaging cameras, moisture meters, electrical circuit analysers, gas detectors, endoscope cameras, environmental meters, and drones for roof inspection where it is safe, permitted, and appropriate. We provide a non-invasive inspection and do not dismantle systems or carry out destructive testing."
   },
   {
     id: "red-flag-definition",
@@ -133,7 +133,7 @@ export const faqs: FaqItem[] = [
     category: "Technical Questions",
     question: "What is your Interactive Risk Map?",
     answer:
-      "Our Interactive Risk Map currently covers five launch neighbourhoods: Victoria Island, Ikoyi, Banana Island, Lekki Phase 1, and Eko Atlantic. You can select an area to view HIDD's current summary risk grade, a short neighbourhood briefing, and the route into deeper Risk Intelligence."
+      "The Interactive Risk Map currently covers six premium Lagos districts: Victoria Island, Ikoyi, Banana Island, Lekki Phase 1, Eko Atlantic, and Oniru. Choose an area to see its summary risk grade, read a short district brief, and decide whether you need a more detailed Risk Intelligence review."
   },
   {
     id: "liability-limit",
