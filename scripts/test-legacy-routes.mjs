@@ -11,8 +11,9 @@ const checks = [
   ["/is-the-property-worth-the-price-how-valuation-can-save-you-millions", 301, "/insights"],
   ["/why-diaspora-nigerians-are-most-at-risk-when-buying-property-back-home", 301, "/insights"],
   ["/buying-property-in-nigeria-7-costly-mistakes-due-diligence-can-help-you-avoid", 301, "/insights/lagos-buyers-checklist"],
-  ["/shop/", 410, null],
-  ["/shop/old-product/", 410, null],
+  ["/shop/", 404, null],
+  ["/shop/old-product/", 404, null],
+  ["/shops/", 404, null],
   ["/an-old-page-with-no-replacement/", 404, null]
 ];
 
