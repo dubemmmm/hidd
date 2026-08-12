@@ -11,6 +11,16 @@ import { comprehensiveReport, getService } from "@/lib/data/services";
 import { absoluteUrl, createPageMetadata, defaultOgImage } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 
+const confidentialityNotice =
+  "Client and asset details have been anonymised. Facts are reproduced with permission and adjusted only where required to preserve confidentiality.";
+
+function evidenceTypeLabel(value: string) {
+  return value
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
 type CaseStudyPageProps = {
   params: Promise<{ slug: string }> | { slug: string };
 };
@@ -133,6 +143,50 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
                   ))
                 )}
               </article>
+
+              {caseStudy.publicationPermissionConfirmed ? (
+                <aside className="case-study-confidentiality-note" aria-label="Confidentiality notice">
+                  <strong>Confidentiality notice</strong>
+                  <p>{confidentialityNotice}</p>
+                </aside>
+              ) : null}
+
+              {caseStudy.evidenceItems && caseStudy.evidenceItems.length > 0 ? (
+                <section className="case-study-evidence" aria-labelledby="case-study-evidence-title">
+                  <header className="case-study-evidence__heading">
+                    <span>Supporting material</span>
+                    <h2 id="case-study-evidence-title">Redacted evidence</h2>
+                    <p>
+                      Selected records from the assessment, redacted to protect the client and asset.
+                    </p>
+                  </header>
+                  <div className="case-study-evidence__grid">
+                    {caseStudy.evidenceItems.map((item) => (
+                      <figure key={item.key} className="case-study-evidence__item">
+                        {item.attachmentType === "image" && item.imageUrl ? (
+                          <img src={item.imageUrl} alt={item.altText ?? ""} loading="lazy" />
+                        ) : item.fileUrl ? (
+                          <a
+                            className="case-study-evidence__document"
+                            href={item.fileUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <span>PDF</span>
+                            <strong>{item.originalFilename || "Open redacted document"}</strong>
+                          </a>
+                        ) : null}
+                        <figcaption>
+                          <small>{evidenceTypeLabel(item.evidenceType)}</small>
+                          <strong>{item.title}</strong>
+                          <p>{item.caption}</p>
+                          <em>{item.redactionNote}</em>
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
 
               <section className="case-study-callout">
                 <span>What HIDD prevented</span>

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { useIsPresentationTool } from "next-sanity/hooks";
 
 import { riskLayers, scoreToTier } from "@/lib/data/map-areas";
 import { radarAxisLabels, radarConfig } from "@/lib/data/radar-config";
@@ -79,7 +78,7 @@ export default function RiskComparison({
   isPreview = false,
   initialCompareSlugs: requestedInitialCompareSlugs
 }: RiskComparisonProps) {
-  const isPresentationTool = useIsPresentationTool();
+  const [isPresentationTool, setIsPresentationTool] = useState(false);
   const canViewFullComparison = isPreview && isPresentationTool;
   const maxCompare = 3;
   const allowedInitialSlugs = new Set(areas.map((area) => area.slug));
@@ -95,6 +94,10 @@ export default function RiskComparison({
   const [activeSlug, setActiveSlug] = useState(initialCompareSlugs[0] ?? "");
   const [shareUrl, setShareUrl] = useState("");
   const [shareStatus, setShareStatus] = useState("");
+
+  useEffect(() => {
+    setIsPresentationTool(window.self !== window.top);
+  }, []);
 
   useEffect(() => {
     if (areas.length === 0) return;

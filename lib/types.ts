@@ -173,9 +173,24 @@ export type CaseStudy = {
   featured?: boolean;
 };
 
+export type CaseStudyEvidence = {
+  key: string;
+  title: string;
+  evidenceType: string;
+  attachmentType: "image" | "file";
+  caption: string;
+  altText?: string;
+  redactionNote: string;
+  imageUrl?: string;
+  fileUrl?: string;
+  originalFilename?: string;
+};
+
 export type CaseStudyDetail = CaseStudy & {
   sections: CaseStudySection[];
   body?: unknown[];
+  publicationPermissionConfirmed?: boolean;
+  evidenceItems?: CaseStudyEvidence[];
 };
 
 export type InsightPostFrontmatter = {

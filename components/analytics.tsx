@@ -1,5 +1,7 @@
 import Script from "next/script";
 
+import { AnalyticsEvents } from "@/components/analytics-events";
+
 export function Analytics() {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
@@ -16,6 +18,7 @@ export function Analytics() {
         gtag('js', new Date());
         gtag('config', '${gaId}');`}
       </Script>
+      <AnalyticsEvents gaId={gaId} />
     </>
   );
 }

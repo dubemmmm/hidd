@@ -42,7 +42,7 @@ export default async function RiskMapPage({ searchParams }: RiskMapPageProps) {
       ) : null}
       <section className="page-hero page-hero--map">
         <div className="shell shell--map-page">
-          <Reveal>
+          <Reveal immediate>
             <div className="page-hero__content page-hero__content--map-page">
               <div className="section-heading__eyebrow">Area Compare</div>
               <h1>Neighbourhood-level judgement before you commit capital.</h1>

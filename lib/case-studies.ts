@@ -36,7 +36,20 @@ const allCaseStudiesQuery = groq`
 const caseStudyBySlugQuery = groq`
   *[_type == "caseStudy" && slug.current == $slug][0] {
     ${caseStudyFields},
-    body
+    body,
+    publicationPermissionConfirmed,
+    "evidenceItems": evidenceItems[approvedForPublication == true] {
+      "key": _key,
+      title,
+      evidenceType,
+      attachmentType,
+      caption,
+      altText,
+      redactionNote,
+      "imageUrl": image.asset->url,
+      "fileUrl": file.asset->url,
+      "originalFilename": file.asset->originalFilename
+    }
   }
 `;
 

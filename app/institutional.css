@@ -49,18 +49,6 @@ body {
   color: var(--text);
 }
 
-body *,
-body *::before,
-body *::after {
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-body * {
-  background-image: none !important;
-}
-
 .page-backdrop,
 .page-grid {
   display: none;
@@ -602,6 +590,7 @@ textarea::placeholder {
 }
 
 .footer-col h3,
+.footer-col__heading,
 .footer-col a,
 .footer-contact-text,
 .footer-desc,
@@ -1042,7 +1031,6 @@ textarea::placeholder {
   border: 1px solid var(--line-strong);
   border-radius: 8px;
   background: var(--surface);
-  box-shadow: 0 24px 70px rgba(13, 27, 45, 0.26);
 }
 
 .district-assessment-dialog__close {
@@ -2460,7 +2448,8 @@ textarea::placeholder {
     align-items: flex-end;
   }
 
-  .footer-col h3 {
+  .footer-col h3,
+  .footer-col__heading {
     margin-bottom: 6px;
   }
 

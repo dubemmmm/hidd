@@ -53,14 +53,14 @@ export function SiteFooter() {
           </div>
 
           <div className="footer-col footer-col--contact">
-            <h3>Contact</h3>
+            <p className="footer-col__heading">Contact</p>
             <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
             <a href={siteConfig.phoneHref}>{siteConfig.phoneDisplay}</a>
             <span className="footer-contact-text">{siteConfig.address}</span>
           </div>
 
           <div className="footer-col footer-col--connect">
-            <h3>Connect</h3>
+            <p className="footer-col__heading">Connect</p>
             <FooterSocialLinks />
           </div>
         </div>

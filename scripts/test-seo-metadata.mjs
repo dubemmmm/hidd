@@ -12,8 +12,8 @@ const pages = [
     additionalType: "https://schema.org/CaseStudy"
   },
   {
-    path: "/insights/governors-consent-explained",
-    title: "Consent",
+    path: "/insights/property-due-diligence-lagos",
+    title: "Property Due Diligence",
     schema: "Article"
   },
   { path: "/faqs", title: "Frequently Asked Questions", schema: "FAQPage" }

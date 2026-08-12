@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useIsPresentationTool } from "next-sanity/hooks";
 
 type SanityPreviewBannerProps = {
   gateOpen?: boolean;
@@ -10,7 +9,11 @@ type SanityPreviewBannerProps = {
 
 export function SanityPreviewBanner({ gateOpen = false }: SanityPreviewBannerProps) {
   const router = useRouter();
-  const isPresentationTool = useIsPresentationTool();
+  const [isPresentationTool, setIsPresentationTool] = useState(false);
+
+  useEffect(() => {
+    setIsPresentationTool(window.self !== window.top);
+  }, []);
 
   useEffect(() => {
     if (!isPresentationTool) return;

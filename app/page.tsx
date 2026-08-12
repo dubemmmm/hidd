@@ -74,6 +74,9 @@ export default async function HomePage() {
               <Link
                 href="/insights?asset=lagos-neighbourhood-risk-index"
                 className="button button--ghost"
+                data-analytics-event="sample_report_cta_click"
+                data-analytics-asset-slug="lagos-neighbourhood-risk-index"
+                data-analytics-location="homepage-hero"
               >
                 View a Sample Report
               </Link>
@@ -127,7 +130,7 @@ export default async function HomePage() {
                 </Link>
               </div>
 
-              <div className="hero-downloads" aria-label="Featured downloadable assets">
+              <div className="hero-downloads">
                 {featuredReportAssets.map((asset) => (
                   <Link key={asset.slug} href={`/insights?asset=${asset.slug}`} className="hero-download-card">
                     <span>{asset.category}</span>

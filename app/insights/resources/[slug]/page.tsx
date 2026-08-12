@@ -143,7 +143,17 @@ export default async function ResourceDetailPage({ params }: ResourcePageProps) 
                 <span>{emailRequired ? "Email access" : "Open download"}</span>
                 <h2>{resource.status === "live" ? "Get the resource" : "Join the release list"}</h2>
                 {resource.status === "live" && !emailRequired && resource.assetUrl ? (
-                  <a href={resource.assetUrl} className="button button--primary" download>Download now</a>
+                  <a
+                    href={resource.assetUrl}
+                    className="button button--primary"
+                    download
+                    data-analytics-event={resource.category === "Sample Report" || resource.isDemo ? "sample_report_download" : "resource_download"}
+                    data-analytics-asset-slug={resource.slug}
+                    data-analytics-asset-category={resource.category}
+                    data-analytics-location="resource-detail"
+                  >
+                    Download now
+                  </a>
                 ) : (
                   <Link href={`/insights?asset=${resource.slug}`} className="button button--primary">
                     {resource.status === "live" ? "Unlock resource" : "Register interest"}

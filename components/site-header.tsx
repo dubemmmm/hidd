@@ -41,8 +41,8 @@ export function SiteHeader() {
   return (
     <header className={`site-header ${isScrolled ? "site-header--scrolled" : ""}`}>
       <div className="shell site-header__inner">
-        <Link href="/" className="brand" aria-label="HIDD Advisory home">
-          <span className="brand__mark">H</span>
+        <Link href="/" className="brand">
+          <span className="brand__mark" aria-hidden="true">H</span>
           <span className="brand__text">HIDD Advisory</span>
         </Link>
 

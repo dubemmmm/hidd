@@ -63,14 +63,22 @@ export function FloatingWhatsApp() {
         </svg>
       </button>
 
-      <div className="floating-whatsapp__panel" aria-hidden={!open}>
-        <span className="floating-whatsapp__eyebrow">WhatsApp</span>
-        <strong>Chat with HIDD</strong>
-        <p>Use WhatsApp for quick clarification while the main enquiry continues through the site.</p>
-        <a href={siteConfig.whatsappHref} className="button button--primary" target="_blank" rel="noreferrer">
-          Start conversation
-        </a>
-      </div>
+      {open ? (
+        <div className="floating-whatsapp__panel">
+          <span className="floating-whatsapp__eyebrow">WhatsApp</span>
+          <strong>Chat with HIDD</strong>
+          <p>Use WhatsApp for quick clarification while the main enquiry continues through the site.</p>
+          <a
+            href={siteConfig.whatsappHref}
+            className="button button--primary"
+            target="_blank"
+            rel="noreferrer"
+            data-analytics-location="floating-widget"
+          >
+            Start conversation
+          </a>
+        </div>
+      ) : null}
     </div>
   );
 }

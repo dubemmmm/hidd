@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { RiskMapLayers } from "@/components/risk-map-layers";
 import { riskLayers, scoreToTier } from "@/lib/data/map-areas";
@@ -29,6 +29,8 @@ export default function RiskMap({ areas, variant = "page" }: RiskMapProps) {
   const [activeLayer, setActiveLayer] = useState<RiskLayerKey | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isMapReady, setIsMapReady] = useState(false);
+  const [shouldLoadMap, setShouldLoadMap] = useState(false);
+  const mapStageRef = useRef<HTMLDivElement | null>(null);
   const showLayerControls = variant !== "hero";
 
   useEffect(() => {
@@ -37,6 +39,23 @@ export default function RiskMap({ areas, variant = "page" }: RiskMapProps) {
       setActiveSlug(areas[0].slug);
     }
   }, [activeSlug, areas]);
+
+  useEffect(() => {
+    const stage = mapStageRef.current;
+    if (!stage || shouldLoadMap) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        setShouldLoadMap(true);
+        observer.disconnect();
+      },
+      { rootMargin: "300px 0px" }
+    );
+
+    observer.observe(stage);
+    return () => observer.disconnect();
+  }, [shouldLoadMap]);
 
   const activeArea = areas.find((area) => area.slug === activeSlug) ?? areas[0];
 
@@ -79,7 +98,7 @@ export default function RiskMap({ areas, variant = "page" }: RiskMapProps) {
           />
         ) : null}
 
-        <div className="risk-map-stage">
+        <div className="risk-map-stage" ref={mapStageRef}>
           <div className="risk-map-canvas risk-map-canvas--live">
             <img
               src="/risk-map-fallback.svg"
@@ -87,14 +106,16 @@ export default function RiskMap({ areas, variant = "page" }: RiskMapProps) {
               className={`risk-map-canvas__fallback ${isMapReady ? "is-hidden" : ""}`}
             />
             <div className={`risk-map-canvas__interactive ${isMapReady ? "is-ready" : ""}`}>
-              <RiskMapCanvas
-                areas={areas}
-                tierBySlug={tierBySlug}
-                activeSlug={activeSlug}
-                onSelect={handleSelect}
-                onReady={() => setIsMapReady(true)}
-                interactionMode={variant === "hero" ? "preview" : "interactive"}
-              />
+              {shouldLoadMap ? (
+                <RiskMapCanvas
+                  areas={areas}
+                  tierBySlug={tierBySlug}
+                  activeSlug={activeSlug}
+                  onSelect={handleSelect}
+                  onReady={() => setIsMapReady(true)}
+                  interactionMode={variant === "hero" ? "preview" : "interactive"}
+                />
+              ) : null}
             </div>
           </div>
 

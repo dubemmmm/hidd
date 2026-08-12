@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { comprehensiveReport, services } from "@/lib/data/services";
+import { trackEvent } from "@/lib/analytics-client";
 
 type ContactFormProps = {
   initialService?: string;
@@ -50,6 +51,11 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
       }
 
       setStatus("success");
+      trackEvent("enquiry_form_submit", {
+        service: String(formData.get("service") || "not_selected"),
+        has_phone: Boolean(formData.get("phone")),
+        has_message: Boolean(formData.get("message"))
+      });
       form.reset();
       setMessage("");
     } catch {

@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 
+import { trackEvent } from "@/lib/analytics-client";
 import { requiresReportEmail } from "@/lib/report-access-policy";
 import type { ReportAsset } from "@/lib/types";
 
@@ -15,6 +16,12 @@ type Status = "idle" | "submitting" | "success" | "error";
 
 const ALL_CATEGORIES = "All";
 const INITIAL_GROUP_SIZE = 6;
+
+function downloadEventName(asset: Pick<ReportAsset, "category" | "isDemo">) {
+  return asset.category === "Sample Report" || asset.isDemo
+    ? "sample_report_download"
+    : "resource_download";
+}
 
 export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps) {
   const firstLive = assets.find((asset) => asset.status === "live");
@@ -104,6 +111,10 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
       setStatus("success");
       setResponseMessage(result.message ?? "Access request recorded.");
       setDownloadHref(result.assetUrl ?? "");
+      trackEvent(activeAsset.status === "live" ? "asset_unlock" : "asset_waitlist_signup", {
+        asset_slug: activeAsset.slug,
+        asset_category: activeAsset.category
+      });
     } catch (error) {
       setStatus("error");
       setResponseMessage(
@@ -224,7 +235,15 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
         {activeAsset.status === "live" && !emailRequired && activeAsset.assetUrl ? (
           <div className="reports-library__download reports-library__download--direct">
             <p>This resource is available without registration.</p>
-            <a href={activeAsset.assetUrl} className="button button--primary" download>
+            <a
+              href={activeAsset.assetUrl}
+              className="button button--primary"
+              download
+              data-analytics-event={downloadEventName(activeAsset)}
+              data-analytics-asset-slug={activeAsset.slug}
+              data-analytics-asset-category={activeAsset.category}
+              data-analytics-location="insights-library"
+            >
               Download resource
             </a>
           </div>
@@ -281,7 +300,15 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
         {downloadHref ? (
           <div className="reports-library__download">
             <span className="section-heading__eyebrow">Access granted</span>
-            <a href={downloadHref} className="button button--ghost" download>
+            <a
+              href={downloadHref}
+              className="button button--ghost"
+              download
+              data-analytics-event={downloadEventName(activeAsset)}
+              data-analytics-asset-slug={activeAsset.slug}
+              data-analytics-asset-category={activeAsset.category}
+              data-analytics-location="unlocked-resource"
+            >
               Download resource
             </a>
           </div>

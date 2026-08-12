@@ -169,7 +169,15 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
                 </div>
                 <div className="article-sidebar__card article-sidebar__share">
                   <span>Share this article</span>
-                  <a href={`https://wa.me/?text=${shareText}%20${shareUrl}`} target="_blank" rel="noreferrer">WhatsApp</a>
+                  <a
+                    href={`https://wa.me/?text=${shareText}%20${shareUrl}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    data-analytics-event="article_share_whatsapp"
+                    data-analytics-location="article-sidebar"
+                  >
+                    WhatsApp
+                  </a>
                   <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`} target="_blank" rel="noreferrer">LinkedIn</a>
                   <a href={`https://x.com/intent/tweet?text=${shareText}&url=${shareUrl}`} target="_blank" rel="noreferrer">X (Twitter)</a>
                 </div>
