@@ -12,7 +12,9 @@ export const sanityClient = createClient({
   projectId: sanityProjectId || "placeholder",
   dataset: sanityDataset || "production",
   apiVersion: sanityApiVersion,
-  useCdn: true
+  // Published CMS changes should be authoritative as soon as a page revalidates.
+  // The Sanity CDN can briefly serve an older document set after publication.
+  useCdn: false
 });
 
 const sanityImageBuilder = createImageUrlBuilder(sanityClient);

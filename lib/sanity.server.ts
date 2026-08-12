@@ -14,8 +14,12 @@ function isUsableToken(value: string | undefined): value is string {
 // This token is NEVER sent to the browser (server-only).
 const token =
   [process.env.SANITY_API_WRITE_TOKEN, process.env.SANITY_API_READ_TOKEN].find(isUsableToken) ?? "";
+const writeToken = isUsableToken(process.env.SANITY_API_WRITE_TOKEN)
+  ? process.env.SANITY_API_WRITE_TOKEN
+  : "";
 
 export const sanityHasServerToken = isUsableToken(token);
+export const sanityHasWriteToken = isUsableToken(writeToken);
 
 // Authenticated, published-only client. Reads every public document type even when
 // the dataset restricts anonymous reads to a subset of types.
@@ -37,4 +41,12 @@ export const sanityPreviewClient = createClient({
   token: sanityHasServerToken ? token : undefined,
   useCdn: false,
   perspective: "drafts"
+});
+
+export const sanityWriteClient = createClient({
+  projectId: sanityProjectId || "placeholder",
+  dataset: sanityDataset || "production",
+  apiVersion: sanityApiVersion,
+  token: sanityHasWriteToken ? writeToken : undefined,
+  useCdn: false
 });

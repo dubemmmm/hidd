@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 import { comprehensiveReport, services } from "@/lib/data/services";
 
@@ -98,8 +99,7 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
         />
       </label>
 
-      <label className="field field--hidden" aria-hidden="true">
-        <span>Leave this field empty</span>
+      <div className="field--hidden" aria-hidden="true">
         <input
           type="text"
           name="formConfirmation"
@@ -108,7 +108,13 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
           data-1p-ignore
           data-lpignore="true"
         />
-      </label>
+      </div>
+
+      <p className="form-privacy">
+        We use your details to review your enquiry, recommend the relevant service, and respond to
+        you. We aim to respond within one working day. By submitting this form, you acknowledge our{" "}
+        <Link href="/privacy-policy">Privacy Policy</Link>.
+      </p>
 
       <div className="contact-form__footer">
         <button type="submit" className="button button--primary" disabled={status === "submitting"}>
@@ -117,7 +123,7 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
         {(status === "success" || status === "error") && (
           <p className={`form-message form-message--${status}`}>
             {status === "success" &&
-              "Enquiry sent. HIDD will review the brief and respond within 48 hours."}
+              "Enquiry sent. HIDD will review the brief and respond within one working day."}
             {status === "error" &&
               "Something went wrong while sending your enquiry. Please try again or use the floating WhatsApp widget."}
           </p>

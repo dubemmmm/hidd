@@ -29,7 +29,7 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
         <div className="shell shell--reports">
           <Reveal>
             <div className="page-hero__content page-hero__content--reports insights-hero">
-              <div className="section-heading__eyebrow">Insights / Library</div>
+              <div className="section-heading__eyebrow">Insights</div>
               <h1>Reports and expert guidance for Lagos property buyers.</h1>
               <p>
                 Explore HIDD reports, checklists, neighbourhood briefs, and expert articles—all in
@@ -59,7 +59,7 @@ export default async function InsightsPage({ searchParams }: InsightsPageProps) 
         </div>
       </section>
 
-      <section className="section section--insights-articles">
+      <section id="browse-articles" className="section section--insights-articles">
         <div className="shell shell--reports insights-articles">
           <Reveal>
             <div className="insights-section-heading">

@@ -1,15 +1,11 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-
 import { NextResponse } from "next/server";
 
-import { getReportAsset } from "@/lib/reports";
+import { getReportAssetForAccess } from "@/lib/reports";
+import { sanityHasWriteToken, sanityWriteClient } from "@/lib/sanity.server";
 
 export const runtime = "nodejs";
 
 const emailPattern = /\S+@\S+\.\S+/;
-const storagePath = path.join("/tmp", "hidd-report-access.ndjson");
-
 function asString(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
@@ -34,7 +30,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const asset = await getReportAsset(assetSlug);
+  const asset = await getReportAssetForAccess(assetSlug);
 
   if (!asset) {
     return NextResponse.json({ ok: false, error: "Resource not found." }, { status: 404 });
@@ -47,15 +43,32 @@ export async function POST(request: Request) {
     );
   }
 
-  await fs.appendFile(
-    storagePath,
-    `${JSON.stringify({
+  if (!sanityHasWriteToken) {
+    console.error("Resource lead storage is not configured.");
+    return NextResponse.json(
+      { ok: false, error: "Resource access is temporarily unavailable. Please try again shortly." },
+      { status: 503 }
+    );
+  }
+
+  try {
+    await sanityWriteClient.create({
+      _type: "resourceAccess",
       name,
       email,
       assetSlug,
-      submittedAt
-    })}\n`
-  );
+      assetTitle: asset.title,
+      requestType: asset.status === "live" ? "download" : "waitlist",
+      submittedAt: submittedAt || new Date().toISOString(),
+      privacyNoticeVersion: "2026-08-11"
+    });
+  } catch (error) {
+    console.error("Unable to store resource access request.", error);
+    return NextResponse.json(
+      { ok: false, error: "We could not record your request. Please try again." },
+      { status: 502 }
+    );
+  }
 
   return NextResponse.json({
     ok: true,

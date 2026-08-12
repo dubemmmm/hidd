@@ -87,7 +87,7 @@ export default function ServicesPage() {
         <div className="shell shell--service">
           <Reveal>
             <article className="bundle-card bundle-card--service">
-              <div>
+              <div className="bundle-card__header">
                 <div className="section-heading__eyebrow">Comprehensive Report</div>
                 <h2>{comprehensiveReport.name}</h2>
                 <p>{comprehensiveReport.summary}</p>
@@ -101,9 +101,14 @@ export default function ServicesPage() {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-              <Link href="/contact?service=comprehensive-report" className="button button--primary">
-                Book the Comprehensive Report
-              </Link>
+              <div className="bundle-card__actions">
+                <Link href="/services/comprehensive-report" className="button button--ghost">
+                  Explore the Full Report
+                </Link>
+                <Link href="/contact?service=comprehensive-report" className="button button--primary">
+                  Book the Comprehensive Report
+                </Link>
+              </div>
             </article>
           </Reveal>
         </div>

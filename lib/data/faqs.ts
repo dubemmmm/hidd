@@ -105,7 +105,7 @@ export const faqs: FaqItem[] = [
     category: "Pricing & Payment",
     question: "How secure is my information?",
     answer:
-      "Your privacy and the security of your personal information are very important to us. We implement appropriate technical and organizational measures to protect your data from unauthorized access, loss, misuse, or alteration. Your information is stored securely and is only accessible to authorized personnel who require it to perform their duties. All personal data collected and processed through our platform is handled in accordance with the requirements of the Nigeria Data Protection Regulation (NDPR)."
+      "Your privacy and the security of your personal information are important to us. We use appropriate technical and organisational measures to protect personal data from unauthorised access, loss, misuse, or alteration. Access is limited to people and service providers who need the information for an authorised purpose. We process personal data in accordance with the Nigeria Data Protection Act 2023 (NDPA 2023) and other applicable requirements."
   },
   {
     id: "inspection-equipment",

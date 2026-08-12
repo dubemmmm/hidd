@@ -57,6 +57,11 @@ export function SiteHeader() {
                 {item.label}
               </Link>
             ))}
+            <div className="site-nav__mobile-actions">
+              <Link href="/contact" className="button button--primary">
+                Get a Report
+              </Link>
+            </div>
           </div>
         </nav>
 

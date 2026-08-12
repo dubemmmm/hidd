@@ -30,7 +30,8 @@ const client = createClient({
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production",
   apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION ?? "2026-04-09",
   token,
-  useCdn: false
+  useCdn: false,
+  perspective: "raw"
 });
 
 const faqIds = [
@@ -41,6 +42,7 @@ const faqIds = [
   "inspection-equipment",
   "interactive-risk-map",
   "payment-terms",
+  "privacy-security",
   "pricing-flat-fee",
   "single-or-bundled-services"
 ];
@@ -49,26 +51,47 @@ const answers = new Map(
   faqs.filter((faq) => faqIds.includes(faq.id)).map((faq) => [faq.id, faq.answer])
 );
 
-const documentIds = faqIds.flatMap((id) => [`faq.${id}`, `drafts.faq.${id}`]);
+type FaqRecord = {
+  _id: string;
+  slug?: string | null;
+  question?: string | null;
+};
 
-let existingIds: string[] = [];
+let existingFaqs: FaqRecord[] = [];
 try {
-  existingIds = await client.fetch<string[]>(`*[_id in $ids]._id`, { ids: documentIds });
+  existingFaqs = await client.fetch<FaqRecord[]>(
+    `*[_type == "faq" && (slug.current in $faqIds || question == $privacyQuestion)]{
+      _id,
+      "slug": slug.current,
+      question
+    }`,
+    {
+      faqIds,
+      privacyQuestion: "How secure is my information?"
+    }
+  );
 } catch {
   console.error("Unable to read the FAQ documents from Sanity.");
   process.exit(1);
 }
 
 let transaction = client.transaction();
-for (const documentId of existingIds) {
-  const faqId = documentId.replace(/^drafts\./, "").replace(/^faq\./, "");
+for (const faq of existingFaqs) {
+  const faqId =
+    faq.slug ?? (faq.question === "How secure is my information?" ? "privacy-security" : "");
   const answer = answers.get(faqId);
-  if (answer) transaction = transaction.patch(documentId, { set: { answer } });
+  if (answer) transaction = transaction.patch(faq._id, { set: { answer } });
 }
 
 try {
   await transaction.commit();
-  console.log(`Updated ${existingIds.length} published or draft FAQ documents.`);
+  console.log(`Updated ${existingFaqs.length} published or draft FAQ documents.`);
+  const privacyFaqs = await client.fetch<Array<{ _id: string; answer?: string }>>(
+    `*[_type == "faq" && (slug.current == "privacy-security" || question == "How secure is my information?")]{_id, answer}`
+  );
+  for (const privacyFaq of privacyFaqs) {
+    console.log(`Privacy FAQ ${privacyFaq._id}: ${privacyFaq.answer ?? "No answer"}`);
+  }
 } catch {
   console.error("Unable to update the FAQ documents in Sanity.");
   process.exit(1);

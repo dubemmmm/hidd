@@ -39,6 +39,14 @@ const insightFields = groq`
   category,
   excerpt,
   author,
+  authorCredentials,
+  authorBio,
+  reviewedBy,
+  reviewerCredentials,
+  lastReviewedAt,
+  articleFormat,
+  intendedAudience,
+  sources[]{title, publisher, url, publishedAt, accessedAt, claimSupported},
   "publishedAt": coalesce(publishedAt, _createdAt),
   readTime,
   "coverImage": coalesce(coverImage, "/og/hidd-advisory-og-v1.png"),
@@ -136,7 +144,8 @@ export const getAllInsights = cache(async (): Promise<InsightPost[]> => {
     try {
       return await getSanityInsights();
     } catch {
-      return getLocalInsights();
+      // Sanity is the source of truth once configured. Do not expose stale MDX content.
+      return [];
     }
   }
 
@@ -182,8 +191,9 @@ export const getInsightBySlug = cache(async (slug: string) => {
           }) as ReactElement
         };
       }
+      return undefined;
     } catch {
-      // Fallback to local content while the CMS environment is being configured.
+      return undefined;
     }
   }
 

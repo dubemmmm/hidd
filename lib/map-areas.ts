@@ -258,12 +258,10 @@ async function getSanityMapAreas(preview = false): Promise<MapArea[]> {
 export const getMapAreas = cache(async (preview = false): Promise<MapArea[]> => {
   if (sanityEnvReady) {
     try {
-      const areas = await getSanityMapAreas(preview);
-      if (areas.length > 0) {
-        return areas;
-      }
+      return await getSanityMapAreas(preview);
     } catch {
-      // Keep the map online until the CMS write/read credentials are corrected.
+      // Sanity is the source of truth once configured. Do not expose stale map data.
+      return [];
     }
   }
 

@@ -1,7 +1,9 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
+import Link from "next/link";
 
+import { requiresReportEmail } from "@/lib/report-access-policy";
 import type { ReportAsset } from "@/lib/types";
 
 type ReportsLibraryProps = {
@@ -12,7 +14,7 @@ type ReportsLibraryProps = {
 type Status = "idle" | "submitting" | "success" | "error";
 
 const ALL_CATEGORIES = "All";
-const CATEGORY_FILTER_THRESHOLD = 4;
+const INITIAL_GROUP_SIZE = 6;
 
 export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps) {
   const firstLive = assets.find((asset) => asset.status === "live");
@@ -20,6 +22,7 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
 
   const [activeSlug, setActiveSlug] = useState(defaultSlug);
   const [activeCategory, setActiveCategory] = useState<string>(ALL_CATEGORIES);
+  const [query, setQuery] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [responseMessage, setResponseMessage] = useState("");
   const [downloadHref, setDownloadHref] = useState("");
@@ -29,19 +32,35 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
     return [ALL_CATEGORIES, ...unique];
   }, [assets]);
 
-  const showCategoryFilter = categories.length - 1 >= CATEGORY_FILTER_THRESHOLD;
+  const showCategoryFilter = categories.length > 2;
 
   const filteredAssets = useMemo(() => {
-    if (activeCategory === ALL_CATEGORIES) return assets;
-    return assets.filter((asset) => asset.category === activeCategory);
-  }, [activeCategory, assets]);
+    const normalizedQuery = query.trim().toLowerCase();
+
+    return assets.filter((asset) => {
+      const matchesCategory = activeCategory === ALL_CATEGORIES || asset.category === activeCategory;
+      if (!matchesCategory) return false;
+      if (!normalizedQuery) return true;
+
+      return [
+        asset.title,
+        asset.summary,
+        asset.category,
+        ...(asset.intendedAudience ?? []),
+        ...(asset.coverageAreas ?? [])
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(normalizedQuery);
+    });
+  }, [activeCategory, assets, query]);
 
   const liveAssets = filteredAssets.filter((asset) => asset.status === "live");
   const upcomingAssets = filteredAssets.filter((asset) => asset.status === "coming-soon");
 
   const activeAsset = useMemo(
-    () => assets.find((asset) => asset.slug === activeSlug) ?? assets[0],
-    [activeSlug, assets]
+    () => filteredAssets.find((asset) => asset.slug === activeSlug) ?? filteredAssets[0],
+    [activeSlug, filteredAssets]
   );
 
   function selectAsset(slug: string) {
@@ -93,11 +112,44 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
     }
   }
 
-  if (!activeAsset) return null;
+  if (assets.length === 0) {
+    return (
+      <div className="reports-library reports-library--empty-state">
+        <div className="reports-library__empty-card">
+          <span className="section-heading__eyebrow">Resources in preparation</span>
+          <h3>New buyer resources are coming soon.</h3>
+          <p>
+            HIDD reports, checklists, and practical property guides will appear here as they are
+            released. In the meantime, our articles remain available without registration.
+          </p>
+          <Link href="#browse-articles" className="button button--ghost">
+            Browse buyer articles
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const emailRequired = activeAsset ? requiresReportEmail(activeAsset) : true;
 
   return (
     <div className="reports-library">
       <div className="reports-library__stack">
+        <div className="reports-library__toolbar">
+          <label className="reports-library__search">
+            <span>Search resources</span>
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              aria-label="Search reports, checklists, and guides"
+            />
+          </label>
+          <span className="reports-library__result-count">
+            {filteredAssets.length} {filteredAssets.length === 1 ? "resource" : "resources"}
+          </span>
+        </div>
+
         {showCategoryFilter ? (
           <div className="reports-library__filters" role="tablist" aria-label="Filter reports by category">
             {categories.map((category) => (
@@ -119,10 +171,11 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
           <ReportGroup
             heading="Available now"
             count={liveAssets.length}
-            description="Enter your email to download these resources. Scroll for more."
+            description="PDF reports and checklists are provided after a short name and email form."
             assets={liveAssets}
-            activeSlug={activeSlug}
+            activeSlug={activeAsset?.slug ?? ""}
             onSelect={selectAsset}
+            initialSize={INITIAL_GROUP_SIZE}
           />
         ) : null}
 
@@ -130,41 +183,65 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
           <ReportGroup
             heading="Upcoming releases"
             count={upcomingAssets.length}
-            description="Join the waitlist and HIDD will notify you on release. Scroll for more."
+            description="Join the release list and HIDD will notify you when these resources become available."
             assets={upcomingAssets}
-            activeSlug={activeSlug}
+            activeSlug={activeAsset?.slug ?? ""}
             onSelect={selectAsset}
+            initialSize={INITIAL_GROUP_SIZE}
           />
         ) : null}
 
         {filteredAssets.length === 0 ? (
-          <p className="reports-library__empty">No reports in this category yet.</p>
+          <div className="reports-library__empty reports-library__empty--filtered">
+            <strong>No matching resources</strong>
+            <p>Try a different search term or view all resource types.</p>
+            <button
+              type="button"
+              className="button button--ghost"
+              onClick={() => {
+                setQuery("");
+                setActiveCategory(ALL_CATEGORIES);
+              }}
+            >
+              Clear filters
+            </button>
+          </div>
         ) : null}
       </div>
 
-      <div className="reports-library__panel">
+      {activeAsset ? <div className="reports-library__panel">
         <div className="reports-library__panel-copy">
           <span className="section-heading__eyebrow">
             {activeAsset.status === "live" ? "Selected resource" : "Upcoming resource"}
           </span>
           <h3>{activeAsset.title}</h3>
           <p>{activeAsset.summary}</p>
+          <Link href={`/insights/resources/${activeAsset.slug}`} className="reports-library__detail-link">
+            View full resource details →
+          </Link>
         </div>
 
+        {activeAsset.status === "live" && !emailRequired && activeAsset.assetUrl ? (
+          <div className="reports-library__download reports-library__download--direct">
+            <p>This resource is available without registration.</p>
+            <a href={activeAsset.assetUrl} className="button button--primary" download>
+              Download resource
+            </a>
+          </div>
+        ) : (
         <form className="reports-library__form" onSubmit={handleSubmit}>
           <div className="form-grid">
             <label className="field">
               <span>Full Name</span>
-              <input type="text" name="name" placeholder="Full Name" required />
+              <input type="text" name="name" autoComplete="name" required />
             </label>
             <label className="field">
               <span>Email</span>
-              <input type="email" name="email" placeholder="Email" required />
+              <input type="email" name="email" autoComplete="email" required />
             </label>
           </div>
 
-          <label className="field field--hidden" aria-hidden="true">
-            <span>Leave this field empty</span>
+          <div className="field--hidden" aria-hidden="true">
             <input
               type="text"
               name="formConfirmation"
@@ -173,7 +250,13 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
               data-1p-ignore
               data-lpignore="true"
             />
-          </label>
+          </div>
+
+          <p className="form-privacy">
+            We use your details to provide the selected resource or notify you when an upcoming
+            resource is released. Available downloads are provided immediately after submission.
+            See our <Link href="/privacy-policy">Privacy Policy</Link>.
+          </p>
 
           <div className="reports-library__form-footer">
             <button type="submit" className="button button--primary" disabled={status === "submitting"}>
@@ -193,6 +276,7 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
             </p>
           </div>
         </form>
+        )}
 
         {downloadHref ? (
           <div className="reports-library__download">
@@ -202,7 +286,7 @@ export function ReportsLibrary({ assets, initialAssetSlug }: ReportsLibraryProps
             </a>
           </div>
         ) : null}
-      </div>
+      </div> : null}
     </div>
   );
 }
@@ -214,17 +298,13 @@ type ReportGroupProps = {
   assets: ReportAsset[];
   activeSlug: string;
   onSelect: (slug: string) => void;
+  initialSize: number;
 };
 
-function ReportGroup({ heading, description, count, assets, activeSlug, onSelect }: ReportGroupProps) {
-  const railRef = useRef<HTMLDivElement>(null);
-
-  function scroll(direction: -1 | 1) {
-    railRef.current?.scrollBy({
-      left: direction * Math.max(280, railRef.current.clientWidth * 0.8),
-      behavior: "smooth"
-    });
-  }
+function ReportGroup({ heading, description, count, assets, activeSlug, onSelect, initialSize }: ReportGroupProps) {
+  const [expanded, setExpanded] = useState(false);
+  const visibleAssets = expanded ? assets : assets.slice(0, initialSize);
+  const hasMore = assets.length > initialSize;
 
   return (
     <section className="reports-library__group" aria-label={heading}>
@@ -236,17 +316,9 @@ function ReportGroup({ heading, description, count, assets, activeSlug, onSelect
           </h4>
           <p className="reports-library__group-description">{description}</p>
         </div>
-        <div className="reports-library__group-actions" aria-label={`${heading} carousel controls`}>
-          <button type="button" aria-label={`Scroll ${heading} left`} onClick={() => scroll(-1)}>
-            ‹
-          </button>
-          <button type="button" aria-label={`Scroll ${heading} right`} onClick={() => scroll(1)}>
-            ›
-          </button>
-        </div>
       </header>
-      <div ref={railRef} className="reports-library__rail">
-        {assets.map((asset) => (
+      <div className="reports-library__grid">
+        {visibleAssets.map((asset) => (
           <button
             type="button"
             key={asset.slug}
@@ -256,9 +328,19 @@ function ReportGroup({ heading, description, count, assets, activeSlug, onSelect
             <span className="report-card__category">{asset.category}</span>
             <strong>{asset.title}</strong>
             <p>{asset.summary}</p>
+            {(asset.fileFormat || asset.pageCount) ? (
+              <span className="report-card__meta">
+                {[asset.fileFormat, asset.pageCount ? `${asset.pageCount} pages` : ""].filter(Boolean).join(" · ")}
+              </span>
+            ) : null}
           </button>
         ))}
       </div>
+      {hasMore ? (
+        <button type="button" className="reports-library__show-more" onClick={() => setExpanded((value) => !value)}>
+          {expanded ? "Show fewer" : `Show all ${assets.length}`}
+        </button>
+      ) : null}
     </section>
   );
 }

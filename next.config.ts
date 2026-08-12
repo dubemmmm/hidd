@@ -9,7 +9,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/blog/:path*", destination: "/insights", statusCode: 301 },
-      { source: "/about/:path*", destination: "/", statusCode: 301 },
       {
         source: "/services/property-due-diligence",
         destination: "/services/legal-due-diligence",

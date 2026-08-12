@@ -6,7 +6,7 @@ import { Reveal } from "@/components/reveal";
 import RiskMap from "@/components/risk-map";
 import { SectionHeading } from "@/components/section-heading";
 import { ServiceMarquee } from "@/components/service-marquee";
-import { services } from "@/lib/data/services";
+import { comprehensiveReport, services } from "@/lib/data/services";
 import { getFaqs } from "@/lib/faqs";
 import { getMapAreas } from "@/lib/map-areas";
 import { getFeaturedReportAssets } from "@/lib/reports";
@@ -78,6 +78,34 @@ export default async function HomePage() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="section home-comprehensive">
+        <div className="shell shell--hero">
+          <Reveal>
+            <article className="home-comprehensive__feature">
+              <div className="home-comprehensive__copy">
+                <div className="section-heading__eyebrow">Flagship Comprehensive Report</div>
+                <h2>One report for the four questions that decide the purchase.</h2>
+                <p>{comprehensiveReport.summary}</p>
+                <div className="home-comprehensive__actions">
+                  <Link href="/services/comprehensive-report" className="button button--primary">
+                    Explore the Comprehensive Report
+                  </Link>
+                  <Link href="/contact?service=comprehensive-report" className="button button--ghost">
+                    Request an Assessment
+                  </Link>
+                </div>
+              </div>
+              <ol className="home-comprehensive__questions">
+                <li><span>01</span><strong>Is the building sound?</strong><small>Inspection</small></li>
+                <li><span>02</span><strong>Is the ownership real?</strong><small>Legal Due Diligence</small></li>
+                <li><span>03</span><strong>Is the location suitable?</strong><small>Risk Intelligence</small></li>
+                <li><span>04</span><strong>Is the price right?</strong><small>Valuation</small></li>
+              </ol>
+            </article>
+          </Reveal>
         </div>
       </section>
 

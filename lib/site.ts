@@ -13,16 +13,16 @@ export const siteConfig = {
   address: "3/5 Ikoyi Crescent, Off Modupe Alakija Street, Osborne, Ikoyi, Lagos State",
   socialLinks: {
     linkedin: "https://www.linkedin.com/company/hidd-advisory",
-    x: "https://x.com/hiddadvisory",
     instagram: "https://www.instagram.com/hiddadvisory"
   }
 } as const;
 
 export const navItems: NavItem[] = [
-  { href: "/risk-map", label: "Area Compare" },
   { href: "/services", label: "Services" },
+  { href: "/risk-map", label: "Area Compare" },
   { href: "/case-studies", label: "Case Studies" },
-  { href: "/insights", label: "Insights / Library" },
+  { href: "/insights", label: "Insights" },
+  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" }
 ];
 

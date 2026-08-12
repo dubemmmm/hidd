@@ -32,12 +32,10 @@ const faqReadClient = sanityHasServerToken ? sanityServerClient : sanityClient;
 export const getFaqs = cache(async (): Promise<FaqItem[]> => {
   if (sanityEnvReady) {
     try {
-      const faqs = await faqReadClient.fetch<FaqItem[]>(allFaqsQuery);
-      if (faqs.length > 0) {
-        return faqs;
-      }
+      return await faqReadClient.fetch<FaqItem[]>(allFaqsQuery);
     } catch {
-      // Fall back to local seed data while the CMS model is being populated.
+      // Sanity is the source of truth once configured. Do not expose stale seed content.
+      return [];
     }
   }
 

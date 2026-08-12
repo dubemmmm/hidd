@@ -2,7 +2,6 @@ const baseUrl = process.env.TEST_BASE_URL ?? "http://127.0.0.1:3100";
 
 const checks = [
   ["/blog/", 301, "/insights"],
-  ["/about/", 301, "/"],
   ["/services/property-due-diligence", 301, "/services/legal-due-diligence"],
   ["/services/property-valuation", 301, "/services/valuation"],
   ["/services/property-risk-advisory", 301, "/services/risk-intelligence"],

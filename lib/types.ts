@@ -136,6 +136,21 @@ export type ReportAsset = {
   gated: boolean;
   assetUrl?: string;
   featured?: boolean;
+  isDemo?: boolean;
+  description?: unknown[];
+  keyContents?: string[];
+  intendedAudience?: string[];
+  coverageAreas?: string[];
+  relatedService?: BookableServiceSlug;
+  authorName?: string;
+  authorCredentials?: string[];
+  contributors?: Array<{ name: string; role: string; credentials?: string[] }>;
+  edition?: string;
+  version?: string;
+  pageCount?: number;
+  fileFormat?: string;
+  coverImageUrl?: string;
+  sources?: Array<{ title: string; publisher: string; url: string; accessedAt?: string }>;
 };
 
 export type CaseStudySection = {
@@ -169,6 +184,21 @@ export type InsightPostFrontmatter = {
   category: string;
   excerpt: string;
   author: string;
+  authorCredentials?: string[];
+  authorBio?: string;
+  reviewedBy?: string;
+  reviewerCredentials?: string[];
+  lastReviewedAt?: string;
+  articleFormat?: string;
+  intendedAudience?: string[];
+  sources?: Array<{
+    title: string;
+    publisher: string;
+    url: string;
+    publishedAt?: string;
+    accessedAt?: string;
+    claimSupported?: string;
+  }>;
   publishedAt: string;
   coverImage: string;
   metaTitle: string;

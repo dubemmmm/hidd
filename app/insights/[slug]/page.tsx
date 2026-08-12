@@ -2,7 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { ArticleGate } from "@/components/article-gate";
 import { JsonLd } from "@/components/json-ld";
 import { Reveal } from "@/components/reveal";
 import { comprehensiveReport, getService } from "@/lib/data/services";
@@ -22,6 +21,7 @@ export async function generateMetadata({ params }: InsightPageProps): Promise<Me
 
   try {
     const post = await getInsightBySlug(slug);
+    if (!post) return {};
     const pageTitle = stripSiteNameFromTitle(
       post.frontmatter.metaTitle || post.frontmatter.title
     );
@@ -42,6 +42,7 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
 
   try {
     const post = await getInsightBySlug(slug);
+    if (!post) notFound();
     const relatedPosts = await getRelatedInsights(slug, post.frontmatter.category);
     const canonicalUrl = `${siteConfig.url}/insights/${slug}`;
     const shareText = encodeURIComponent(post.frontmatter.title);
@@ -69,8 +70,7 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
             datePublished: post.frontmatter.publishedAt,
             dateModified: post.frontmatter.publishedAt,
             author: {
-              "@type": "Organization",
-              "@id": `${siteConfig.url}/#organization`,
+              "@type": "Person",
               name: post.frontmatter.author
             },
             publisher: {
@@ -92,7 +92,12 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
                 <h1>{post.frontmatter.title}</h1>
                 <p>{post.frontmatter.excerpt}</p>
                 <div className="article-meta">
-                  <span>{post.frontmatter.author}</span>
+                  <span>
+                    {post.frontmatter.author}
+                    {post.frontmatter.authorCredentials?.length
+                      ? ` · ${post.frontmatter.authorCredentials.join(", ")}`
+                      : ""}
+                  </span>
                   <span>{post.frontmatter.readTime}</span>
                   <span>{publishedDate}</span>
                 </div>
@@ -105,9 +110,24 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
           <div className="shell shell--article article-layout">
             <Reveal>
               <article className="article-prose">
-                <ArticleGate slug={slug} title={post.frontmatter.title}>
-                  {post.content}
-                </ArticleGate>
+                {post.content}
+                {post.frontmatter.sources?.length ? (
+                  <section className="article-sources" aria-labelledby="article-sources-title">
+                    <span className="section-heading__eyebrow">References</span>
+                    <h2 id="article-sources-title">Sources and further reading</h2>
+                    <ol>
+                      {post.frontmatter.sources.map((source) => (
+                        <li key={`${source.url}-${source.title}`}>
+                          <a href={source.url} target="_blank" rel="noreferrer">
+                            {source.title}
+                          </a>
+                          <span>{source.publisher}</span>
+                          {source.claimSupported ? <p>{source.claimSupported}</p> : null}
+                        </li>
+                      ))}
+                    </ol>
+                  </section>
+                ) : null}
                 {relatedService ? (
                   <div className="article-inline-cta">
                     <span className="section-heading__eyebrow">Relevant next step</span>
@@ -139,6 +159,13 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
                 <div className="article-sidebar__card">
                   <span>Published</span>
                   <strong>{publishedDate}</strong>
+                </div>
+                <div className="article-sidebar__card">
+                  <span>Author</span>
+                  <strong>{post.frontmatter.author}</strong>
+                  {post.frontmatter.authorCredentials?.length ? (
+                    <small>{post.frontmatter.authorCredentials.join(" · ")}</small>
+                  ) : null}
                 </div>
                 <div className="article-sidebar__card article-sidebar__share">
                   <span>Share this article</span>

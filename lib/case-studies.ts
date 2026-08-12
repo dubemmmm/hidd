@@ -59,12 +59,10 @@ async function getSanityCaseStudies(): Promise<CaseStudy[]> {
 export const getCaseStudies = cache(async (): Promise<CaseStudy[]> => {
   if (sanityEnvReady) {
     try {
-      const caseStudies = await getSanityCaseStudies();
-      if (caseStudies.length > 0) {
-        return caseStudies;
-      }
+      return await getSanityCaseStudies();
     } catch {
-      // Fall back to local case studies while the CMS model is being populated.
+      // Sanity is the source of truth once configured. Do not expose stale seed content.
+      return [];
     }
   }
 
@@ -84,8 +82,9 @@ export const getCaseStudyBySlug = cache(async (slug: string): Promise<CaseStudyD
           sections: caseStudy.sections ?? []
         };
       }
+      return undefined;
     } catch {
-      // Fall back to local case studies while the CMS model is being populated.
+      return undefined;
     }
   }
 
