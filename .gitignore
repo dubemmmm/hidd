@@ -6,6 +6,18 @@ node_modules/
 # testing
 /coverage
 
+# generated previews and exports
+/tmp/
+/output/
+
+# local tool caches
+/.claude/
+/.cache/
+/.turbo/
+/.sanity/
+**/__pycache__/
+*.py[cod]
+
 # next.js
 /.next/
 /out/
