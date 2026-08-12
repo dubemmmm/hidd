@@ -12,6 +12,9 @@ node_modules/
 
 # local tool caches
 /.claude/
+/.codex/
+/.agents/
+/skills-lock.json
 /.cache/
 /.turbo/
 /.sanity/

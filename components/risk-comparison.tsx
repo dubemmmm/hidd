@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useIsPresentationTool } from "next-sanity/hooks";
 
@@ -10,6 +11,7 @@ import type { MapArea, RiskTier } from "@/lib/types";
 type RiskComparisonProps = {
   areas: MapArea[];
   isPreview?: boolean;
+  initialCompareSlugs?: string[];
 };
 
 const tierLabels: Record<RiskTier, string> = {
@@ -72,13 +74,27 @@ function getLabelAnchor(x: number) {
   return x > chartConfig.centerX ? "start" : "end";
 }
 
-export default function RiskComparison({ areas, isPreview = false }: RiskComparisonProps) {
+export default function RiskComparison({
+  areas,
+  isPreview = false,
+  initialCompareSlugs: requestedInitialCompareSlugs
+}: RiskComparisonProps) {
   const isPresentationTool = useIsPresentationTool();
   const canViewFullComparison = isPreview && isPresentationTool;
   const maxCompare = 3;
-  const initialCompareSlugs = areas.slice(0, 2).map((area) => area.slug);
+  const allowedInitialSlugs = new Set(areas.map((area) => area.slug));
+  const initialCompareSlugs = (requestedInitialCompareSlugs ?? [])
+    .filter((slug, index, values) => allowedInitialSlugs.has(slug) && values.indexOf(slug) === index)
+    .slice(0, maxCompare);
+
+  if (initialCompareSlugs.length === 0) {
+    initialCompareSlugs.push(...areas.slice(0, 2).map((area) => area.slug));
+  }
+
   const [compareSlugs, setCompareSlugs] = useState(initialCompareSlugs);
   const [activeSlug, setActiveSlug] = useState(initialCompareSlugs[0] ?? "");
+  const [shareUrl, setShareUrl] = useState("");
+  const [shareStatus, setShareStatus] = useState("");
 
   useEffect(() => {
     if (areas.length === 0) return;
@@ -100,6 +116,27 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
       setActiveSlug(nextCompareSlugs[0] ?? "");
     }
   }, [activeSlug, areas, compareSlugs]);
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+
+    if (compareSlugs.length > 0) {
+      url.searchParams.set("compare", compareSlugs.join(","));
+    } else {
+      url.searchParams.delete("compare");
+    }
+
+    window.history.replaceState(window.history.state, "", url);
+
+    setShareUrl((currentShareUrl) => {
+      if (!currentShareUrl) return "";
+
+      const comparisonUrl = new URL(window.location.pathname, window.location.origin);
+      comparisonUrl.searchParams.set("compare", compareSlugs.join(","));
+      return comparisonUrl.toString();
+    });
+    setShareStatus("");
+  }, [compareSlugs]);
 
   const comparedAreas = compareSlugs
     .map((slug) => areas.find((area) => area.slug === slug))
@@ -150,7 +187,8 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
     description: layer.description,
     cells: comparedAreas.map((area) => ({
       areaSlug: area.slug,
-      tier: scoreToTier(area.layerScores[layer.key])
+      tier: scoreToTier(area.layerScores[layer.key]),
+      assessmentDate: area.assessmentDate
     }))
   }));
 
@@ -205,6 +243,22 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
     commitCompareSlugs(nextValues);
   }
 
+  function handleShareComparison() {
+    const comparisonUrl = new URL(window.location.pathname, window.location.origin);
+    comparisonUrl.searchParams.set("compare", compareSlugs.join(","));
+    setShareUrl(comparisonUrl.toString());
+    setShareStatus("");
+  }
+
+  async function handleCopyComparison() {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setShareStatus("Comparison link copied");
+    } catch {
+      setShareStatus("Select the link and copy it manually");
+    }
+  }
+
   if (!activeArea) return null;
 
   return (
@@ -221,7 +275,38 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
               Build the comparison set below to read the shape of each district&apos;s risk
               exposure across seven risk dimensions.
             </span>
+            <div className="risk-radar-controls__links">
+              <Link href="/risk-map/methodology">How the ratings are produced</Link>
+              <button type="button" onClick={handleShareComparison}>Share this comparison</button>
+            </div>
+            {shareUrl ? (
+              <div className="risk-comparison-share">
+                <label htmlFor="comparison-share-url">Comparison link</label>
+                <div className="risk-comparison-share__controls">
+                  <input
+                    id="comparison-share-url"
+                    type="url"
+                    value={shareUrl}
+                    readOnly
+                    onFocus={(event) => event.currentTarget.select()}
+                  />
+                  <button type="button" onClick={handleCopyComparison}>Copy link</button>
+                </div>
+                <span role="status" aria-live="polite">{shareStatus}</span>
+              </div>
+            ) : null}
           </div>
+
+          <nav className="risk-radar-district-directory" aria-label="District brief pages">
+            <strong>Open a district brief</strong>
+            <div>
+              {areas.map((area) => (
+                <Link key={area.slug} href={`/risk-map/${area.slug}`}>
+                  {area.name} <span aria-hidden="true">→</span>
+                </Link>
+              ))}
+            </div>
+          </nav>
 
           <div className="risk-radar-mobile-selects" aria-label="Mobile neighbourhood selectors">
             {mobileSlots.map((slotValue, index) => {
@@ -298,7 +383,10 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
                     }}
                     aria-hidden="true"
                   />
-                  <span>{series.area.name}</span>
+                  <span>
+                    <strong>{series.area.name}</strong>
+                    <small>{tierLabels[series.area.riskGrade]} · {series.area.assessmentDate}</small>
+                  </span>
                 </button>
               ))}
             </div>
@@ -384,8 +472,28 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
                     ))}
                   </text>
                 ))}
+
+                {chartAxes.map((axis, index) => (
+                  <text
+                    key={`${axis.key}-mobile-index`}
+                    x={axis.labelPoint.x}
+                    y={axis.labelPoint.y}
+                    textAnchor={getLabelAnchor(axis.labelPoint.x)}
+                    className="risk-radar-chart__mobile-index"
+                  >
+                    {index + 1}
+                  </text>
+                ))}
               </svg>
             </div>
+
+            <ol className="risk-radar-mobile-axis-key" aria-label="Radar chart axis key">
+              {chartAxes.map((axis) => (
+                <li key={`${axis.key}-mobile-key`}>
+                  <span>{axis.radarLabel}</span>
+                </li>
+              ))}
+            </ol>
 
             <div className="risk-radar-scale-note">
               <strong>Reading the chart</strong>
@@ -400,8 +508,8 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
               <div className="risk-radar-table__intro">
                 <strong>Factor comparison table</strong>
                 <span>
-                  Each cell translates the hidden score into a public-facing risk band for the
-                  selected neighbourhood.
+                  Each cell converts the district&apos;s 0–100 risk assessment into the published
+                  risk band for that factor.
                 </span>
               </div>
 
@@ -414,7 +522,7 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
                         <th key={area.slug} scope="col">
                           <div className="risk-radar-table__heading">
                             <span>{area.name}</span>
-                            <small>{tierLabels[area.riskGrade]}</small>
+                            <small>{tierLabels[area.riskGrade]} · Data as of {area.assessmentDate}</small>
                           </div>
                         </th>
                       ))}
@@ -431,11 +539,14 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
                         </th>
                         {row.cells.map((cell) => (
                           <td key={`${row.key}-${cell.areaSlug}`}>
-                            <span
-                              className={`risk-radar-table__tier risk-radar-table__tier--${cell.tier}`}
-                            >
-                              {tierLabels[cell.tier]}
-                            </span>
+                            <div className="risk-radar-table__rating">
+                              <span
+                                className={`risk-radar-table__tier risk-radar-table__tier--${cell.tier}`}
+                              >
+                                {tierLabels[cell.tier]}
+                              </span>
+                              <small>Data as of {cell.assessmentDate}</small>
+                            </div>
                           </td>
                         ))}
                       </tr>
@@ -471,6 +582,7 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
                             >
                               {tierLabels[cell.tier]}
                             </strong>
+                            <small>Data as of {cell.assessmentDate}</small>
                           </div>
                         );
                       })}
@@ -494,6 +606,7 @@ export default function RiskComparison({ areas, isPreview = false }: RiskCompari
                 </a>
               </div> : null}
             </div>
+
           </div>
         </div>
       </div>

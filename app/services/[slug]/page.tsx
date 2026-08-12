@@ -76,8 +76,8 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
             <div className="page-hero__content page-hero__content--service">
               <BackButton
                 fallbackHref="/services"
-                label="← Back to Services"
-                className="service-back-link"
+                label="Back to Services"
+                className="service-back-link back-link"
               />
               <div className="section-heading__eyebrow">{service.eyebrow}</div>
               <h1>{service.name}</h1>

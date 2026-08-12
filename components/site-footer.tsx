@@ -70,7 +70,12 @@ export function SiteFooter() {
         </div>
 
         <div className="footer-bottom">
-          <p>© 2026 HIDD Advisory. All rights reserved. A Chateau &amp; Capital company.</p>
+          <p className="footer-bottom__copyright footer-bottom__copyright--desktop">
+            © 2026 HIDD Advisory. All rights reserved. A Chateau &amp; Capital company.
+          </p>
+          <p className="footer-bottom__copyright footer-bottom__copyright--mobile">
+            © 2026 HIDD Advisory
+          </p>
           <nav className="footer-bottom__links" aria-label="Secondary">
             <Link href="/faqs">FAQs</Link>
             <Link href="/privacy-policy">Privacy</Link>

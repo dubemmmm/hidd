@@ -85,7 +85,7 @@ export const faqs: FaqItem[] = [
     category: "Pricing & Payment",
     question: "How much does HIDD charge?",
     answer:
-      "Our flat rate is ₦1,000,000 per service. For a Comprehensive Report covering all four services, please contact us for the package price. All fees are confirmed in writing before work begins."
+      "Our flat rate is ₦1,000,000 per standalone service. The Comprehensive Report has a separate package fee, confirmed in writing after scope review and before engagement."
   },
   {
     id: "payment-terms",
@@ -161,7 +161,7 @@ export const faqs: FaqItem[] = [
     category: "Contact & Booking",
     question: "How do I get started?",
     answer:
-      "Simply reach out via our website contact form, email us at dapodpscwre@gmail.com, or call us directly. Tell us the property address, the service or services you need, and your timeline, and we will respond within a working day with a scope confirmation and invoice."
+      "Simply reach out via our website contact form, email us at info@hiddadvisory.com, or call us directly. Tell us the property address, the service or services you need, and your timeline, and we will respond within a working day with a scope confirmation and invoice."
   },
   {
     id: "speak-before-committing",

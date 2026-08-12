@@ -13,6 +13,7 @@ import { siteConfig } from "@/lib/site";
 
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
+import "./institutional.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),

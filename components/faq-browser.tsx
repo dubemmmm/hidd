@@ -68,7 +68,7 @@ export function FaqBrowser({ faqs, categories }: FaqBrowserProps) {
                 <button
                   type="button"
                   key={`${item}-duplicate-${index}`}
-                  className={`chip ${isActive ? "is-active" : ""}`}
+                  className={`chip faq-browser__chip--duplicate ${isActive ? "is-active" : ""}`}
                   onClick={() => setCategory(isAll ? "All" : item)}
                   tabIndex={-1}
                   aria-hidden="true"

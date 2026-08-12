@@ -32,7 +32,8 @@ const differentiators = [
   },
   {
     title: "Flat-fee clarity",
-    copy: "Each service costs ₦1,000,000, and the full fee is confirmed before work begins."
+    copy:
+      "Each standalone service costs ₦1,000,000. Comprehensive Report package pricing is confirmed after scope review and before engagement."
   },
   {
     title: "Clear recommendations",

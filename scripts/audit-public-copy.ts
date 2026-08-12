@@ -49,6 +49,8 @@ const phrases = [
   "five launch neighbourhoods"
 ];
 
+const gmailAddressPattern = /[a-z0-9._%+-]+@gmail\.com/i;
+
 let documents: Array<Record<string, unknown>> = [];
 
 try {
@@ -77,6 +79,13 @@ const findings: Array<{ id: string; type: string; phrase: string }> = [];
 
 for (const document of documents) {
   const searchable = JSON.stringify(document).toLowerCase();
+  if (gmailAddressPattern.test(searchable)) {
+    findings.push({
+      id: String(document._id),
+      type: String(document._type),
+      phrase: "gmail address"
+    });
+  }
   for (const phrase of phrases) {
     if (searchable.includes(phrase)) {
       findings.push({

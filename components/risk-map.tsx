@@ -93,6 +93,7 @@ export default function RiskMap({ areas, variant = "page" }: RiskMapProps) {
                 activeSlug={activeSlug}
                 onSelect={handleSelect}
                 onReady={() => setIsMapReady(true)}
+                interactionMode={variant === "hero" ? "preview" : "interactive"}
               />
             </div>
           </div>

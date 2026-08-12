@@ -51,7 +51,11 @@ export default function ServicesPage() {
             </div>
           </Reveal>
 
-          <div className="overview-grid overview-grid--service">
+          <div
+            className="overview-grid overview-grid--service"
+            role="region"
+            aria-label="Swipe to compare HIDD services"
+          >
             {services.map((service, index) => (
               <Reveal key={service.slug} delay={index * 0.06}>
                 <article id={service.slug} className="overview-card">
@@ -70,7 +74,7 @@ export default function ServicesPage() {
                   </ul>
                   <div className="overview-card__actions">
                     <Link href={`/services/${service.slug}`} className="button button--ghost">
-                      View Service Details
+                      Read More
                     </Link>
                     <Link href={`/contact?service=${service.slug}`} className="button button--primary">
                       Book This Service

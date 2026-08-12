@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 const emailPattern = /\S+@\S+\.\S+/;
-const contactEmail = process.env.CONTACT_TO_EMAIL || "dapodpscwre@gmail.com";
+const contactEmail = process.env.CONTACT_TO_EMAIL || "info@hiddadvisory.com";
 const serviceLabels: Record<string, string> = {
   "area-comparison-breakdown": "Area Comparison Breakdown"
 };

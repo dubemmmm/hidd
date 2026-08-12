@@ -7,7 +7,11 @@ type ServiceMarqueeProps = {
 
 export function ServiceMarquee({ items }: ServiceMarqueeProps) {
   return (
-    <div className="service-marquee" aria-label="HIDD services">
+    <div
+      className="service-marquee"
+      role="region"
+      aria-label="Swipe to explore HIDD services"
+    >
       <div className="service-marquee__track">
         {items.map((service, index) => (
           <div key={service.slug} className="service-marquee__item">

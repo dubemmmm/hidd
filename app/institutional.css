@@ -1,0 +1,2528 @@
+/*
+ * HIDD institutional visual system
+ * Direction: forensic, editorial, evidence-led.
+ * This file intentionally follows globals.css so it can retire the previous
+ * glass, glow, gradient, oversized-radius, and centred marketing treatments.
+ */
+
+:root {
+  --font-display: "Source Serif 4 Variable", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: "DM Sans Variable", "DM Sans", "Segoe UI", sans-serif;
+  --font-utility: "DM Sans Variable", "DM Sans", "Segoe UI", sans-serif;
+
+  --bg: #f3f0e8;
+  --bg-soft: #ebe7de;
+  --bg-card: #faf8f2;
+  --bg-card-strong: #faf8f2;
+  --surface: #faf8f2;
+  --surface-elevated: #faf8f2;
+  --surface-warm: #eee9df;
+  --surface-warm-strong: #e6e0d5;
+
+  --line: #c9c3b8;
+  --line-strong: #a9a195;
+  --text: #102a43;
+  --text-muted: #334e68;
+  --text-dim: #52606d;
+  --accent: #123b72;
+  --accent-2: #174f85;
+  --accent-3: #8a5f0a;
+  --risk-low: #245680;
+  --risk-medium: #805600;
+  --risk-high: #863c32;
+
+  --shadow-xl: none;
+  --shadow-md: none;
+  --shadow-glow: none;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+}
+
+html {
+  background: var(--bg);
+  overflow-x: clip;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body *,
+body *::before,
+body *::after {
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body * {
+  background-image: none !important;
+}
+
+.page-backdrop,
+.page-grid {
+  display: none;
+}
+
+::selection {
+  background: #d7c49a;
+  color: var(--text);
+}
+
+:where(a, button, input, textarea, select, summary):focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.hero__title,
+.section-heading__title,
+.cta-band__title {
+  font-family: var(--font-display);
+  color: var(--text);
+  font-weight: 570;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+p,
+li,
+dd,
+.section-heading__description,
+.hero__description,
+.page-hero__content p,
+.cta-band__description {
+  color: var(--text-muted);
+}
+
+.section--muted,
+.section--soft,
+.section--insights-library,
+.section--service-introduction {
+  background: var(--bg-soft);
+  border-color: var(--line);
+}
+
+/* Header: solid, high-contrast, and compact like an institutional masthead. */
+.site-header,
+.site-header--scrolled {
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.site-header::before,
+.site-header--scrolled::before {
+  background: var(--bg);
+}
+
+.site-header__inner {
+  min-height: 76px;
+}
+
+.site-header__actions {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.brand__mark,
+.logo-mark {
+  border-radius: 6px;
+  border-color: var(--line-strong);
+  background: var(--surface-warm);
+}
+
+.brand__text,
+.logo-text {
+  color: var(--text);
+}
+
+.site-nav__link {
+  color: #243b53;
+  font-size: 0.91rem;
+  font-weight: 600;
+}
+
+.site-nav__link:hover,
+.site-nav__link.is-active {
+  color: #102a43;
+  text-decoration: underline;
+  text-decoration-color: var(--accent-3);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
+}
+
+/* Buttons are actions, not decorative pills. */
+.button,
+.button--header,
+.button--primary,
+.button--secondary,
+.button--ghost,
+.insights-filter__show-all,
+.reports-library__show-more,
+.back-link--button {
+  min-height: 46px;
+  border-radius: 7px;
+  padding-inline: 18px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+}
+
+.button--primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #faf8f2;
+}
+
+.button--primary:hover {
+  border-color: #0b2d55;
+  background: #0b2d55;
+}
+
+.button--ghost,
+.button--secondary,
+.insights-filter__show-all,
+.reports-library__show-more,
+.back-link--button {
+  border-color: var(--line-strong);
+  background: transparent;
+  color: var(--text);
+}
+
+.button:hover,
+.social-icon:hover {
+  transform: none;
+}
+
+/* Editorial section grammar: rule, label, headline, evidence. */
+.section-heading,
+.section-heading--centered,
+.insights-section-heading .section-heading,
+.about-section-heading .section-heading,
+.comprehensive-section-heading .section-heading {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.section-heading .section-heading__eyebrow,
+.section-heading--centered .section-heading__eyebrow,
+.insights-section-heading .section-heading__eyebrow,
+.about-section-heading .section-heading__eyebrow,
+.comprehensive-section-heading .section-heading__eyebrow,
+.page-hero__content .section-heading__eyebrow,
+.homepage-hero__eyebrow {
+  align-items: flex-start;
+  align-self: flex-start;
+  margin-right: 0;
+  margin-left: 0;
+  text-align: left;
+}
+
+.section-heading__eyebrow {
+  color: var(--text-muted);
+  font-family: var(--font-utility);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.section-heading__eyebrow::before,
+.homepage-hero__eyebrow::before {
+  width: 46px;
+  height: 2px;
+  margin-right: auto;
+  margin-bottom: 14px;
+  margin-left: 0;
+  border-radius: 0;
+  background: var(--accent-3);
+}
+
+.section-heading__title {
+  max-width: 26ch;
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  line-height: 1.02;
+}
+
+.section-heading__description {
+  max-width: 66ch;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+/* Keep Insights headings on one editorial axis from rule through body copy. */
+.insights-section-heading .section-heading__description {
+  margin-right: 0;
+  margin-left: 0;
+  text-align: left;
+}
+
+/* Heroes read like the opening page of a report, not floating promo cards. */
+.hero,
+.page-hero {
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.hero__content,
+.page-hero__content,
+.hero__content--landing,
+.page-hero__content--contact,
+.page-hero__content--service-overview,
+.page-hero__content--reports,
+.case-studies-hero,
+.case-study-hero,
+.about-hero,
+.comprehensive-hero,
+.resource-detail-hero {
+  align-items: flex-start;
+  max-width: 940px;
+  margin-right: auto;
+  margin-left: 0;
+  padding: 18px 0 18px 28px;
+  border: 0;
+  border-left: 3px solid var(--accent-3);
+  border-radius: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.homepage-hero {
+  width: 100%;
+  max-width: 940px;
+  margin-right: auto;
+  margin-left: 0;
+  padding: 18px 0 18px 28px;
+  border-left: 3px solid var(--accent-3);
+  text-align: left;
+}
+
+.homepage-hero h1,
+.homepage-hero p {
+  max-width: 100%;
+  margin-right: 0;
+  margin-left: 0;
+  text-align: left;
+}
+
+/* Editorial hero axis: supporting copy sits directly beneath its title. */
+.page-hero__content--district,
+.about-hero,
+.case-studies-hero,
+.case-study-hero {
+  align-items: flex-start;
+  max-width: 940px;
+  margin-right: auto;
+  margin-left: 0;
+  text-align: left;
+}
+
+.page-hero__content--district .section-heading__eyebrow,
+.about-hero .section-heading__eyebrow,
+.case-studies-hero .section-heading__eyebrow,
+.case-study-hero .section-heading__eyebrow {
+  align-items: flex-start;
+  margin-right: 0;
+  margin-left: 0;
+  text-align: left;
+}
+
+.page-hero__content--district h1,
+.about-hero h1,
+.case-studies-hero h1,
+.case-study-hero h1 {
+  max-width: 940px;
+  margin-right: 0;
+  margin-left: 0;
+  text-align: left;
+}
+
+.page-hero__content--district p,
+.about-hero p,
+.case-studies-hero > p,
+.case-study-hero > p {
+  max-width: 72ch;
+  margin-right: 0;
+  margin-left: 0;
+  text-align: left;
+}
+
+/* Back navigation is always a left-edge utility above page content. */
+.back-link,
+.page-hero__content--district .back-link,
+.page-hero__content--article .back-link,
+.resource-detail-hero .back-link,
+.methodology-hero .back-link,
+.service-back-link {
+  align-self: flex-start;
+  justify-self: start;
+  margin-right: auto;
+  margin-left: 0;
+  text-align: left;
+}
+
+.hero__content--landing::before,
+.service-card::before,
+.overview-card::before,
+.testimonial-card::before,
+.insight-card::before,
+.insight-card__accent,
+.section--muted::before,
+.about-hero::before,
+.comprehensive-hero::before {
+  display: none;
+}
+
+.hero__content--landing .section-heading__eyebrow,
+.hero__content--landing .hero__title,
+.hero__content--landing .hero__description,
+.hero__content--landing .hero__metrics,
+.page-hero__content--service-overview .section-heading__eyebrow,
+.page-hero__content--service-overview p,
+.page-hero__content--contact .section-heading__eyebrow,
+.page-hero__content--contact p,
+.page-hero__content--reports.insights-hero > p {
+  margin-right: 0;
+  margin-left: 0;
+  text-align: left;
+}
+
+.hero__content--landing .hero__title {
+  max-width: 15ch;
+}
+
+.hero__content--landing .hero__actions,
+.hero__content--landing .hero__ticker,
+.homepage-hero__actions,
+.comprehensive-hero__actions {
+  justify-content: flex-start;
+}
+
+.page-hero__content--reports.insights-hero,
+.insights-hero {
+  align-items: flex-start;
+  max-width: 880px;
+  margin-left: 0;
+  text-align: left;
+}
+
+/* Document surfaces: warm paper, fine rules, small radii, no elevation. */
+.service-card,
+.overview-card,
+.content-panel,
+.timeline-card,
+.testimonial-card,
+.faq-browser__card,
+.insight-card,
+.case-study-card,
+.bundle-card,
+.article-sidebar__card,
+.contact-panel,
+.contact-form,
+.hero-card,
+.hero-brief__item,
+.professional-card,
+.comprehensive-question-card,
+.service-detail-process__card,
+.district-summary-card,
+.district-breakdown-card,
+.risk-map-assessment-card,
+.risk-map-surface,
+.risk-map-surface__map,
+.risk-radar-chart-shell,
+.risk-radar-mobile-card,
+.risk-radar-gate__panel,
+.reports-library__panel,
+.reports-library__empty-card,
+.report-card,
+.resource-detail-fact,
+.resource-detail-access,
+.article-related__card,
+.cta-band__panel,
+.not-found-panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.service-card:hover,
+.overview-card:hover,
+.insight-card:hover,
+.case-study-card:hover,
+.report-card:hover {
+  transform: none;
+  border-color: var(--line-strong);
+}
+
+.service-card__icon,
+.professional-card__photo,
+.risk-radar-mobile-card__cell,
+.district-breakdown-card__item {
+  border-radius: 6px;
+  background: var(--surface-warm);
+}
+
+.service-card h3,
+.overview-card h2,
+.bundle-card h2,
+.contact-panel h2,
+.article-sidebar__card h2,
+.insight-card h3,
+.faq-browser__card h3,
+.case-study-card h3,
+.professional-card h3,
+.report-card strong {
+  line-height: 1.12;
+}
+
+/* Facts and filters use rectangular evidence labels rather than pills. */
+.chip,
+.reports-library__filter,
+.case-studies-browser__filter,
+.faq-browser__chip,
+.report-card__category,
+.news-card__category,
+.case-study-card__service,
+.article-meta span,
+.resource-detail-hero__meta span,
+.risk-radar-chip,
+.risk-map-layers__chip,
+.district-grade,
+.hero__ticker span,
+.reports-library__group-count,
+.service-card__number {
+  border-radius: 4px;
+}
+
+.anchor-nav,
+.anchor-nav--marquee {
+  overflow: visible;
+  border: 0;
+  background: transparent;
+}
+
+.anchor-nav__track {
+  gap: 22px;
+  animation: none;
+  mask-image: none;
+}
+
+.anchor-nav a,
+.anchor-nav--marquee a {
+  min-height: 38px;
+  padding: 6px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.anchor-nav a:hover,
+.anchor-nav--marquee a:hover {
+  border-bottom-color: var(--accent-3);
+  color: var(--text);
+}
+
+.chip,
+.reports-library__filter,
+.case-studies-browser__filter,
+.faq-browser__chip {
+  border-color: var(--line-strong);
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.chip.is-active,
+.reports-library__filter.is-active,
+.case-studies-browser__filter.is-active,
+.faq-browser__chip.is-active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #faf8f2;
+}
+
+/* Forms resemble official intake documents. */
+input,
+textarea,
+select,
+.search-input,
+.reports-library__search input {
+  border-color: var(--line-strong);
+  border-radius: 6px;
+  background: #faf8f2;
+  color: var(--text);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #52606d;
+  opacity: 1;
+}
+
+.field > span,
+.contact-details span,
+.article-sidebar__card > span,
+.resource-detail-fact > span {
+  color: var(--text-muted);
+}
+
+/* Map and analytical views stay functional but lose the product-dashboard gloss. */
+.risk-map-stage,
+.risk-map-container,
+.leaflet-container,
+.maplibregl-map {
+  border-radius: 6px;
+}
+
+/* The homepage map is a selectable preview, not a navigation surface. */
+.risk-map-surface--hero .maplibregl-canvas,
+.risk-map-surface--hero .risk-map-canvas__interactive {
+  touch-action: pan-y;
+}
+
+.risk-map-popup,
+.maplibregl-popup-content,
+.leaflet-popup-content-wrapper {
+  border-radius: 6px !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+/* Footer becomes a restrained institutional colophon. */
+.footer {
+  border-color: var(--line);
+  background: var(--bg-soft);
+}
+
+.footer-col h3,
+.footer-col a,
+.footer-contact-text,
+.footer-desc,
+.footer-bottom__links a,
+.footer-bottom p,
+.footer-compact__contact,
+.footer-compact__legal {
+  color: var(--text-muted);
+}
+
+.social-icon {
+  border-color: var(--line-strong);
+  background: transparent;
+  color: var(--text);
+}
+
+.footer-bottom__copyright--mobile {
+  display: none;
+}
+
+@media (max-width: 820px) {
+  .site-nav {
+    background: var(--bg);
+  }
+
+  .site-nav__link {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--surface);
+  }
+
+  .menu-toggle {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    flex: 0 0 40px;
+  }
+
+  .brand,
+  .nav-logo {
+    min-height: 44px;
+  }
+
+  .site-header__actions {
+    position: fixed;
+    top: 13px;
+    right: 14px;
+    z-index: 103;
+  }
+
+  .hero__content,
+  .page-hero__content,
+  .hero__content--landing,
+  .page-hero__content--contact,
+  .page-hero__content--service-overview,
+  .page-hero__content--reports,
+  .case-studies-hero,
+  .case-study-hero,
+  .about-hero,
+  .comprehensive-hero,
+  .resource-detail-hero {
+    padding: 12px 0 12px 18px;
+  }
+
+  .homepage-hero {
+    width: calc(100vw - 32px);
+    max-width: calc(100vw - 32px);
+    min-width: 0;
+    padding: 12px 0 12px 16px;
+  }
+
+  .homepage-hero > *,
+  .homepage-hero__actions {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .homepage-hero__eyebrow {
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.55;
+  }
+
+  .homepage-hero h1 {
+    max-width: 10.5ch;
+    font-size: clamp(2.35rem, 11vw, 2.75rem);
+    line-height: 0.98;
+    overflow-wrap: normal;
+  }
+
+  .homepage-hero p {
+    max-width: 34ch;
+    font-size: 0.96rem;
+    line-height: 1.65;
+  }
+
+  .homepage-hero__actions .button {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .section-heading__title {
+    font-size: clamp(1.85rem, 8vw, 2.45rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Area Compare: an evidence-led comparison record with dated ratings. */
+.page-hero__text-link,
+.risk-radar-controls__links a,
+.risk-radar-controls__links button,
+.district-methodology-link a {
+  color: var(--accent-3);
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.page-hero__text-link {
+  display: inline-block;
+  margin-top: 18px;
+}
+
+.risk-radar-controls__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 20px;
+  margin-top: 8px;
+}
+
+.risk-radar-controls__links button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.risk-radar-controls__links span[role="status"] {
+  min-height: 1.3em;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+}
+
+.risk-comparison-share {
+  display: grid;
+  width: min(100%, 720px);
+  gap: 7px;
+  margin-top: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-strong);
+}
+
+.risk-comparison-share > label {
+  color: var(--text);
+  font-family: var(--font-utility);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.risk-comparison-share__controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.risk-comparison-share__controls input {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  padding: 9px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.82rem;
+}
+
+.risk-comparison-share__controls input:focus-visible {
+  outline: 2px solid var(--accent-3);
+  outline-offset: 2px;
+}
+
+.risk-comparison-share__controls button {
+  min-height: 42px;
+  padding: 9px 16px;
+  border: 1px solid var(--accent);
+  border-radius: 7px;
+  background: var(--accent);
+  color: #faf8f2;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.risk-comparison-share > span[role="status"] {
+  min-height: 1.2em;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+}
+
+.risk-radar-table__rating {
+  display: grid;
+  gap: 7px;
+  justify-items: start;
+}
+
+.risk-radar-table__rating small,
+.risk-radar-mobile-card__cell small {
+  color: var(--text-muted);
+  font-size: 0.66rem;
+  line-height: 1.35;
+}
+
+.risk-radar-mobile-card__cell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.risk-radar-mobile-card__cell small {
+  grid-column: 1 / -1;
+}
+
+.risk-radar-legend__item > span:last-child {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+}
+
+.risk-radar-legend__item strong {
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.risk-radar-legend__item small {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+}
+
+.risk-radar-chart__mobile-index,
+.risk-radar-mobile-axis-key {
+  display: none;
+}
+
+.risk-radar-district-directory {
+  display: grid;
+  gap: 9px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+}
+
+.risk-radar-district-directory > strong {
+  color: var(--text-muted);
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.risk-radar-district-directory > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+}
+
+.risk-radar-district-directory a {
+  color: var(--text);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.district-grade small {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.district-methodology-link {
+  margin: 18px 0 0;
+}
+
+/* District evidence cards align to their row while retaining complete copy. */
+.district-breakdown-grid {
+  align-items: stretch;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 16px;
+}
+
+.district-breakdown-card {
+  display: flex;
+  height: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.district-breakdown-card__header {
+  min-height: 44px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.district-breakdown-card__header span {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+.district-breakdown-card__items {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.district-breakdown-card__item {
+  display: flex;
+  height: 100%;
+  box-sizing: border-box;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.district-breakdown-card__item-meta {
+  min-width: 0;
+}
+
+.district-breakdown-card__item-meta span {
+  display: inline-block;
+  width: fit-content;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--accent);
+  color: var(--accent-3);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.district-breakdown-card__finding {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.district-breakdown-card__finding strong {
+  margin: 0 0 12px;
+  color: var(--text);
+  font-family: var(--font-display), serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.18;
+}
+
+.district-breakdown-card__finding p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.72;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  hyphens: auto;
+  text-align: justify;
+  text-justify: inter-word;
+  text-wrap: pretty;
+}
+
+.district-breakdown-card__read-more {
+  width: fit-content;
+  margin-top: auto;
+  padding: 18px 0 2px;
+  border: 0;
+  border-bottom: 1px solid var(--accent-3);
+  background: transparent;
+  color: var(--accent-3);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.district-breakdown-card__read-more:hover {
+  color: var(--text);
+  border-bottom-color: var(--text);
+}
+
+.district-breakdown-card__read-more:focus-visible,
+.district-assessment-dialog__close:focus-visible {
+  outline: 3px solid rgba(197, 154, 58, 0.35);
+  outline-offset: 4px;
+}
+
+.district-assessment-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  background: rgba(13, 27, 45, 0.72);
+}
+
+.district-assessment-dialog__panel {
+  position: relative;
+  width: min(100%, 760px);
+  max-height: min(82vh, 760px);
+  overflow-y: auto;
+  padding: clamp(28px, 5vw, 54px);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 24px 70px rgba(13, 27, 45, 0.26);
+}
+
+.district-assessment-dialog__close {
+  position: absolute;
+  top: 20px;
+  right: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 0 4px;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.district-assessment-dialog__close span {
+  color: var(--text);
+  font-size: 1.15rem;
+  line-height: 0.7;
+}
+
+.district-assessment-dialog__meta {
+  display: grid;
+  gap: 10px;
+  padding-right: 90px;
+}
+
+.district-assessment-dialog__meta span {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.district-assessment-dialog__meta small {
+  width: fit-content;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--accent);
+  color: var(--accent-3);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.district-assessment-dialog h2 {
+  max-width: 18ch;
+  margin: 28px 0 20px;
+  font-size: clamp(2rem, 5vw, 3.35rem);
+  line-height: 1;
+}
+
+.district-assessment-dialog__panel > p {
+  max-width: 68ch;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+@media (max-width: 1080px) {
+  .district-breakdown-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+  }
+}
+
+@media (max-width: 820px) {
+  .district-breakdown-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+
+  .district-breakdown-card,
+  .district-breakdown-card__item {
+    height: auto;
+  }
+
+  .district-breakdown-card__header {
+    min-height: 0;
+  }
+}
+
+/* Methodology page: a compact institutional ledger, not a marketing page. */
+.shell--editorial {
+  width: min(100% - 64px, 1160px);
+}
+
+.page-hero--methodology {
+  padding-bottom: 64px;
+}
+
+.methodology-hero {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  max-width: 820px;
+  padding-left: 28px;
+  border-left: 3px solid var(--accent);
+}
+
+.methodology-hero .back-link {
+  display: inline-flex;
+  margin-bottom: 42px;
+}
+
+.methodology-hero .section-heading__eyebrow {
+  align-items: flex-start;
+  align-self: flex-start;
+  margin-right: 0;
+  margin-left: 0;
+  text-align: left;
+}
+
+.methodology-hero h1 {
+  max-width: 14ch;
+  margin: 28px 0 20px;
+  font-size: clamp(2.7rem, 5.6vw, 5rem);
+  line-height: 0.98;
+}
+
+.methodology-hero > p {
+  max-width: 68ch;
+  color: var(--text-muted);
+  font-size: 1.04rem;
+  line-height: 1.75;
+}
+
+.methodology-layout {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: clamp(48px, 8vw, 112px);
+  align-items: start;
+}
+
+.methodology-index {
+  position: sticky;
+  top: calc(var(--header-height, 80px) + 30px);
+  display: grid;
+  border-top: 2px solid var(--text);
+}
+
+.methodology-index span,
+.methodology-index a {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.methodology-index span {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.methodology-index a {
+  color: var(--text);
+  font-size: 0.84rem;
+}
+
+.methodology-content {
+  min-width: 0;
+}
+
+.methodology-section {
+  padding: 0 0 72px;
+  scroll-margin-top: calc(var(--header-height, 80px) + 28px);
+}
+
+.methodology-section + .methodology-section,
+.methodology-content > .reveal + .reveal .methodology-section {
+  padding-top: 72px;
+  border-top: 1px solid var(--line-strong);
+}
+
+.methodology-section__heading {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.methodology-section__heading > span {
+  padding-top: 7px;
+  color: var(--accent-3);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.methodology-section__heading p {
+  margin: 0 0 8px;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.methodology-section__heading h2 {
+  max-width: 18ch;
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.02;
+}
+
+.methodology-lead {
+  max-width: 66ch;
+  margin: 28px 0 34px 62px;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.methodology-source-list,
+.methodology-dimensions {
+  margin-left: 62px;
+  border-top: 1px solid var(--line-strong);
+}
+
+.methodology-source-list article {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.75fr) minmax(0, 1.35fr);
+  gap: 28px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.methodology-source-list h3,
+.methodology-source-list p,
+.methodology-dimensions h3,
+.methodology-dimensions p {
+  margin: 0;
+}
+
+.methodology-source-list h3,
+.methodology-dimensions h3 {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.94rem;
+  font-weight: 700;
+}
+
+.methodology-source-list p,
+.methodology-dimensions p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.methodology-band-table {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0 0 36px 62px;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.methodology-band-table div {
+  display: grid;
+  gap: 5px;
+  padding: 18px 20px;
+  border-right: 1px solid var(--line);
+}
+
+.methodology-band-table div:last-child {
+  border-right: 0;
+}
+
+.methodology-band-table span {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+}
+
+.methodology-band-table strong {
+  font-size: 0.92rem;
+}
+
+.methodology-dimensions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.methodology-dimensions article {
+  min-height: 170px;
+  padding: 22px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.methodology-dimensions article:nth-child(even) {
+  border-right: 0;
+}
+
+.methodology-dimensions span {
+  display: block;
+  margin-bottom: 24px;
+  color: var(--accent-3);
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.methodology-dimensions h3 {
+  margin-bottom: 8px;
+}
+
+.methodology-chart-note {
+  margin: 36px 0 0 62px;
+  padding: 26px 28px;
+  border-left: 3px solid var(--accent);
+  background: var(--surface-warm);
+}
+
+.methodology-chart-note h3,
+.methodology-chart-note p {
+  margin-top: 0;
+}
+
+.methodology-chart-note h3 {
+  font-size: 1.45rem;
+}
+
+.methodology-chart-note p {
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.methodology-chart-note code {
+  display: block;
+  margin: 20px 0;
+  color: var(--text);
+  font-size: clamp(0.86rem, 2vw, 1.05rem);
+  white-space: normal;
+}
+
+.methodology-date-register {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-left: 62px;
+  border-top: 1px solid var(--line-strong);
+}
+
+.methodology-date-register a {
+  display: grid;
+  gap: 7px;
+  padding: 20px 0;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+}
+
+.methodology-date-register a:nth-child(odd) {
+  padding-right: 24px;
+}
+
+.methodology-date-register a:nth-child(even) {
+  padding-left: 24px;
+  border-right: 0;
+}
+
+.methodology-date-register span {
+  font-size: 0.96rem;
+  font-weight: 700;
+}
+
+.methodology-date-register strong,
+.methodology-date-register small {
+  color: var(--text-muted);
+  font-size: 0.76rem;
+}
+
+.methodology-limitations {
+  display: grid;
+  gap: 0;
+  margin: 30px 0 0 62px;
+  padding: 0;
+  list-style: none;
+  counter-reset: limitation;
+  border-top: 1px solid var(--line-strong);
+}
+
+.methodology-limitations li {
+  position: relative;
+  padding: 18px 18px 18px 48px;
+  border-bottom: 1px solid var(--line);
+  color: var(--text-muted);
+  line-height: 1.65;
+  counter-increment: limitation;
+}
+
+.methodology-limitations li::before {
+  content: counter(limitation, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  color: var(--accent-3);
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.methodology-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 34px 0 0 62px;
+}
+
+@media (max-width: 820px) {
+  .shell--editorial {
+    width: min(100% - 36px, 1160px);
+  }
+
+  .methodology-layout {
+    grid-template-columns: 1fr;
+    gap: 46px;
+  }
+
+  .methodology-index {
+    position: static;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .methodology-index span {
+    grid-column: 1 / -1;
+  }
+
+  .methodology-index a {
+    padding-right: 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  .district-breakdown-card__finding p {
+    hyphens: none;
+    text-align: left;
+  }
+
+  .district-assessment-dialog {
+    align-items: end;
+    padding: 12px;
+  }
+
+  .district-assessment-dialog__panel {
+    width: 100%;
+    max-height: 88vh;
+    padding: 52px 22px 28px;
+  }
+
+  .district-assessment-dialog__close {
+    top: 18px;
+    right: 20px;
+  }
+
+  .district-assessment-dialog__meta {
+    padding-right: 0;
+  }
+
+  .district-assessment-dialog h2 {
+    margin-top: 22px;
+    font-size: 2rem;
+  }
+
+  .district-breakdown-card {
+    height: auto;
+  }
+
+  .district-breakdown-grid,
+  .district-breakdown-card__items {
+    grid-auto-rows: auto;
+  }
+
+  .district-breakdown-card__item {
+    height: auto;
+  }
+
+  .risk-radar-chart__label {
+    display: none;
+  }
+
+  .risk-radar-chart__mobile-index {
+    display: block;
+    fill: var(--text);
+    font-family: var(--font-sans), sans-serif;
+    font-size: 25px;
+    font-weight: 800;
+    stroke: var(--surface);
+    stroke-width: 7px;
+    paint-order: stroke fill;
+  }
+
+  .risk-radar-mobile-axis-key {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: axis;
+    border-top: 1px solid var(--line);
+  }
+
+  .risk-radar-mobile-axis-key li {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 7px;
+    padding: 9px 8px 9px 0;
+    border-bottom: 1px solid var(--line);
+    counter-increment: axis;
+  }
+
+  .risk-radar-mobile-axis-key li::before {
+    content: counter(axis);
+    color: var(--accent-3);
+    font-size: 0.7rem;
+    font-weight: 800;
+  }
+
+  .risk-radar-mobile-axis-key span {
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    line-height: 1.35;
+  }
+
+  .risk-radar-controls__links,
+  .risk-radar-district-directory > div {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .risk-comparison-share__controls {
+    grid-template-columns: 1fr;
+  }
+
+  .risk-comparison-share__controls button {
+    width: 100%;
+  }
+
+  .risk-radar-legend__item {
+    justify-content: flex-start;
+  }
+
+  .page-hero--methodology {
+    padding-bottom: 42px;
+  }
+
+  .methodology-hero {
+    padding-left: 18px;
+  }
+
+  .methodology-hero .back-link {
+    margin-bottom: 30px;
+  }
+
+  .methodology-hero h1 {
+    margin-top: 22px;
+    font-size: clamp(2.35rem, 12vw, 3.35rem);
+  }
+
+  .methodology-hero > p {
+    font-size: 0.94rem;
+  }
+
+  .methodology-index {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .methodology-section {
+    padding-bottom: 52px;
+  }
+
+  .methodology-content > .reveal + .reveal .methodology-section {
+    padding-top: 52px;
+  }
+
+  .methodology-section__heading {
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .methodology-section__heading h2 {
+    font-size: 2rem;
+  }
+
+  .methodology-lead,
+  .methodology-source-list,
+  .methodology-band-table,
+  .methodology-dimensions,
+  .methodology-chart-note,
+  .methodology-date-register,
+  .methodology-limitations,
+  .methodology-actions {
+    margin-left: 42px;
+  }
+
+  .methodology-source-list article {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .methodology-band-table {
+    grid-template-columns: 1fr;
+  }
+
+  .methodology-band-table div {
+    grid-template-columns: 70px minmax(0, 1fr);
+    align-items: center;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .methodology-band-table div:last-child {
+    border-bottom: 0;
+  }
+
+  .methodology-dimensions,
+  .methodology-date-register {
+    grid-template-columns: 1fr;
+  }
+
+  .methodology-dimensions article {
+    min-height: 0;
+    border-right: 0;
+  }
+
+  .methodology-date-register a:nth-child(odd),
+  .methodology-date-register a:nth-child(even) {
+    padding: 18px 0;
+    border-right: 0;
+  }
+
+  .methodology-chart-note {
+    padding: 20px;
+  }
+
+  .methodology-actions {
+    flex-direction: column;
+  }
+
+  .methodology-actions .button {
+    width: 100%;
+  }
+}
+
+/* Mobile template system
+ * Phones use a deliberately reduced information hierarchy: one reading column,
+ * viewport-safe controls, concise overview cards, and locally scrollable filters.
+ */
+@media (max-width: 820px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  :where(main, section, article, aside, nav, header, footer, form, div) {
+    min-width: 0;
+  }
+
+  :where(img, svg, canvas, video, iframe) {
+    max-width: 100%;
+  }
+
+  .shell,
+  .shell--wide,
+  .shell--service,
+  .shell--article,
+  .shell--support,
+  .shell--reports,
+  .shell--editorial {
+    width: min(calc(100% - 32px), 1160px);
+    max-width: 100%;
+  }
+
+  .site-header__inner {
+    width: calc(100% - 24px);
+    min-height: 76px;
+  }
+
+  .site-header__actions {
+    top: 18px;
+    right: 12px;
+  }
+
+  .menu-toggle {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .site-nav__panel {
+    max-height: calc(100dvh - 76px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .site-nav.site-nav--open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .site-nav__link,
+  .site-nav__mobile-actions .button {
+    min-height: 48px;
+  }
+
+  .hero,
+  .page-hero,
+  .page-hero--service,
+  .page-hero--article,
+  .page-hero--case-studies,
+  .page-hero--case-study,
+  .page-hero--about,
+  .page-hero--contact,
+  .page-hero--map,
+  .page-hero--reports,
+  .page-hero--district,
+  .page-hero--resource-detail,
+  .page-hero--comprehensive,
+  .page-hero--methodology {
+    padding-top: 36px;
+    padding-bottom: 36px;
+  }
+
+  .hero__content,
+  .page-hero__content,
+  .hero__content--landing,
+  .page-hero__content--contact,
+  .page-hero__content--service-overview,
+  .page-hero__content--reports,
+  .page-hero__content--article,
+  .page-hero__content--service,
+  .page-hero__content--district,
+  .case-studies-hero,
+  .case-study-hero,
+  .about-hero,
+  .comprehensive-hero,
+  .resource-detail-hero,
+  .methodology-hero,
+  .homepage-hero {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px 0 10px 18px;
+    border-left-width: 3px;
+  }
+
+  .homepage-hero {
+    box-sizing: border-box;
+  }
+
+  :where(
+    .homepage-hero,
+    .hero__content,
+    .page-hero__content,
+    .case-studies-hero,
+    .case-study-hero,
+    .about-hero,
+    .comprehensive-hero,
+    .resource-detail-hero,
+    .methodology-hero
+  ) > * {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  :where(.page-hero__content, .homepage-hero, .about-hero, .case-studies-hero, .case-study-hero) h1 {
+    max-width: 100%;
+    font-size: clamp(2.15rem, 10vw, 3rem);
+    line-height: 1;
+    overflow-wrap: break-word;
+  }
+
+  .homepage-hero h1 {
+    max-width: 11ch;
+  }
+
+  .homepage-hero__actions,
+  .hero__actions,
+  .comprehensive-hero__actions,
+  .bundle-card__actions,
+  .overview-card__actions,
+  .contact-form__footer,
+  .not-found-page__actions {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  :where(
+    .homepage-hero__actions,
+    .hero__actions,
+    .comprehensive-hero__actions,
+    .bundle-card__actions,
+    .overview-card__actions,
+    .contact-form__footer,
+    .not-found-page__actions
+  ) .button {
+    max-width: 100%;
+  }
+
+  .section {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  .section-heading,
+  .section-heading--centered,
+  .insights-section-heading .section-heading,
+  .about-section-heading .section-heading,
+  .comprehensive-section-heading .section-heading {
+    align-items: flex-start;
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .section-heading__title {
+    max-width: 100%;
+    font-size: clamp(1.9rem, 8.5vw, 2.45rem);
+    line-height: 1.04;
+  }
+
+  .section-heading__description {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .back-link,
+  .service-back-link,
+  .page-hero__text-link,
+  .risk-radar-controls__links a,
+  .risk-radar-controls__links button,
+  .district-methodology-link a,
+  .article-sidebar__share a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .service-grid,
+  .overview-grid,
+  .overview-grid--service,
+  .content-grid,
+  .timeline-grid,
+  .why-grid,
+  .insights-grid,
+  .case-study-grid,
+  .case-study-grid--archive,
+  .contact-layout,
+  .article-layout,
+  .about-story__grid,
+  .professional-grid,
+  .comprehensive-question-grid,
+  .comprehensive-deliverables__layout,
+  .comprehensive-standalone__inner,
+  .comprehensive-closing__inner,
+  .home-comprehensive__feature,
+  .district-breakdown-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Service comparison is a contained, touch-friendly horizontal rail. */
+  .overview-grid--service {
+    display: flex;
+    width: 100%;
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 10px;
+    scroll-padding-inline: 0;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+    align-items: stretch;
+  }
+
+  .overview-grid--service > .reveal {
+    display: flex;
+    width: auto;
+    min-width: 0;
+    flex: 0 0 min(82vw, 330px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    align-self: stretch;
+  }
+
+  .overview-grid--service .overview-card {
+    width: 100%;
+    min-width: 0;
+    min-height: 420px;
+    height: 420px;
+    padding: 20px;
+  }
+
+  .overview-grid--service .overview-card h2 {
+    min-height: 2.25em;
+  }
+
+  .overview-grid--service .overview-card > p:not(.overview-card__proof) {
+    display: -webkit-box;
+    min-height: 4.8em;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  .overview-grid--service .overview-card ul {
+    display: none;
+  }
+
+  .overview-grid--service .overview-card__facts {
+    align-content: flex-start;
+    min-height: 56px;
+    margin-top: 16px;
+  }
+
+  .overview-grid--service .overview-card__facts > span {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .overview-grid--service .overview-card__actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: auto;
+    padding-top: 18px;
+  }
+
+  .overview-grid--service .overview-card__actions .button {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding-right: 12px;
+    padding-left: 12px;
+    white-space: normal;
+  }
+
+  .service-marquee {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 10px;
+    scroll-padding-inline: 0;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .service-marquee__track {
+    display: flex;
+    width: max-content;
+    max-width: none;
+    gap: 14px;
+  }
+
+  .service-marquee__item {
+    width: min(82vw, 330px);
+    min-width: min(82vw, 330px);
+    flex: 0 0 min(82vw, 330px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .service-marquee .service-card {
+    width: 100%;
+    min-width: 0;
+    min-height: 260px;
+  }
+
+  .anchor-nav,
+  .anchor-nav--marquee,
+  .chip-row,
+  .case-studies-browser__filters,
+  .reports-library__filters,
+  .faq-browser__chips {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+    mask-image: none;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .anchor-nav__track,
+  .faq-browser__chips-track {
+    width: max-content;
+    max-width: none;
+    animation: none;
+    transform: none;
+  }
+
+  .anchor-nav a,
+  .anchor-nav--marquee a,
+  .chip,
+  .case-studies-browser__filters button,
+  .reports-library__filter,
+  .insights-articles .chip,
+  .faq-browser__chips .chip {
+    width: auto;
+    min-width: max-content;
+    min-height: 44px;
+    flex: 0 0 auto;
+  }
+
+  .faq-browser__chip--duplicate {
+    display: none;
+  }
+
+  .faq-browser__toolbar {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .search-input,
+  .field input,
+  .field textarea,
+  .field select {
+    min-width: 0;
+    min-height: 48px;
+    border-radius: 7px;
+    font-size: 16px;
+  }
+
+  .field--hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+  }
+
+
+  .field--hidden input {
+    width: 1px !important;
+    min-width: 0 !important;
+    height: 1px !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  .form-privacy a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-block: -12px;
+  }
+
+  .case-studies-browser__toolbar {
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .case-studies-browser__count {
+    align-self: flex-start;
+  }
+
+  .case-study-card,
+  .insight-card,
+  .report-card,
+  .article-prose,
+  .article-sidebar__card,
+  .contact-panel,
+  .contact-form,
+  .bundle-card,
+  .professional-card,
+  .comprehensive-question-card,
+  .district-summary-card,
+  .district-breakdown-card,
+  .risk-map-assessment-card,
+  .reports-library__panel,
+  .resource-detail-access,
+  .not-found-panel {
+    min-width: 0;
+    padding: 20px;
+  }
+
+  .article-prose,
+  .mdx-copy,
+  .district-breakdown-card__finding,
+  .district-breakdown-card__finding p {
+    overflow-wrap: anywhere;
+  }
+
+  .article-table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .article-sidebar {
+    width: 100%;
+    max-width: none;
+  }
+
+  .article-sidebar__share {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px 12px;
+  }
+
+  .article-sidebar__share > span {
+    grid-column: 1 / -1;
+  }
+
+  .risk-radar-controls__links,
+  .risk-radar-district-directory > div {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .risk-radar-controls__links a,
+  .risk-radar-controls__links button,
+  .risk-radar-district-directory a {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 0;
+  }
+
+  .risk-radar-chart-shell,
+  .risk-map-surface,
+  .risk-map-surface__map {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .risk-radar-mobile-axis-key {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .risk-radar-mobile-axis-key li {
+    min-width: 0;
+  }
+
+  .district-breakdown-card__read-more {
+    min-height: 44px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .methodology-index {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .methodology-index a {
+    min-width: 0;
+    min-height: 44px;
+    overflow-wrap: anywhere;
+  }
+
+  .footer-grid,
+  .footer-compact {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .footer-col a,
+  .footer-bottom__links a,
+  .footer-compact__contact a,
+  .footer-compact__legal a,
+  .footer-socials .social-icon {
+    min-height: 44px;
+  }
+
+  .footer-socials .social-icon {
+    width: 44px;
+    min-width: 44px;
+  }
+
+  .footer-bottom,
+  .footer-compact__legal {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 560px) {
+  .shell,
+  .shell--wide,
+  .shell--service,
+  .shell--article,
+  .shell--support,
+  .shell--reports,
+  .shell--editorial {
+    width: min(calc(100% - 24px), 1160px);
+  }
+
+  .hero,
+  .page-hero,
+  .page-hero--service,
+  .page-hero--article,
+  .page-hero--case-studies,
+  .page-hero--case-study,
+  .page-hero--about,
+  .page-hero--contact,
+  .page-hero--map,
+  .page-hero--reports,
+  .page-hero--district,
+  .page-hero--resource-detail,
+  .page-hero--comprehensive,
+  .page-hero--methodology {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .section,
+  .section.section--insights-library,
+  .section.section--insights-articles,
+  .methodology-section {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .homepage-hero__actions,
+  .hero__actions,
+  .comprehensive-hero__actions,
+  .bundle-card__actions,
+  .contact-form__footer,
+  .not-found-page__actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  :where(
+    .homepage-hero__actions,
+    .hero__actions,
+    .comprehensive-hero__actions,
+    .bundle-card__actions,
+    .contact-form__footer,
+    .not-found-page__actions
+  ) .button {
+    width: 100%;
+  }
+
+  .overview-grid--service .overview-card__actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .overview-grid--service .overview-card {
+    min-height: 460px;
+    height: 460px;
+  }
+
+  .risk-map-surface--page {
+    padding: 16px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  .risk-map-surface--page .risk-map-surface__map {
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .risk-radar-controls {
+    gap: 16px;
+  }
+
+  .risk-radar-controls__copy {
+    gap: 8px;
+  }
+
+  .risk-radar-controls__links {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: stretch;
+    gap: 8px 12px;
+    margin-top: 6px;
+  }
+
+  .risk-radar-controls__links a,
+  .risk-radar-controls__links button {
+    width: auto;
+    min-width: 0;
+    min-height: 44px;
+    padding: 10px 0;
+    text-align: left;
+    white-space: normal;
+  }
+
+  .risk-radar-district-directory {
+    gap: 8px;
+    padding: 14px 0;
+  }
+
+  .risk-radar-district-directory > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 14px;
+  }
+
+  .risk-radar-district-directory a {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.8rem;
+    line-height: 1.35;
+  }
+
+  .risk-radar-mobile-selects {
+    gap: 12px;
+  }
+
+  .overview-grid--service .overview-card__actions .button:first-child {
+    display: inline-flex;
+  }
+
+  .overview-grid--service .overview-card p,
+  .insight-card p,
+  .case-study-card p {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  .bundle-card--service ul li:nth-child(n + 3),
+  .home-comprehensive__questions li:nth-child(n + 4) {
+    display: none;
+  }
+
+  .article-sidebar__share {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .methodology-lead,
+  .methodology-source-list,
+  .methodology-band-table,
+  .methodology-dimensions,
+  .methodology-chart-note,
+  .methodology-date-register,
+  .methodology-limitations,
+  .methodology-actions {
+    margin-left: 0;
+  }
+
+  .methodology-section__heading {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+
+  .not-found-page {
+    min-height: auto;
+    padding: 48px 0;
+  }
+
+  /* Mobile footer: essential contact and legal information only. */
+  .footer {
+    padding: 30px 0 18px;
+  }
+
+  .footer-grid {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 18px 20px;
+    margin-bottom: 18px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+    max-width: none;
+    text-align: left;
+  }
+
+  .footer-brand .nav-logo {
+    min-height: 44px;
+  }
+
+  .footer-desc,
+  .footer-contact-text,
+  .footer-accreditation {
+    display: none;
+  }
+
+  .footer-col--contact,
+  .footer-col--connect {
+    grid-column: auto;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .footer-col--connect {
+    align-items: flex-end;
+  }
+
+  .footer-col h3 {
+    margin-bottom: 6px;
+  }
+
+  .footer-col a {
+    min-height: 44px;
+    margin-bottom: 0;
+    font-size: 0.8rem;
+  }
+
+  .footer-socials {
+    justify-content: flex-end;
+    margin-top: 0;
+  }
+
+  .footer-bottom {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px 16px;
+    padding-top: 14px;
+  }
+
+  .footer-bottom__copyright--desktop {
+    display: none;
+  }
+
+  .footer-bottom__copyright--mobile {
+    display: block;
+  }
+
+  .footer-bottom__links {
+    gap: 10px;
+  }
+
+  .footer-bottom__links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 0.76rem;
+  }
+
+  .footer--compact {
+    padding: 18px 0;
+  }
+
+  .footer-compact {
+    gap: 8px;
+  }
+
+  .footer-compact__contact {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    width: 100%;
+    gap: 4px 12px;
+  }
+
+  .footer-compact__brand {
+    grid-column: 1 / -1;
+  }
+
+  .footer-compact__legal {
+    width: 100%;
+    gap: 4px 10px;
+  }
+}

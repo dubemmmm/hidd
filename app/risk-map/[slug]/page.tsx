@@ -5,6 +5,7 @@ import { PortableText } from "next-sanity";
 
 import { BackButton } from "@/components/back-button";
 import { CtaBand } from "@/components/cta-band";
+import { DistrictAssessmentGrid } from "@/components/district-assessment-grid";
 import { portableTextComponents } from "@/components/portable-text";
 import { Reveal } from "@/components/reveal";
 import { SanityPreviewBanner } from "@/components/sanity-preview-banner";
@@ -74,6 +75,7 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
                 <div className={`district-grade district-grade--${area.riskGrade}`}>
                   <span>Current risk grade</span>
                   <strong>{formatRiskTier(area.riskGrade)}</strong>
+                  <small>Data as of {area.assessmentDate}</small>
                 </div>
               </div>
               <div className="district-assessment-meta">
@@ -94,6 +96,9 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
                 <span className="district-framing-note__eyebrow">What to keep in mind</span>
                 <p>{area.framingNote}</p>
               </div>
+              <p className="district-methodology-link">
+                <a href="/risk-map/methodology">See how HIDD produces district ratings →</a>
+              </p>
               {area.briefBody && area.briefBody.length > 0 ? (
                 <div className="district-brief-body">
                   <PortableText
@@ -107,7 +112,7 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
         </div>
       </section>
 
-      <section className="section section--muted">
+      <section id="assessment-categories" className="section section--muted">
         <div className="shell shell--district">
           <Reveal>
             <SectionHeading
@@ -116,30 +121,7 @@ export default async function NeighbourhoodPage({ params }: NeighbourhoodPagePro
               description="Review the main title, planning, infrastructure, environmental, security, and market factors for this district."
             />
           </Reveal>
-          <div className="district-breakdown-grid">
-            {area.assessmentCategories.map((category, index) => (
-              <Reveal key={category.key} delay={index * 0.03}>
-                <article className="district-breakdown-card">
-                  <div className="district-breakdown-card__header">
-                    <span>{category.title}</span>
-                  </div>
-                  <div className="district-breakdown-card__items">
-                    {category.indicators.map((indicator) => (
-                      <div key={indicator.code} className="district-breakdown-card__item">
-                        <div className="district-breakdown-card__item-meta">
-                          <span>{indicator.code}</span>
-                        </div>
-                        <div>
-                          <strong>{indicator.label}</strong>
-                          <p>{indicator.note}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </article>
-              </Reveal>
-            ))}
-          </div>
+          <DistrictAssessmentGrid categories={area.assessmentCategories} />
         </div>
       </section>
 

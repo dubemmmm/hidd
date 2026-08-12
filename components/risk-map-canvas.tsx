@@ -18,6 +18,7 @@ type RiskMapCanvasProps = {
   activeSlug: string;
   onSelect: (slug: string) => void;
   onReady?: () => void;
+  interactionMode?: "preview" | "interactive";
 };
 
 // Contextual bbox around the six displayed districts. It is intentionally a
@@ -110,7 +111,8 @@ export default function RiskMapCanvas({
   tierBySlug,
   activeSlug,
   onSelect,
-  onReady
+  onReady,
+  interactionMode = "interactive"
 }: RiskMapCanvasProps) {
   const mapRef = useRef<MapRef | null>(null);
   const frameRef = useRef<HTMLDivElement | null>(null);
@@ -257,6 +259,12 @@ export default function RiskMapCanvas({
         minZoom={10}
         maxZoom={15}
         renderWorldCopies={false}
+        scrollZoom={interactionMode === "interactive"}
+        dragPan={interactionMode === "interactive"}
+        touchZoomRotate={interactionMode === "interactive"}
+        doubleClickZoom={interactionMode === "interactive"}
+        keyboard={interactionMode === "interactive"}
+        boxZoom={interactionMode === "interactive"}
         dragRotate={false}
         touchPitch={false}
         interactiveLayerIds={["district-fill"]}

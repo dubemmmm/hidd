@@ -17,9 +17,23 @@ export const metadata: Metadata = createPageMetadata({
 
 export const revalidate = 60;
 
-export default async function RiskMapPage() {
+type RiskMapPageProps = {
+  searchParams?: Promise<{ compare?: string | string[] }> | { compare?: string | string[] };
+};
+
+export default async function RiskMapPage({ searchParams }: RiskMapPageProps) {
   const { isEnabled: isPreview } = await draftMode();
   const mapAreas = await getMapAreas(isPreview);
+  const resolvedSearchParams = searchParams ? await Promise.resolve(searchParams) : {};
+  const compareValue = Array.isArray(resolvedSearchParams.compare)
+    ? resolvedSearchParams.compare[0]
+    : resolvedSearchParams.compare;
+  const availableSlugs = new Set(mapAreas.map((area) => area.slug));
+  const initialCompareSlugs = (compareValue ?? "")
+    .split(",")
+    .map((slug) => slug.trim())
+    .filter((slug, index, values) => availableSlugs.has(slug) && values.indexOf(slug) === index)
+    .slice(0, 3);
 
   return (
     <>
@@ -36,6 +50,9 @@ export default async function RiskMapPage() {
                 Compare premium Lagos districts, see where their strengths and risks differ, and
                 open a district brief for a closer review.
               </p>
+              <a className="page-hero__text-link" href="/risk-map/methodology">
+                Read the Area Compare methodology <span aria-hidden="true">→</span>
+              </a>
             </div>
           </Reveal>
         </div>
@@ -44,7 +61,11 @@ export default async function RiskMapPage() {
       <section className="section section--flush-top">
         <div className="shell shell--map-page">
           <Reveal>
-            <RiskComparison areas={mapAreas} isPreview={isPreview} />
+            <RiskComparison
+              areas={mapAreas}
+              isPreview={isPreview}
+              initialCompareSlugs={initialCompareSlugs}
+            />
           </Reveal>
         </div>
       </section>

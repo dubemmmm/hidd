@@ -9,7 +9,7 @@ export const siteConfig = {
   phoneDisplay: "+234 704 819 4242",
   phoneHref: "tel:+2347048194242",
   whatsappHref: "https://wa.me/2347048194242",
-  email: "dapodpscwre@gmail.com",
+  email: "info@hiddadvisory.com",
   address: "3/5 Ikoyi Crescent, Off Modupe Alakija Street, Osborne, Ikoyi, Lagos State",
   socialLinks: {
     linkedin: "https://www.linkedin.com/company/hidd-advisory",
@@ -27,4 +27,4 @@ export const navItems: NavItem[] = [
 ];
 
 export const serviceFee = "₦1,000,000";
-export const comprehensiveReportFee = "Pricing confirmed at engagement";
+export const comprehensiveReportFee = "Package fee confirmed after scope review";
