@@ -21,6 +21,7 @@ export async function POST(request: Request) {
   const service = asString(payload.service);
   const message = asString(payload.message);
   const formConfirmation = asString(payload.formConfirmation);
+  const displayCurrency = asString(payload.displayCurrency);
   const submittedAt = asString(payload.submittedAt);
   const serviceLabel = serviceLabels[service] ?? service;
 
@@ -53,6 +54,7 @@ export async function POST(request: Request) {
     `Email: ${email}`,
     `Phone: ${phone || "Not provided"}`,
     `Service: ${serviceLabel}`,
+    `Displayed currency: ${displayCurrency || "NGN"}`,
     `Submitted: ${submittedAt || new Date().toISOString()}`,
     "",
     "Message:",

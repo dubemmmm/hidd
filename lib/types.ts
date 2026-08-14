@@ -14,6 +14,7 @@ export type Service = {
   longDescription: string;
   heroKicker: string;
   fee: string;
+  feeAmount: number;
   turnaround?: string | null;
   accent: string;
   accreditation?: string[];
@@ -220,6 +221,14 @@ export type InsightPostFrontmatter = {
   metaDescription: string;
   ogImage: string;
   relatedService: BookableServiceSlug;
+  relatedArticles?: Array<{
+    title: string;
+    slug: string;
+    category: string;
+    author: string;
+    publishedAt: string;
+    readTime: string;
+  }>;
   readTime: string;
 };
 

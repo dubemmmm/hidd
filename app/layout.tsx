@@ -4,6 +4,7 @@ import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity/visual-editing";
 
 import { Analytics } from "@/components/analytics";
+import { CurrencyProvider } from "@/components/currency";
 import { FloatingWhatsApp } from "@/components/floating-whatsapp";
 import { JsonLd } from "@/components/json-ld";
 import { RouteFooter } from "@/components/route-footer";
@@ -48,7 +49,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="en">
       <body>
-        <JsonLd
+        <CurrencyProvider>
+          <JsonLd
           data={{
             "@context": "https://schema.org",
             "@type": "Organization",
@@ -67,15 +69,16 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             },
             sameAs: Object.values(siteConfig.socialLinks)
           }}
-        />
-        <div className="page-backdrop" />
-        <div className="page-grid" />
-        <SiteHeader />
-        <main className="page-main">{children}</main>
-        <RouteFooter />
-        <FloatingWhatsApp />
-        <Analytics />
-        {isPreview ? <VisualEditing /> : null}
+          />
+          <div className="page-backdrop" />
+          <div className="page-grid" />
+          <SiteHeader />
+          <main className="page-main">{children}</main>
+          <RouteFooter />
+          <FloatingWhatsApp />
+          <Analytics />
+          {isPreview ? <VisualEditing /> : null}
+        </CurrencyProvider>
       </body>
     </html>
   );

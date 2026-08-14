@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { JsonLd } from "@/components/json-ld";
 import { Reveal } from "@/components/reveal";
 import { comprehensiveReport, getService } from "@/lib/data/services";
-import { getAllInsights, getInsightBySlug, getRelatedInsights } from "@/lib/insights";
+import { getInsightBySlug } from "@/lib/insights";
 import { stripSiteNameFromTitle } from "@/lib/read-time";
 import { absoluteUrl, createPageMetadata, safeSocialImage } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
@@ -43,7 +43,7 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
   try {
     const post = await getInsightBySlug(slug);
     if (!post) notFound();
-    const relatedPosts = await getRelatedInsights(slug, post.frontmatter.category);
+    const relatedPosts = post.frontmatter.relatedArticles ?? [];
     const canonicalUrl = `${siteConfig.url}/insights/${slug}`;
     const shareText = encodeURIComponent(post.frontmatter.title);
     const shareUrl = encodeURIComponent(canonicalUrl);
@@ -106,7 +106,7 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
           </div>
         </section>
 
-        <section className="section section--flush-top">
+        <section className="section section--flush-top article-content-section">
           <div className="shell shell--article article-layout">
             <Reveal>
               <article className="article-prose">
@@ -189,7 +189,7 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
         {relatedPosts.length ? (
           <section className="section article-related">
             <div className="shell shell--article">
-              <h2>More from insights</h2>
+              <h2>Related articles</h2>
               <div className="article-related__grid">
                 {relatedPosts.slice(0, 3).map((related) => (
                   <Link key={related.slug} href={`/insights/${related.slug}`} className="article-related__card">

@@ -244,6 +244,20 @@ dd,
   margin-left: 0;
 }
 
+.article-inline-cta .section-heading__eyebrow {
+  align-items: flex-start;
+  align-self: start;
+  justify-self: start;
+  margin-right: 0;
+  margin-left: 0;
+  text-align: left;
+}
+
+.article-inline-cta .section-heading__eyebrow::before {
+  margin-right: 0;
+  margin-left: 0;
+}
+
 /* Keep Insights headings on one editorial axis from rule through body copy. */
 .insights-section-heading .section-heading__description {
   margin-right: 0;
@@ -2513,5 +2527,112 @@ textarea::placeholder {
   .footer-compact__legal {
     width: 100%;
     gap: 4px 10px;
+  }
+}
+
+/* Keep the article's next-step prompt and its related reading in one visual group. */
+.article-content-section {
+  padding-bottom: 24px;
+}
+
+.article-related {
+  padding-top: 24px;
+}
+
+/* Currency conversion supports diaspora visitors while keeping NGN authoritative. */
+.currency-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 18px;
+}
+
+.currency-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.currency-selector select {
+  width: 82px;
+  min-height: 44px;
+  padding: 7px 26px 7px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background-color: var(--surface);
+  color: var(--text);
+  font: inherit;
+  letter-spacing: 0.04em;
+}
+
+.currency-selector select:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  outline-offset: 2px;
+}
+
+.currency-tools__note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  line-height: 1.35;
+}
+
+.currency-price {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+}
+
+.currency-price__base,
+.service-stat-strip .currency-price__base {
+  color: var(--text);
+  font-size: 1.14rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.currency-price__estimate,
+.currency-price__unavailable,
+.service-stat-strip .currency-price__estimate,
+.service-stat-strip .currency-price__unavailable {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.currency-tools--service-detail {
+  margin-top: 18px;
+  margin-bottom: -10px;
+}
+
+.currency-tools--contact {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 640px) {
+  .currency-tools {
+    gap: 6px 10px;
+    margin-top: 14px;
+  }
+
+  .currency-tools--service-detail {
+    margin-bottom: -12px;
+  }
+
+  .currency-tools--contact {
+    margin-top: 0;
+    margin-bottom: 14px;
   }
 }

@@ -3,7 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import { CurrencySelector, useCurrency } from "@/components/currency";
 import { comprehensiveReport, services } from "@/lib/data/services";
+import { formatCurrencyAmount } from "@/lib/currency";
 import { trackEvent } from "@/lib/analytics-client";
 
 type ContactFormProps = {
@@ -14,6 +16,7 @@ type ContactFormProps = {
 type Status = "idle" | "submitting" | "success" | "error";
 
 export function ContactForm({ initialService = "", initialArea = "" }: ContactFormProps) {
+  const { currency, rates } = useCurrency();
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState(
     initialArea
@@ -42,6 +45,7 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
           service: formData.get("service"),
           message: formData.get("message"),
           formConfirmation: formData.get("formConfirmation"),
+          displayCurrency: currency,
           submittedAt: new Date().toISOString()
         })
       });
@@ -65,6 +69,7 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
 
   return (
     <form className="contact-form" onSubmit={handleSubmit}>
+      <CurrencySelector className="currency-tools--contact" />
       <div className="form-grid">
         <label className="field">
           <span>Full Name</span>
@@ -85,6 +90,9 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
             {services.map((service) => (
               <option key={service.slug} value={service.slug}>
                 {service.name} — {service.fee}
+                {currency !== "NGN" && rates?.[currency]
+                  ? ` (≈ ${formatCurrencyAmount(service.feeAmount * rates[currency], currency)} ${currency})`
+                  : ""}
               </option>
             ))}
             <option value="comprehensive-report">
@@ -94,6 +102,8 @@ export function ContactForm({ initialService = "", initialArea = "" }: ContactFo
           </select>
         </label>
       </div>
+
+      <input type="hidden" name="displayCurrency" value={currency} />
 
       <label className="field">
         <span>Message</span>

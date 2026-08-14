@@ -1,4 +1,4 @@
-import { comprehensiveReportFee, serviceFee } from "@/lib/site";
+import { comprehensiveReportFee, serviceFee, serviceFeeAmount } from "@/lib/site";
 import type { Service } from "@/lib/types";
 
 export const services: Service[] = [
@@ -13,6 +13,7 @@ export const services: Service[] = [
       "HIDD's home inspection service gives buyers and investors a disciplined technical view of a target property. We assess visible defects, workmanship quality, life-safety concerns, and likely remediation costs so decisions are based on facts instead of seller assurances.",
     heroKicker: "Certified engineers reviewing what the brochure will not show you.",
     fee: serviceFee,
+    feeAmount: serviceFeeAmount,
     turnaround: "Confirmed after the initial property briefing",
     accent: "#77a2ff",
     accreditation: ["InterNACHI"],
@@ -50,6 +51,7 @@ export const services: Service[] = [
       "This service is for buyers who need confidence that the seller has the legal right to transfer the property and that the documents are complete and consistent. HIDD coordinates document checks, registry research, and legal risk summaries that help clients avoid expensive disputes.",
     heroKicker: "Clear title strategy for buyers who cannot afford documentation surprises.",
     fee: serviceFee,
+    feeAmount: serviceFeeAmount,
     turnaround: "5 to 7 business days",
     accent: "#6ed7bd",
     included: [
@@ -86,6 +88,7 @@ export const services: Service[] = [
       "HIDD Risk Intelligence helps buyers understand whether an area supports the asking price and their long-term plans. We combine local market knowledge with risk scoring to explain the strengths and concerns that may affect the purchase.",
     heroKicker: "Understand the neighbourhood risks before you buy.",
     fee: serviceFee,
+    feeAmount: serviceFeeAmount,
     turnaround: "3 to 5 business days",
     accent: "#f2b764",
     included: [
@@ -122,6 +125,7 @@ export const services: Service[] = [
       "HIDD valuation is built for buyers who need more than seller pricing or informal agent guidance. We frame the subject asset against comparable deals, replacement considerations, and local demand context so clients can pressure-test the asking price before committing.",
     heroKicker: "Independent valuation grounded in Lagos transaction logic and buyer realism.",
     fee: serviceFee,
+    feeAmount: serviceFeeAmount,
     turnaround: "5 business days for residential properties; 7 business days for commercial properties",
     accent: "#de8dd0",
     included: [

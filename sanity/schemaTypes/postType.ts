@@ -64,16 +64,15 @@ export const postType = defineType({
       name: "authorCredentials",
       title: "Author Credentials",
       type: "array",
-      description: "Only include verified credentials relevant to this article.",
-      of: [defineArrayMember({ type: "string" })],
-      validation: (rule) => rule.required().min(1)
+      description: "Optional. Only include verified credentials relevant to this article.",
+      of: [defineArrayMember({ type: "string" })]
     }),
     defineField({
       name: "authorBio",
       title: "Author Biography",
       type: "text",
       rows: 3,
-      validation: (rule) => rule.required()
+      description: "Optional. Add a short professional biography when relevant."
     }),
     defineField({
       name: "reviewedBy",
@@ -256,6 +255,20 @@ export const postType = defineType({
       validation: (rule) => rule.required()
     }),
     defineField({
+      name: "relatedArticles",
+      title: "Related Articles",
+      description:
+        "Optional. Select up to three articles to show at the bottom of this article. Their order here controls their display order.",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "reference",
+          to: [{ type: "post" }]
+        })
+      ],
+      validation: (rule) => rule.unique().max(3)
+    }),
+    defineField({
       name: "sources",
       title: "Sources and References",
       description: "Cite credible primary or authoritative sources for statistics and factual claims.",
@@ -277,8 +290,7 @@ export const postType = defineType({
             select: { title: "title", subtitle: "publisher" }
           }
         })
-      ],
-      validation: (rule) => rule.required().min(1)
+      ]
     })
   ]
 });

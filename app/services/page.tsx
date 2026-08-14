@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
+import { CurrencyPrice, CurrencySelector } from "@/components/currency";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { comprehensiveReport, services } from "@/lib/data/services";
@@ -48,6 +49,7 @@ export default function ServicesPage() {
                 title="Choose the right engagement for the deal in front of you"
                 description="Compare what each service covers, the fee, and who it is designed for."
               />
+              <CurrencySelector />
             </div>
           </Reveal>
 
@@ -64,7 +66,7 @@ export default function ServicesPage() {
                   <p>{service.summary}</p>
                   {service.proofNote ? <p className="overview-card__proof">{service.proofNote}</p> : null}
                   <div className="overview-card__facts">
-                    <strong>{service.fee}</strong>
+                    <CurrencyPrice amountNgn={service.feeAmount} />
                     {service.turnaround ? <span>{service.turnaround}</span> : null}
                   </div>
                   <ul>

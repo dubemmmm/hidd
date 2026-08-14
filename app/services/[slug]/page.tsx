@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { BackButton } from "@/components/back-button";
+import { CurrencyPrice, CurrencySelector } from "@/components/currency";
 import { JsonLd } from "@/components/json-ld";
 import { Reveal } from "@/components/reveal";
 import { getFaqsByIds } from "@/lib/faqs";
@@ -65,7 +66,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
           offers: {
             "@type": "Offer",
             priceCurrency: "NGN",
-            price: service.fee.replace(/[^0-9]/g, ""),
+            price: service.feeAmount,
             url: absoluteUrl(`/contact?service=${service.slug}`)
           }
         }}
@@ -82,19 +83,22 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
               <div className="section-heading__eyebrow">{service.eyebrow}</div>
               <h1>{service.name}</h1>
               <p>{service.summary}</p>
+              <CurrencySelector className="currency-tools--service-detail" />
               <div className="service-stat-strip">
-                {[
-                  { label: "Flat fee", value: service.fee },
-                  ...(service.turnaround
-                    ? [{ label: "Turnaround", value: service.turnaround }]
-                    : []),
-                  { label: "Built for", value: service.suitableFor[0] }
-                ].map((item) => (
-                  <div key={item.label}>
-                    <span>{item.label}</span>
-                    <strong>{item.value}</strong>
+                <div>
+                  <span>Flat fee</span>
+                  <CurrencyPrice amountNgn={service.feeAmount} />
+                </div>
+                {service.turnaround ? (
+                  <div>
+                    <span>Turnaround</span>
+                    <strong>{service.turnaround}</strong>
                   </div>
-                ))}
+                ) : null}
+                <div>
+                  <span>Built for</span>
+                  <strong>{service.suitableFor[0]}</strong>
+                </div>
               </div>
               <div className="hero__actions">
                 <Link href={`/contact?service=${service.slug}`} className="button button--primary">

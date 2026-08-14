@@ -26,5 +26,6 @@ export const navItems: NavItem[] = [
   { href: "/contact", label: "Contact" }
 ];
 
+export const serviceFeeAmount = 1_000_000;
 export const serviceFee = "₦1,000,000";
 export const comprehensiveReportFee = "Package fee confirmed after scope review";

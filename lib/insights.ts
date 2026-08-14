@@ -59,7 +59,15 @@ const insightFields = groq`
 const allInsightsQuery = groq`*[_type == "post"] | order(publishedAt desc) {${insightFields}}`;
 const insightBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0]{
   ${insightFields},
-  body
+  body,
+  relatedArticles[]->{
+    title,
+    "slug": slug.current,
+    category,
+    author,
+    "publishedAt": coalesce(publishedAt, _createdAt),
+    readTime
+  }
 }`;
 
 function extractMarkdownSource(body: unknown): string | null {
@@ -174,7 +182,11 @@ export const getInsightBySlug = cache(async (slug: string) => {
           return {
             frontmatter: {
               ...post,
-              readTime: formatReadTime(post.readTime)
+              readTime: formatReadTime(post.readTime),
+              relatedArticles: (post.relatedArticles ?? []).slice(0, 3).map((article) => ({
+                ...article,
+                readTime: formatReadTime(article.readTime)
+              }))
             },
             content: compiled.content as ReactElement
           };
@@ -183,7 +195,11 @@ export const getInsightBySlug = cache(async (slug: string) => {
         return {
           frontmatter: {
             ...post,
-            readTime: formatReadTime(post.readTime)
+            readTime: formatReadTime(post.readTime),
+            relatedArticles: (post.relatedArticles ?? []).slice(0, 3).map((article) => ({
+              ...article,
+              readTime: formatReadTime(article.readTime)
+            }))
           },
           content: createElement(PortableText, {
             value: post.body as Parameters<typeof PortableText>[0]["value"],
@@ -217,13 +233,3 @@ export const getInsightBySlug = cache(async (slug: string) => {
     content: compiled.content as ReactElement
   };
 });
-
-export async function getRelatedInsights(slug: string, category: string, limit = 3) {
-  const posts = await getAllInsights();
-  const candidates = posts.filter((post) => post.slug !== slug);
-
-  return [
-    ...candidates.filter((post) => post.category === category),
-    ...candidates.filter((post) => post.category !== category)
-  ].slice(0, limit);
-}
