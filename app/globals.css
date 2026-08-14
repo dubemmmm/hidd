@@ -4,14 +4,14 @@
 :root {
   --font-display: "Source Serif 4 Variable", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --font-body: "DM Sans Variable", "DM Sans", "Segoe UI", sans-serif;
-  --bg: #f3f0e8;
-  --bg-soft: #ebe7de;
-  --bg-card: #faf8f2;
-  --bg-card-strong: #faf8f2;
-  --surface: #faf8f2;
-  --surface-elevated: #faf8f2;
-  --surface-warm: #eee9df;
-  --surface-warm-strong: #e6e0d5;
+  --bg: #fdfcf9;
+  --bg-soft: #f7f6f2;
+  --bg-card: #fffefa;
+  --bg-card-strong: #fffefa;
+  --surface: #fffefa;
+  --surface-elevated: #ffffff;
+  --surface-warm: #f7f5ef;
+  --surface-warm-strong: #efede7;
   --line: #c9c3b8;
   --line-strong: #a9a195;
   --text: #102a43;
