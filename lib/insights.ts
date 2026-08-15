@@ -12,6 +12,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 
 import { mdxComponents } from "@/components/mdx-components";
 import { portableTextComponents } from "@/components/portable-text";
+import { getCurrentNarration } from "@/lib/narration";
 import { formatReadTime } from "@/lib/read-time";
 import { sanityClient, sanityEnvReady } from "@/lib/sanity";
 import type { InsightPost, InsightPostFrontmatter } from "@/lib/types";
@@ -60,6 +61,18 @@ const allInsightsQuery = groq`*[_type == "post"] | order(publishedAt desc) {${in
 const insightBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0]{
   ${insightFields},
   body,
+  narrationEnabled,
+  narrationVoice,
+  narrationPronunciationNotes,
+  narration {
+    "audioUrl": audio.asset->url,
+    durationSeconds,
+    voice,
+    model,
+    generatedAt,
+    sourceHash,
+    aiGenerated
+  },
   relatedArticles[]->{
     title,
     "slug": slug.current,
@@ -164,11 +177,17 @@ export const getInsightBySlug = cache(async (slug: string) => {
   if (sanityEnvReady) {
     try {
       const post = await sanityClient.fetch<
-        (InsightPostFrontmatter & { body: unknown[] }) | null
+        (InsightPostFrontmatter & {
+          body: unknown[];
+          narrationEnabled?: boolean;
+          narrationVoice?: string;
+          narrationPronunciationNotes?: string;
+        }) | null
       >(insightBySlugQuery, { slug });
 
       if (post) {
         const markdownSource = extractMarkdownSource(post.body);
+        const narration = getCurrentNarration(post);
 
         if (markdownSource) {
           const compiled = await compileMDX({
@@ -182,6 +201,7 @@ export const getInsightBySlug = cache(async (slug: string) => {
           return {
             frontmatter: {
               ...post,
+              narration,
               readTime: formatReadTime(post.readTime),
               relatedArticles: (post.relatedArticles ?? []).slice(0, 3).map((article) => ({
                 ...article,
@@ -195,6 +215,7 @@ export const getInsightBySlug = cache(async (slug: string) => {
         return {
           frontmatter: {
             ...post,
+            narration,
             readTime: formatReadTime(post.readTime),
             relatedArticles: (post.relatedArticles ?? []).slice(0, 3).map((article) => ({
               ...article,

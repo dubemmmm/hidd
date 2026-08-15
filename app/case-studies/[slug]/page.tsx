@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { PortableText } from "next-sanity";
 
+import { AudioNarrationPlayer } from "@/components/audio-narration-player";
 import { JsonLd } from "@/components/json-ld";
 import { portableTextComponents } from "@/components/portable-text";
 import { Reveal } from "@/components/reveal";
@@ -109,6 +110,13 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
                   }).format(new Date(caseStudy.publishedAt))}
                 </span>
               </div>
+              {caseStudy.narration ? (
+                <AudioNarrationPlayer
+                  src={caseStudy.narration.audioUrl}
+                  contentType="case study"
+                  durationSeconds={caseStudy.narration.durationSeconds}
+                />
+              ) : null}
             </div>
           </Reveal>
         </div>

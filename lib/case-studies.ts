@@ -8,6 +8,7 @@ import {
   getLocalCaseStudy
 } from "@/lib/data/case-studies";
 import { formatReadTime } from "@/lib/read-time";
+import { getCurrentNarration } from "@/lib/narration";
 import { sanityClient, sanityEnvReady } from "@/lib/sanity";
 import { sanityHasServerToken, sanityServerClient } from "@/lib/sanity.server";
 import type { CaseStudy, CaseStudyDetail } from "@/lib/types";
@@ -37,6 +38,18 @@ const caseStudyBySlugQuery = groq`
   *[_type == "caseStudy" && slug.current == $slug][0] {
     ${caseStudyFields},
     body,
+    narrationEnabled,
+    narrationVoice,
+    narrationPronunciationNotes,
+    narration {
+      "audioUrl": audio.asset->url,
+      durationSeconds,
+      voice,
+      model,
+      generatedAt,
+      sourceHash,
+      aiGenerated
+    },
     publicationPermissionConfirmed,
     "evidenceItems": evidenceItems[approvedForPublication == true] {
       "key": _key,
@@ -54,6 +67,12 @@ const caseStudyBySlugQuery = groq`
 `;
 
 const caseStudyReadClient = sanityHasServerToken ? sanityServerClient : sanityClient;
+
+type RawCaseStudyDetail = CaseStudyDetail & {
+  narrationEnabled?: boolean;
+  narrationVoice?: string;
+  narrationPronunciationNotes?: string;
+};
 
 function normalizeCaseStudy<T extends CaseStudy>(caseStudy: T): T {
   return {
@@ -85,14 +104,15 @@ export const getCaseStudies = cache(async (): Promise<CaseStudy[]> => {
 export const getCaseStudyBySlug = cache(async (slug: string): Promise<CaseStudyDetail | undefined> => {
   if (sanityEnvReady) {
     try {
-      const caseStudy = await caseStudyReadClient.fetch<CaseStudyDetail | null>(caseStudyBySlugQuery, {
+      const caseStudy = await caseStudyReadClient.fetch<RawCaseStudyDetail | null>(caseStudyBySlugQuery, {
         slug
       });
 
       if (caseStudy) {
         return {
           ...normalizeCaseStudy(caseStudy),
-          sections: caseStudy.sections ?? []
+          sections: caseStudy.sections ?? [],
+          narration: getCurrentNarration(caseStudy)
         };
       }
       return undefined;

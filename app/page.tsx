@@ -2,11 +2,14 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { FaqAccordion } from "@/components/faq-accordion";
+import { HomeAuthorityRoom } from "@/components/home-authority-room";
 import { Reveal } from "@/components/reveal";
 import RiskMap from "@/components/risk-map";
 import { SectionHeading } from "@/components/section-heading";
 import { ServiceMarquee } from "@/components/service-marquee";
 import { comprehensiveReport, services } from "@/lib/data/services";
+import { getAuthorityMetrics } from "@/lib/authority-metrics";
+import { getCaseStudies } from "@/lib/case-studies";
 import { getFaqs } from "@/lib/faqs";
 import { getMapAreas } from "@/lib/map-areas";
 import { getFeaturedReportAssets } from "@/lib/reports";
@@ -51,10 +54,12 @@ const homepageHeroCopy = {
 };
 
 export default async function HomePage() {
-  const [mapAreas, featuredReportAssets, faqs] = await Promise.all([
+  const [mapAreas, featuredReportAssets, faqs, caseStudies, authorityMetrics] = await Promise.all([
     getMapAreas(),
     getFeaturedReportAssets(),
-    getFaqs()
+    getFaqs(),
+    getCaseStudies(),
+    getAuthorityMetrics()
   ]);
 
   return (
@@ -112,6 +117,12 @@ export default async function HomePage() {
           </Reveal>
         </div>
       </section>
+
+      <HomeAuthorityRoom
+        districtCount={mapAreas.length}
+        caseStudyCount={caseStudies.length}
+        authorityMetrics={authorityMetrics}
+      />
 
       <section className="section section--home-map">
         <div className="shell shell--hero">

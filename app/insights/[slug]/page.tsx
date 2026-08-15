@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
+import { AudioNarrationPlayer } from "@/components/audio-narration-player";
 import { JsonLd } from "@/components/json-ld";
 import { Reveal } from "@/components/reveal";
 import { comprehensiveReport, getService } from "@/lib/data/services";
@@ -101,6 +102,13 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
                   <span>{post.frontmatter.readTime}</span>
                   <span>{publishedDate}</span>
                 </div>
+                {post.frontmatter.narration ? (
+                  <AudioNarrationPlayer
+                    src={post.frontmatter.narration.audioUrl}
+                    contentType="article"
+                    durationSeconds={post.frontmatter.narration.durationSeconds}
+                  />
+                ) : null}
               </div>
             </Reveal>
           </div>

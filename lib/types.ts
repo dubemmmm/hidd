@@ -159,6 +159,16 @@ export type CaseStudySection = {
   body: string[];
 };
 
+export type SavedNarration = {
+  audioUrl: string;
+  durationSeconds?: number;
+  voice?: string;
+  model?: string;
+  generatedAt?: string;
+  sourceHash?: string;
+  aiGenerated?: boolean;
+};
+
 export type CaseStudy = {
   slug: string;
   title: string;
@@ -192,6 +202,7 @@ export type CaseStudyDetail = CaseStudy & {
   body?: unknown[];
   publicationPermissionConfirmed?: boolean;
   evidenceItems?: CaseStudyEvidence[];
+  narration?: SavedNarration;
 };
 
 export type InsightPostFrontmatter = {
@@ -230,6 +241,7 @@ export type InsightPostFrontmatter = {
     readTime: string;
   }>;
   readTime: string;
+  narration?: SavedNarration;
 };
 
 export type InsightPost = InsightPostFrontmatter & {

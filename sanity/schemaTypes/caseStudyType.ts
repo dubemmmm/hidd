@@ -96,6 +96,62 @@ export const caseStudyType = defineType({
       validation: (rule) => rule.required()
     }),
     defineField({
+      name: "narrationEnabled",
+      title: "Generate Audio Narration",
+      type: "boolean",
+      initialValue: false,
+      description:
+        "When enabled, publishing this case study asks the secure narration webhook to generate and save one reusable audio file. Republish after changing the case study to refresh its narration."
+    }),
+    defineField({
+      name: "narrationVoice",
+      title: "Narration Voice",
+      type: "string",
+      initialValue: "cedar",
+      hidden: ({ document }) => !document?.narrationEnabled,
+      options: {
+        list: [
+          { title: "Cedar — recommended", value: "cedar" },
+          { title: "Marin", value: "marin" },
+          { title: "Coral", value: "coral" },
+          { title: "Alloy", value: "alloy" },
+          { title: "Ash", value: "ash" },
+          { title: "Ballad", value: "ballad" },
+          { title: "Echo", value: "echo" },
+          { title: "Fable", value: "fable" },
+          { title: "Nova", value: "nova" },
+          { title: "Onyx", value: "onyx" },
+          { title: "Sage", value: "sage" },
+          { title: "Shimmer", value: "shimmer" },
+          { title: "Verse", value: "verse" }
+        ]
+      },
+      validation: (rule) =>
+        rule.custom((value, context) =>
+          context.document?.narrationEnabled && !value
+            ? "Choose a narration voice before publishing."
+            : true
+        )
+    }),
+    defineField({
+      name: "narrationPronunciationNotes",
+      title: "Narration Pronunciation Notes",
+      type: "text",
+      rows: 3,
+      hidden: ({ document }) => !document?.narrationEnabled,
+      description:
+        "Optional editor guidance for names, Nigerian place names, abbreviations, or specialist terms. Do not add content that is absent from the case study."
+    }),
+    defineField({
+      name: "narration",
+      title: "Generated Audio",
+      type: "narration",
+      hidden: ({ document }) => !document?.narrationEnabled,
+      readOnly: true,
+      description:
+        "Created automatically after publication. If the case study changes, republish it and the saved narration will be replaced with a current version."
+    }),
+    defineField({
       name: "publicationPermissionConfirmed",
       title: "Client permission confirmed",
       type: "boolean",
