@@ -1,5 +1,5 @@
 import { revalidatePath } from "next/cache";
-import { type NextRequest, NextResponse } from "next/server";
+import { after, type NextRequest, NextResponse } from "next/server";
 import { parseBody } from "next-sanity/webhook";
 
 import {
@@ -103,6 +103,79 @@ async function createSpeechChunk(
   return Buffer.from(await response.arrayBuffer());
 }
 
+async function generateNarration(
+  body: Required<NarrationWebhookPayload>,
+  openAiApiKey: string
+): Promise<void> {
+  const publishedId = body._id.replace(/^drafts\./, "");
+  const document = await sanityWriteClient.fetch<NarrationSourceDocument | null>(
+    narrationDocumentQuery,
+    { id: publishedId },
+    { perspective: "published" }
+  );
+
+  if (!document || !document.narrationEnabled) {
+    return;
+  }
+
+  const script = createNarrationScript(document);
+  if (script.length < 40) {
+    throw new Error("The document does not contain enough readable text.");
+  }
+  if (script.length > 60_000) {
+    throw new Error("The narration source exceeds the configured length limit.");
+  }
+
+  const voice = document.narrationVoice || DEFAULT_NARRATION_VOICE;
+  const pronunciationNotes = document.narrationPronunciationNotes?.trim().slice(0, 800) ?? "";
+  const sourceHash = createNarrationSourceHash(script, voice, pronunciationNotes);
+
+  if (document.narration?.sourceHash === sourceHash && document.narration.audio?.asset?._ref) {
+    return;
+  }
+
+  const chunks = splitNarrationScript(script);
+  const pcmParts = await Promise.all(
+    chunks.map((chunk) => createSpeechChunk(chunk, voice, pronunciationNotes, openAiApiKey))
+  );
+  const pause = Buffer.alloc(12_000);
+  const pcm = Buffer.concat(
+    pcmParts.flatMap((part, index) => index === pcmParts.length - 1 ? [part] : [part, pause])
+  );
+  const wav = pcmToWav(pcm);
+  const filename = `${safeFilename(document.slug?.current || document.title || publishedId)}-narration.wav`;
+  const asset = await sanityWriteClient.assets.upload("file", wav, {
+    filename,
+    contentType: "audio/wav",
+    title: `${document.title || "HIDD content"} — audio narration`
+  });
+
+  await sanityWriteClient
+    .patch(publishedId)
+    .ifRevisionId(document._rev)
+    .set({
+      narration: {
+        _type: "narration",
+        audio: {
+          _type: "file",
+          asset: { _type: "reference", _ref: asset._id }
+        },
+        durationSeconds: Math.round(narrationDurationSeconds(pcm.length)),
+        voice,
+        model: NARRATION_MODEL,
+        generatedAt: new Date().toISOString(),
+        sourceHash,
+        aiGenerated: true
+      }
+    })
+    .commit();
+
+  const slug = document.slug?.current;
+  if (slug) {
+    revalidatePath(document._type === "post" ? `/insights/${slug}` : `/case-studies/${slug}`);
+  }
+}
+
 export async function POST(request: NextRequest) {
   const webhookSecret = process.env.SANITY_NARRATION_WEBHOOK_SECRET;
   const openAiApiKey = process.env.OPENAI_API_KEY;
@@ -129,80 +202,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unsupported narration document." }, { status: 400 });
     }
 
-    const publishedId = body._id.replace(/^drafts\./, "");
-    const document = await sanityWriteClient.fetch<NarrationSourceDocument | null>(
-      narrationDocumentQuery,
-      { id: publishedId },
-      { perspective: "published" }
-    );
-
-    if (!document || !document.narrationEnabled) {
-      return NextResponse.json({ status: "skipped", reason: "Narration is not enabled." });
-    }
-
-    const script = createNarrationScript(document);
-    if (script.length < 40) {
-      return NextResponse.json({ error: "The document does not contain enough readable text." }, { status: 422 });
-    }
-    if (script.length > 60_000) {
-      return NextResponse.json({ error: "The narration source exceeds the configured length limit." }, { status: 413 });
-    }
-
-    const voice = document.narrationVoice || DEFAULT_NARRATION_VOICE;
-    const pronunciationNotes = document.narrationPronunciationNotes?.trim().slice(0, 800) ?? "";
-    const sourceHash = createNarrationSourceHash(script, voice, pronunciationNotes);
-
-    if (document.narration?.sourceHash === sourceHash && document.narration.audio?.asset?._ref) {
-      return NextResponse.json({ status: "current", documentId: publishedId });
-    }
-
-    const chunks = splitNarrationScript(script);
-    const pcmParts = await Promise.all(
-      chunks.map((chunk) => createSpeechChunk(chunk, voice, pronunciationNotes, openAiApiKey))
-    );
-    const pause = Buffer.alloc(12_000);
-    const pcm = Buffer.concat(
-      pcmParts.flatMap((part, index) => index === pcmParts.length - 1 ? [part] : [part, pause])
-    );
-    const wav = pcmToWav(pcm);
-    const filename = `${safeFilename(document.slug?.current || document.title || publishedId)}-narration.wav`;
-    const asset = await sanityWriteClient.assets.upload("file", wav, {
-      filename,
-      contentType: "audio/wav",
-      title: `${document.title || "HIDD content"} — audio narration`
+    const narrationBody = body as Required<NarrationWebhookPayload>;
+    after(async () => {
+      try {
+        await generateNarration(narrationBody, openAiApiKey);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Unknown narration generation error";
+        console.error("Narration background generation failed:", message);
+      }
     });
 
-    await sanityWriteClient
-      .patch(publishedId)
-      .ifRevisionId(document._rev)
-      .set({
-        narration: {
-          _type: "narration",
-          audio: {
-            _type: "file",
-            asset: { _type: "reference", _ref: asset._id }
-          },
-          durationSeconds: Math.round(narrationDurationSeconds(pcm.length)),
-          voice,
-          model: NARRATION_MODEL,
-          generatedAt: new Date().toISOString(),
-          sourceHash,
-          aiGenerated: true
-        }
-      })
-      .commit();
-
-    const slug = document.slug?.current;
-    if (slug) {
-      revalidatePath(document._type === "post" ? `/insights/${slug}` : `/case-studies/${slug}`);
-    }
-
-    return NextResponse.json({
-      status: "generated",
-      documentId: publishedId,
-      durationSeconds: Math.round(narrationDurationSeconds(pcm.length)),
-      chunks: chunks.length
-    });
+    return NextResponse.json(
+      { status: "accepted", documentId: narrationBody._id.replace(/^drafts\./, "") },
+      { status: 202 }
+    );
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown narration generation error";
     console.error("Narration generation failed:", message);
