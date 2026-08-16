@@ -17,8 +17,6 @@ type DisplayMetric = {
   label: string;
   category: string;
   note: string;
-  basis: string;
-  verifiedThrough?: string;
 };
 
 type HomeAuthorityRoomProps = {
@@ -92,8 +90,7 @@ export function HomeAuthorityRoom({ districtCount, caseStudyCount, authorityMetr
       decimalPlaces: 0,
       category: "Professional review",
       label: "Specialist disciplines",
-      note: "Inspection, legal due diligence, location-risk intelligence, and valuation can be reviewed together or engaged separately.",
-      basis: "HIDD service scope"
+      note: "Inspection, legal due diligence, location-risk intelligence, and valuation can be reviewed together or engaged separately."
     },
     {
       id: "districts",
@@ -103,8 +100,7 @@ export function HomeAuthorityRoom({ districtCount, caseStudyCount, authorityMetr
       decimalPlaces: 0,
       category: "Location intelligence",
       label: "District profiles",
-      note: "Each published district brief gives buyers a dated view of the location factors that may affect a property decision.",
-      basis: "Published Area Compare coverage"
+      note: "Each published district brief gives buyers a dated view of the location factors that may affect a property decision."
     },
     {
       id: "dimensions",
@@ -114,8 +110,7 @@ export function HomeAuthorityRoom({ districtCount, caseStudyCount, authorityMetr
       decimalPlaces: 0,
       category: "Risk methodology",
       label: "Fixed scoring dimensions",
-      note: "Every district is assessed against the same seven dimensions so comparisons retain a consistent basis.",
-      basis: "Published scoring methodology"
+      note: "Every district is assessed against the same seven dimensions so comparisons retain a consistent basis."
     },
     {
       id: "verdicts",
@@ -125,8 +120,7 @@ export function HomeAuthorityRoom({ districtCount, caseStudyCount, authorityMetr
       decimalPlaces: 0,
       category: "Decision clarity",
       label: "Report verdict positions",
-      note: "The Comprehensive Report concludes with one clear position: Proceed, Proceed with Conditions, or Do Not Proceed.",
-      basis: "Comprehensive Report structure"
+      note: "The Comprehensive Report concludes with one clear position: Proceed, Proceed with Conditions, or Do Not Proceed."
     },
     {
       id: "cases",
@@ -136,8 +130,7 @@ export function HomeAuthorityRoom({ districtCount, caseStudyCount, authorityMetr
       decimalPlaces: 0,
       category: "Applied evidence",
       label: "Published buyer cases",
-      note: "The case-study archive shows how inspection, title, location, and valuation findings changed real property decisions.",
-      basis: "Published case-study archive"
+      note: "The case-study archive shows how inspection, title, location, and valuation findings changed real property decisions."
     },
     {
       id: "buyer-side",
@@ -147,8 +140,7 @@ export function HomeAuthorityRoom({ districtCount, caseStudyCount, authorityMetr
       decimalPlaces: 0,
       category: "Independent mandate",
       label: "Side represented: the buyer",
-      note: "HIDD works for the buyer—not the seller, agent, or developer involved in the property under review.",
-      basis: "HIDD buyer-side mandate"
+      note: "HIDD works for the buyer—not the seller, agent, or developer involved in the property under review."
     }
   ];
 
@@ -160,9 +152,7 @@ export function HomeAuthorityRoom({ districtCount, caseStudyCount, authorityMetr
     decimalPlaces: metric.decimalPlaces,
     label: metric.metricName,
     category: metric.category,
-    note: metric.shortDescription,
-    basis: metric.evidenceSource,
-    verifiedThrough: metric.verifiedThrough
+    note: metric.shortDescription
   }));
   const metrics = verifiedMetrics.length > 0 ? verifiedMetrics : frameworkMetrics;
 
@@ -207,9 +197,6 @@ export function HomeAuthorityRoom({ districtCount, caseStudyCount, authorityMetr
             <p className={styles.context}>HIDD evidence framework</p>
             <h2>What stands behind a HIDD recommendation.</h2>
           </div>
-          <p>
-            Specialist review, a published methodology, dated location evidence, and clear report outcomes—assembled for the buyer before capital moves.
-          </p>
         </div>
 
         <div className={styles.room}>
@@ -226,7 +213,6 @@ export function HomeAuthorityRoom({ districtCount, caseStudyCount, authorityMetr
               <span className={styles.seal}>H</span>
               <div>
                 <span>Decision evidence</span>
-                <strong>Basis disclosed</strong>
               </div>
               <span>{String(activeIndex + 1).padStart(2, "0")} / {String(metrics.length).padStart(2, "0")}</span>
             </div>
@@ -236,13 +222,6 @@ export function HomeAuthorityRoom({ districtCount, caseStudyCount, authorityMetr
             </strong>
             <h3>{activeMetric.label}</h3>
             <p className={styles.reportNote}>{activeMetric.note}</p>
-            <div className={styles.reportBasis}>
-              <span>Evidence basis</span>
-              <strong>{activeMetric.basis}</strong>
-              {activeMetric.verifiedThrough ? (
-                <small>Verified through {new Intl.DateTimeFormat("en-NG", { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${activeMetric.verifiedThrough}T00:00:00Z`))}</small>
-              ) : null}
-            </div>
           </article>
 
           <div className={styles.markers} aria-label="Evidence behind HIDD recommendations">

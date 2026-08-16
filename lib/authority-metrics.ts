@@ -20,10 +20,7 @@ const authorityMetricsQuery = groq`
     "prefix": coalesce(prefix, ""),
     "suffix": coalesce(suffix, ""),
     "decimalPlaces": coalesce(decimalPlaces, 0),
-    shortDescription,
-    calculationMethodology,
-    evidenceSource,
-    verifiedThrough
+    shortDescription
   }
 `;
 

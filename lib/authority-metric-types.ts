@@ -7,7 +7,4 @@ export type AuthorityMetric = {
   suffix: string;
   decimalPlaces: number;
   shortDescription: string;
-  calculationMethodology: string;
-  evidenceSource: string;
-  verifiedThrough?: string;
 };

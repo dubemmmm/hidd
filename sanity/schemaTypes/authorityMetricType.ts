@@ -78,15 +78,6 @@ export const authorityMetricType = defineType({
       validation: (rule) => rule.required().max(600)
     }),
     defineField({
-      name: "evidenceSource",
-      title: "Evidence Source",
-      type: "text",
-      rows: 3,
-      group: "evidence",
-      description: "Internal records that support this claim, such as completed reports, invoices, or final transaction documents.",
-      validation: (rule) => rule.required().max(400)
-    }),
-    defineField({
       name: "verifiedThrough",
       title: "Verified Through",
       type: "date",
@@ -114,7 +105,7 @@ export const authorityMetricType = defineType({
       type: "boolean",
       group: "publishing",
       initialValue: false,
-      description: "Enable only after the figure, methodology, evidence source, and verification date have been checked.",
+      description: "Enable only after the figure, methodology, and verification date have been checked.",
       validation: (rule) =>
         rule.custom((value, context) => {
           if (!value) return true;
