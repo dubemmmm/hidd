@@ -37,11 +37,6 @@
   font-weight: 570;
 }
 
-.heading small {
-  color: var(--text-muted);
-  font-size: 0.7rem;
-}
-
 .controls {
   display: grid;
   grid-template-columns: auto auto minmax(180px, 1fr) auto auto;

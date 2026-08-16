@@ -89,7 +89,6 @@ export function AudioNarrationPlayer({
           <span>Audio narration</span>
           <strong>Listen to this {contentType}</strong>
         </div>
-        <small>AI-generated voice · {formatTime(duration)}</small>
       </div>
 
       <div className={styles.controls}>
