@@ -213,6 +213,10 @@ export function HomeAuthorityRoom({ districtCount, caseStudyCount, authorityMetr
         </div>
 
         <div className={styles.room}>
+          <div className={styles.registerHeader}>
+            <span>Evidence register</span>
+            <strong>{metrics.length} disclosed indicators</strong>
+          </div>
           <span className={styles.scan} aria-hidden="true" />
           <div className={styles.axisHorizontal} aria-hidden="true" />
           <div className={styles.axisVertical} aria-hidden="true" />

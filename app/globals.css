@@ -9155,3 +9155,44 @@ img {
     font-size: 0.9rem;
   }
 }
+
+/* Mobile content-density pass: preserve decisions and actions, remove repeated context. */
+@media (max-width: 767px) {
+  .home-comprehensive__copy > p,
+  .home-comprehensive__questions small,
+  .overview-grid--service .overview-card__proof,
+  .bundle-card--service .bundle-card__header > p,
+  .case-studies-hero > p,
+  .case-studies-archive-heading .section-heading__description,
+  .insights-hero > p,
+  .insights-articles .section-heading__description,
+  .reports-library__group-description,
+  .about-section-heading > p {
+    display: none;
+  }
+
+  .overview-grid--service .overview-card > p:not(.overview-card__proof),
+  .service-marquee .service-card > p,
+  .hero-download-card > p,
+  .risk-map-popup__copy,
+  .case-study-card--archive > p,
+  .insights-articles .insight-card--grid > p,
+  .section--insights-library .report-card > p,
+  .about-principle > p {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .overview-grid--service .overview-card li:nth-child(n + 3),
+  .bundle-card--service > ul li:nth-child(n + 3),
+  .about-story__copy p:nth-child(n + 3) {
+    display: none;
+  }
+
+  .overview-grid--service .overview-card {
+    min-height: 420px;
+  }
+}
